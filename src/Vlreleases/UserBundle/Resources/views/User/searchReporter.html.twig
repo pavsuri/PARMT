@@ -1,0 +1,36 @@
+<form id='searchReporterform'>
+    <div class="widget-content">					
+        <div class="row">
+            <div class="col-lg-2 searchReporter">
+                {{ form_widget(searchReporterForm.name, { 'attr': {'class': 'form-control', 'placeholder': 'Employee name'}}) }}
+            </div>
+            <div class="col-lg-2 searchReporter">
+                {{ form_widget(searchReporterForm.emailId, { 'attr': {'class': 'form-control','placeholder': 'Email Id', 'id': 'searchEmail'}}) }}
+            </div>
+            <div class="col-lg-1 searchReporter">   
+                <input type="button" class="btn btn-green" name="btnSubmit" id="searchReporterSubmit" value="Search">
+            </div>
+        </div>
+</form>
+
+<script>
+    $(document).ready(
+    function() {        
+        $('#searchReporterSubmit').click(function() {
+        rName = $('#searchReporterform_name').val();
+        rEmail = $('#searchReporterform_emailId').val();
+                $.ajax({
+                   type: "POST",
+                   url: "{{ path('vlreleases_user_searchReporter') }}",
+                   cache: false,
+                   data: {rname:rName, remail:rEmail},
+                   success: function(msg){
+                       $("#ajaxUserDetails").html(msg);
+                       $('#searchReporterform_name').val('');
+                       $('#searchReporterform_emailId').val('');
+                   }                   
+               });              
+        });
+ });
+
+ </script>

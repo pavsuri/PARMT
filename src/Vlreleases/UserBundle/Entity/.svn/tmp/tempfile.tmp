@@ -1,0 +1,420 @@
+<?php
+
+
+namespace Vlreleases\UserBundle\Entity;
+
+use Doctrine\ORM\EntityRepository;
+
+/**
+ * Class holds the UserBundle repository classes.
+ *
+ * @category Usertask
+ * @package  UserBundle
+ */
+class UserTaskRepository extends EntityRepository
+{
+    private $toDay;
+    
+    private $firstDayOfCurrentMonth;
+    
+    private $lastDayOfCurrentMonth;
+    
+    private function setFirstAndLastDayOfMonth()
+    {
+        if(!isset($this->toDay)) {
+            $this->toDay = new \DateTime();
+
+            // First day of the month.
+            $this->firstDayOfCurrentMonth = date('Y-m-01', strtotime($this->toDay->format('y-m-d')));
+
+            // Last day of the month.
+            $this->lastDayOfCurrentMonth = date('Y-m-t', strtotime($this->toDay->format('y-m-d')));
+        }
+    }
+    
+    /**
+     * 
+     * @param array $filters
+     * @return null
+     */
+    public function getUserHoursPerDate(array $filters)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        
+        //constructing where clause
+        $where = ' ';
+        
+        if ($filters['user'] != '') {
+            $where .= " and ut.user = '{$filters['user']}'";
+        }
+        if ($filters['status'] != '') {
+            $where .= " and ut.status = '{$filters['status']}'";
+        }
+		$query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT ut.date, SUM(ut.duration)/60 as duration
+                 FROM Vlreleases\UserBundle\Entity\UserTask ut
+                 WHERE ut.date between :from and :to $where group by ut.date"
+            );
+        $query->setParameter('from', $this->firstDayOfCurrentMonth);
+        $query->setParameter('to', $this->lastDayOfCurrentMonth);
+        
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+	
+	public function getUserTasksPerProject(array $filters)
+    {
+        
+		
+		//constructing where clause
+        //$where = ' ';
+        
+        if ($filters['user'] != '') {
+            $where = " and ut.user = '{$filters['user']}'";
+			$where .= " and ut.project = '{$filters['project']}'";
+			$where .= " and ut.status = 'pending'";
+			
+        }
+		
+		$toDay = new \DateTime();
+		
+		// First day of the month.
+		$firstDay = date('Y-m-01', strtotime($toDay->format('y-m-d')));
+		
+		// Last day of the month.
+		$lastDay = date('Y-m-t', strtotime($toDay->format('y-m-d')));
+		
+        
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT ut.id,ut.date, ut.duration , ut.description,ut.status
+                 FROM Vlreleases\UserBundle\Entity\UserTask ut
+                 WHERE ut.date between :from and :to $where ORDER BY ut.date"
+            );
+			
+        $query->setParameter('from', $firstDay);
+        $query->setParameter('to', $lastDay);
+		
+        try {
+			
+		   return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+			
+            return $e->getMessage();
+        }
+    }
+	
+	
+	/**
+     * 
+     * @param array $criteria
+     * @return array
+     */
+	public function getUserDailyStatusData(array $criteria = array())
+    {
+        $qb = $this->createFilterBuilder($criteria);
+		
+		return $qb->getQuery()->getResult();
+	}
+
+	 /**
+     * Create a builder with filters
+     *
+     * @param array $criteria
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    protected function createFilterBuilder(array $criteria)
+    {
+		// Get builder
+        $qb = $this->createQueryBuilder('ut');
+
+        // Loop through criteria
+        foreach ($criteria as $criterium => $value) {
+            switch ($criterium) {
+                case 'date':
+                    $qb->andWhere($qb->expr()->eq('ut.date', ':date'));
+                    $qb->setParameter('date', $value->format('Y-m-d'));
+                    break;
+				case 'user':
+					$qb->andWhere($qb->expr()->eq('ut.user', ':userId'));
+                    $qb->setParameter('userId', $value);
+                    break;
+				default:
+                    // Unknown criterium
+                   break;	
+			}
+		
+		}
+		return $qb;
+	}
+    
+    /**
+     * 
+     * @param string $resourceIds
+     * @param string $projectIds
+     * @return array
+     */
+    public function getResourceHours($resourceIds, $projectIds)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        $where = " and ut.user IN ($resourceIds) ";
+        $where .= " and ut.project IN ($projectIds) ";
+        $where .= " and ut.status = 'approved' ";
+        
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT SUM(ut.duration)/60 as duration
+                 FROM Vlreleases\UserBundle\Entity\UserTask ut 
+                 WHERE ut.date between :from and :to $where"
+            );
+        $query->setParameter('from', $this->firstDayOfCurrentMonth);
+        $query->setParameter('to', $this->lastDayOfCurrentMonth);
+        
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $projectId
+     * @return array
+     */
+    public function findResourceHoursUndermanager($projectId = null)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('SUM(ut.duration)/60 as duration');
+        $qb->from('Vlreleases\UserBundle\Entity\UserTask', 'ut');
+        
+        $qb->andWhere($qb->expr()->gte('ut.date', ':firstDay'));
+        $qb->setParameter('firstDay', $this->firstDayOfCurrentMonth);
+        
+        $qb->andWhere($qb->expr()->lte('ut.date', ':lastDay'));
+        $qb->setParameter('lastDay', $this->lastDayOfCurrentMonth);
+        
+        $qb->join('ut.user', 'u');
+        $qb->andWhere($qb->expr()->eq('u.status', true));
+
+        $qb->andWhere($qb->expr()->eq('ut.status', ':status'));
+        $qb->setParameter('status', 'approved');
+        
+        $qb->andWhere($qb->expr()->in('u.type', ':types'));
+        $qb->setParameter('types', array(1,2,3,9));
+        
+        if ($projectId > 0) {
+            $qb->andWhere($qb->expr()->eq('ut.project', ':projectId'));
+            $qb->setParameter('projectId', $projectId);
+        }
+        return $qb->getQuery()->getSingleResult();
+    }
+    
+    /**
+     * 
+     * @param string $resourceIds
+     * @param string $projectIds
+     * @return array
+     */
+    public function getResourceHoursPerDate($resourceIds, $projectIds)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        $where = " and ut.user IN ($resourceIds) ";
+        $where .= " and ut.project IN ($projectIds) ";
+        $where .= " and ut.status = 'approved'";
+        
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT ut.date,SUM(ut.duration)/60 as duration
+                 FROM Vlreleases\UserBundle\Entity\UserTask ut 
+                 WHERE ut.date between :from and :to $where group by ut.date"
+            );
+        $query->setParameter('from', $this->firstDayOfCurrentMonth);
+        $query->setParameter('to', $this->lastDayOfCurrentMonth);
+        
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $projectId
+     * @return array
+     */
+    public function getResourceHoursPerDateUnderManager($projectId = null)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('ut.date, SUM(ut.duration)/60 as duration');
+        $qb->from('Vlreleases\UserBundle\Entity\UserTask', 'ut');
+        
+        $qb->andWhere($qb->expr()->gte('ut.date', ':firstDay'));
+        $qb->setParameter('firstDay', $this->firstDayOfCurrentMonth);
+        
+        $qb->andWhere($qb->expr()->lte('ut.date', ':lastDay'));
+        $qb->setParameter('lastDay', $this->lastDayOfCurrentMonth);
+        $qb->andWhere($qb->expr()->eq('ut.status', ':status'));
+        $qb->setParameter('status', 'approved');
+        $qb->join('ut.user', 'u');
+        $qb->andWhere($qb->expr()->eq('u.status', true));
+        
+        $qb->andWhere($qb->expr()->in('u.type', ':types'));
+        $qb->setParameter('types', array(1,2,3,9));
+        
+        if ($projectId > 0) {
+            $qb->andWhere($qb->expr()->eq('ut.project', ':projectId'));
+            $qb->setParameter('projectId', $projectId);
+        }
+        $qb->groupBy('ut.date');
+        return $qb->getQuery()->getResult();
+    }
+
+    public function changeTaskStatus($userId, $status, $date) 
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "UPDATE Vlreleases\UserBundle\Entity\UserTask ut SET ut.status='".$status."'
+                 WHERE ut.date = '".$date->format('Y-m-d')."' AND ut.user = $userId"
+            );
+
+                try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @param string $resourceIds
+     * @param string $projectIds
+     * @param string $status
+     * @return array
+     */
+    public function getPendingApprovals($resourceIds, $projectIds, $status)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        
+        $where = " and ut.user IN ($resourceIds) ";
+        $where .= " and ut.project IN ($projectIds) ";
+        $where .= " and ut.status = '$status' ";
+        
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT DISTINCT(ut.user) as pendingUsers
+                 FROM Vlreleases\UserBundle\Entity\UserTask ut 
+                 WHERE ut.date between :from and :to $where group by ut.user"
+            );
+        $query->setParameter('from', $this->firstDayOfCurrentMonth);
+        $query->setParameter('to', $this->lastDayOfCurrentMonth);
+        
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @param string $status
+     * @param int $projectId
+     * @return string
+     */
+    public function getPendingApprovalsUnderManager($status, $projectId = null)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('DISTINCT(ut.user) as pendingUsers');
+        $qb->from('Vlreleases\UserBundle\Entity\UserTask', 'ut');
+        
+        $qb->andWhere($qb->expr()->gte('ut.date', ':firstDay'));
+        $qb->setParameter('firstDay', $this->firstDayOfCurrentMonth);
+        
+        $qb->andWhere($qb->expr()->lte('ut.date', ':lastDay'));
+        $qb->setParameter('lastDay', $this->lastDayOfCurrentMonth);
+        
+        $qb->join('ut.user', 'u');
+        $qb->andWhere($qb->expr()->eq('u.status', true));
+        
+        $qb->andWhere($qb->expr()->in('u.type', ':types'));
+        $qb->setParameter('types', array(1,2,3,9));
+        
+        $qb->andWhere($qb->expr()->eq('ut.status', ':status'));
+        $qb->setParameter('status', $status);
+        
+        if ($projectId > 0) {
+            $qb->andWhere($qb->expr()->eq('ut.project', ':projectId'));
+            $qb->setParameter('projectId', $projectId);
+        }
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    /**
+     * 
+     * @param int $userId
+     * @param \DateTime $date
+     * @return boolean
+     */
+    public function isTaskEditable($userId, $date)
+    {
+        $this->setFirstAndLastDayOfMonth();
+        $date = $date->format('Y-m-d');
+        $where = " ut.date = ('$date') ";
+        $where .= " and (ut.status = 'saved' OR ut.status = 'rejected') ";
+        $where .= " and ut.user = $userId ";
+        
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT count(ut.id) as cnt
+                 FROM Vlreleases\UserBundle\Entity\UserTask ut 
+                 WHERE $where "
+            );
+        
+        $queryCount = $this->getEntityManager()
+            ->createQuery(
+                "SELECT count(ut.id) as cnt
+                 FROM Vlreleases\UserBundle\Entity\UserTask ut 
+                 WHERE ut.user = $userId AND ut.date = ('$date')"
+            );
+        
+        try {
+            if ($queryCount->getSingleScalarResult() > 0) {
+                if ($query->getSingleScalarResult() > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return false;
+        }
+    }
+	
+	public function changeStatusOfApprovals($allApprovals, $status)
+	{
+		$query = $this->getEntityManager()
+            ->createQuery(
+                "UPDATE Vlreleases\UserBundle\Entity\UserTask ut SET ut.status='".$status."'
+                WHERE ut.id  IN (".implode(',', $allApprovals).")"
+            );
+			
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+	}
+}

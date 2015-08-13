@@ -1,0 +1,43 @@
+
+<div id='addLiveAppHTML'>
+    <form id='AddLiveAppForm' method="post" action="{{path('vlreleases_liveApps_getAppData')}}">
+        <div class="widget-content">
+            <div class="addTextBoxDiv">
+                <div class="addTask">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            {{ form_errors(addLiveAppForm.AppName) }}
+                            {{ form_widget(addLiveAppForm.AppName, { 'attr': {'class': 'form-control','placeholder': 'AppName'}}) }}
+                        </div>                        
+                        <div class="col-lg-3">
+                            {{ form_errors(addLiveAppForm.OS) }}
+                            {{ form_widget(addLiveAppForm.OS, { 'attr': {'class': 'form-control','placeholder': 'Select OS'}}) }}
+                        </div>
+                        <br><br>
+                        <div class="col-lg-3">
+                            {{ form_errors(addLiveAppForm.version) }}
+                            {{ form_widget(addLiveAppForm.version, { 'attr': {'class': 'form-control','placeholder': 'version'}}) }}
+                        </div>
+                       <div class="col-lg-3">
+                            {{ form_errors(addLiveAppForm.link) }}
+                            {{ form_widget(addLiveAppForm.link, { 'attr': {'class': 'form-control','placeholder': 'iTunes/Play Store Link'}}) }}
+                        </div>
+                       {{ form_rest(addLiveAppForm) }}
+                        </div>					
+                    </div>		
+                        <div class="row">
+                            <div class="col-lg-12" id="buttons"> 
+                                <input type="submit" class="btn btn-green" name="btndeviceAddApp" id="btndeviceAddApp_id" value="Add">
+                                <span  id='spinnerAddApp' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+                                <div class="btn btn-green" name="btnCancel" id="prj-Cancel">Cancel</div>
+                                <div id="addappresult"></div>
+                            </div>
+                       </div>
+                           
+                     </div>
+            </div> 
+    </form>
+           
+  </div>                               
+
+        

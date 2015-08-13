@@ -1,0 +1,42 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="product" name="Vlreleases\UserBundle\Entity\Product">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+         
+        <field name="productname" column="productname" type="string"/>
+        <field name="ownername" column="ownername" type="string"/>
+        <field name="os" column="os" type="string"/>
+        <field name="brand" column="brand" type="string"/>
+        <field name="serialNumber" column="serialnumber" type="string"/>
+        <field name="version" column="version" type="string"/>
+        <field name="description" column="description" type="string"/>
+        <many-to-one field="createdBy" target-entity="Vlreleases\UserBundle\Entity\User">
+            <join-column name="created_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <field name="createdDate" column = "createddate" type="datetime"/>
+        <field name="lastModifiedDate" column = "lastmodifieddate" type="datetime"/>
+        
+        <field name="active" column = "active" type="boolean"/>
+        <field name="available" column = "available" type="boolean"/>
+        
+        <many-to-one field="category" target-entity="Vlreleases\UserBundle\Entity\Category" inversed-by="products">
+            <join-column name="category_id" referenced-column-name="id"  /> 
+        </many-to-one>
+        
+        <one-to-many  field="requesters" target-entity="Vlreleases\UserBundle\Entity\ProductQueue" mapped-by="product" />
+        <one-to-many  field="assignedUsers" target-entity="Vlreleases\UserBundle\Entity\ProductStatus" mapped-by="product" />
+        <one-to-one field="deviceStatus" target-entity="Vlreleases\UserBundle\Entity\ProductStatus">
+            <join-column name="product_status_id" referenced-column-name="id" />
+       
+            <cascade>
+                <cascade-persist />
+            </cascade>
+        </one-to-one>
+    </entity>
+</doctrine-mapping>

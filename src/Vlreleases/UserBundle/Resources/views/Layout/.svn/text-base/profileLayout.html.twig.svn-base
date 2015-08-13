@@ -1,0 +1,198 @@
+{% extends '::base.html.twig' %}
+{% block extrajavascripts %}
+
+<script src="{{jsPath}}fileupload/js/vendor/jquery.ui.widget.js"></script>
+<script src="{{jsPath}}fileupload/js/jquery.iframe-transport.js"></script>
+<script src="{{jsPath}}fileupload/js/jquery.fileupload.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+<script>
+    var currentlySelected = '';
+    var currentlySelectedSkill = '';
+    $(document).ready(function() {
+    $(function () {
+    $("body").on( "click", '#userpersonaldetails_photoUploader' , function() {
+        $('#userpersonaldetails_photoUploader').fileupload({
+        dataType: 'json',
+        url: '{{path('vlreleases_user_upload_photo')}}',
+        done: function (e, data) {
+            $('#userpersonaldetails_photo').val(data.result.name);
+            $('#spinnerPersonalProfile').hide();
+             image = "<img src=/VL-releases2/web/userPhotos/"+data.result.name+" class=img-circle />";
+             $('#userImageSpan').html(image);
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        },
+        add: function (e, data) {
+                $("#upload").one('click', function (e) {
+                    $('#spinnerPersonalProfile').show();
+                    e.preventDefault();
+                    data.submit();
+                });
+            },
+        change: function (e, data) {
+                $.each(data.files, function (index, file) {
+                    $('#selectedfile').html(file.name);
+                    $('#selectedfile').show();
+                });
+            },     
+    })
+});
+});
+});
+$(document).ready(
+    function (){
+      function optionSelected(item) {
+          $('#projectiddata').append("<span id='span"+item.value+"'><input type = 'text' name='projectIds[]' id='projectIds"+item.value+"' value='"+item.value+"'></span>");
+          currentlySelected = item.value;
+      }
+      
+      function skillSelected(item) {
+          $('#skillsiddata').append("<span id='span"+item.value+"'><input type = 'text' name='skillIds[]' id='skillIds"+item.value+"' value='"+item.value+"'></span>");
+          currentlySelectedSkill = item.value;
+      }      
+      
+      
+        
+        $("body").on( "click", '#btnpersonalAdd' , function() {
+            $(this).attr('disabled','disabled');
+            $('#spinnerPersonalProfile').show();
+            $('#personaldetailsform').ajaxSubmit(function (data) {
+                $('#personalProfile').html(data);
+                $('#spinnerPersonalProfile').hide();
+                $(this).removeAttr('disabled');
+
+            });
+        });
+        
+	//  Add Projects 
+        $("body").on( "click", '#btnProAdd' , function() {        
+		var expertVal = $('#ProjectText').val();
+		if(expertVal == '')
+		{
+		$('#ProjectText').css('border', '1px solid red');
+		}
+		else{
+                    $('#spinnerProjectProfile').show();
+                    $(this).attr('disabled','disabled');
+                    
+                        $.post('{{path('vlreleases_user_profile_handleProjectProfileData')}}',{projectId:currentlySelected, 'action':'add'}, function () {
+                        $('#projectView').append("<div class='badge badgeProject' id='expertDelete_"+ currentlySelected +"'><span class='pull-left text'>" + expertVal + "</span><span class='pull-left'><i id="+ currentlySelected +" class='deleteProject fa fa-times'></i></span></div>");
+                        $('#ProjectText').val('');
+                        $('#ProjectText').css('border', '1px solid #CCCCCC');
+                        $('#spinnerProjectProfile').hide();
+                        $('#btnProAdd').removeAttr('disabled');
+                        
+                    });
+		}
+	
+	})
+        
+        $("body").on( "click", '.deleteProject' , function() {
+            id = $(this).attr('id');
+            $("#spinnerDeleteProject").show();
+            $(this).attr('disabled','disabled');
+            $.post('{{path('vlreleases_user_profile_handleProjectProfileData')}}',{projectId:id, 'action':'delete'}, function () {
+                //$(this).closest('div').remove();
+                $('#expertDelete_'+id).remove();
+                $("#spinnerDeleteProject").hide();
+                $(this).removeAttr('disabled');
+            }
+            );            
+        });
+        
+        $("body").on( "click", '.addskill' , function() {        
+            skill = $('#Expertise').val();
+            experience = $('#YearsofExperience').val();
+            
+            if (skill == "" || experience == "") {
+                if (skill == "") {
+                    $('#Expertise').css('border','1px solid red');
+                } else {
+                    $('#Expertise').css('border','1px solid #c2c2c2'); 
+                }
+                if (experience == "") {
+                    $('#YearsofExperience').css('border','1px solid red');
+                } else {
+                    $('#YearsofExperience').css('border','1px solid #c2c2c2');
+                }
+
+            } else {
+            $('#Expertise').css('border','1px solid #c2c2c2'); 
+            $('#YearsofExperience').css('border','1px solid #c2c2c2');
+            if (currentlySelectedSkill != ''){
+                action = 'add';
+                customSkill = '';
+            } else {
+                action = 'addcustomskill';
+                customSkill = skill;
+            }
+            $('#spinnerSkillProfile').show();
+            //$(this).attr('disabled','disabled');
+            
+            $.post('{{path('vlreleases_user_profile_handleSkillsData')}}',{'customSkill': customSkill, 'skillId':currentlySelectedSkill, 'action':action, 'experience':experience}, function (data) {
+
+                    if (currentlySelectedSkill) {
+                        $('#expertiseView').append("<div class='badge badgeExpert' id='skillDelete_"+data.savedSkillId+"'><span class='expertExp'>"+ data.experience +"</span><span class='pull-left text'>" + skill + "</span><span class='pull-left expertClose'><i id=" + data.savedSkillId + "  class='deleteSkill fa fa-times'></i></span></div>");                
+                    } else {
+                        $('#expertiseView').append("<div class='badge badgeExpert' id='skillDelete_"+data.savedSkillId+"'><span class='expertExp'>"+ data.experience +"</span><span class='pull-left text'>" + skill + "</span><span class='pull-left expertClose'><i id=" + data.savedSkillId + "  class='deleteSkill fa fa-times'></i></span></div>");                                    
+                    }
+                    $('#Expertise').val('')
+                    $('#YearsofExperience').val('');
+                    $("#spinnerSkillProfile").hide();
+                    //$(this).removeAttr('disabled');
+                }
+                );
+                    currentlySelectedSkill = '';
+                    }
+        });     
+        
+        $("body").on( "click", '.deleteSkill',function() {
+        
+            id = $(this).attr('id');
+             $("#spinnerDeleteSkill").show();
+            $.post('{{path('vlreleases_user_profile_handleSkillsData')}}',{skillId:id, 'action':'delete'}, function () {
+                //$(this).closest('div').remove();
+                $('#skillDelete_'+id).remove();
+                $("#spinnerDeleteSkill").hide();
+            }
+            );            
+        });
+        $('input.typeahead').typeahead({
+            ajax: {'url':'{{path('vlreleases_user_profile_getProjects')}}',
+                    triggerLength: 3,
+                    preDispatch: function (query) {
+                        
+                        $('#spinnerProjectLoad').show();
+                    },
+                    preProcess: function (data) {$('#spinnerProjectLoad').hide(); return data;},
+                    },
+            onSelect: optionSelected,
+        });
+        
+        $('input.expertisetypeahead').typeahead({
+            ajax: {url: '{{path('vlreleases_user_profile_getSkills')}}',
+                    triggerLength: 3,
+                    preDispatch: function (query) {
+                        $('#spinnerSkillLoad').show();
+                    },
+                    preProcess: function (data) {$('#spinnerSkillLoad').hide(); return data;},
+                    },
+                    onSelect: skillSelected,
+            });        
+        $("body").on( "click", '#btnworkAdd' , function() {
+            $('#spinnerWorkProfile').show();
+            $('#workdetailsform').ajaxSubmit(function (data) {
+                $('#spinnerWorkProfile').hide();
+                $('#workProfile').html(data);
+            });
+        });
+
+    }
+);
+
+</script>
+{% endblock %}
+

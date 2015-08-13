@@ -1,0 +1,82 @@
+
+               {% if userData.pendingApprovals %}
+				<div class="table-responsive">
+				<table class="table table-bordered table-striped">
+				 <colgroup>					
+					<col class="col-xs-1">
+                    <col class="col-xs-1">
+					<col class="col-xs-5">
+					<col class="col-xs-1">					
+					<col class="col-xs-1">
+				  </colgroup>
+				  <thead class="table-head">
+					<tr>
+                        <th>Select   <input type="checkbox" name="allcheckboxes" id="allcheckboxes_id">
+                            <input type="hidden" name="countall" id="counts_id" value="{{userData.pendingApprovals|length}}">
+                        </th>
+                      <th>Date</th>
+					  <th>Task</th>
+					  <th>Hours</th>
+                                          <th>Status</th>
+                                          <!--<th>Action</th>-->
+					</tr>
+				  </thead>
+				  <tbody>
+								
+                                        {% for i in range(0, userData.pendingApprovals|length - 1) %}
+                                        <tr>
+										   <td><input type="checkbox" name="allApprovals[]" id="checkbox_{{i}}" value="{{userData.pendingApprovals[i].id}}"/></td>
+                                           <td>
+                                            {{userData.pendingApprovals[i].date}}
+                                           </td>
+                                           <td>
+                                            {{userData.pendingApprovals[i].description}}
+                                           </td> 
+										    <td>
+                                             {{userData.pendingApprovals[i].duration}}
+                                           </td> 
+										   <td>
+                                             {{userData.pendingApprovals[i].status}}
+                                           </td>
+										   <!--<td>
+                                             {{'approve'}}
+                                           </td>-->
+                                           
+                                           
+                                        </tr>   
+                                        {% endfor %} 
+                                        
+				  </tbody>
+				</table>
+			  </div>
+			  {% else %}
+			  <div>
+			  <div class="table-responsive">
+				<table class="table table-bordered table-striped">
+				 <colgroup>					
+					<col class="col-xs-1">
+					<col class="col-xs-5">
+					<col class="col-xs-1">					
+					<col class="col-xs-1">
+				  </colgroup>
+				  <tbody>
+				  <tr>
+					There are no tasks to approve/reject
+			  </tr>
+			  </tbody>
+			  </table>
+              </div>           
+			  
+                        {% endif %}   
+				</div>
+			</div>
+        </div>	
+			
+
+
+
+
+
+
+
+

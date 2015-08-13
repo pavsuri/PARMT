@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">        
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            <div class="" id="page-wrapper">
+                <div class="page-content page-content-ease-in">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Build Resume Here</h1>                            
+                            </div>
+                        </div>                   
+                    </div>
+    <div class="build_resume_form">                       
+            <select name="teamDropdown" id="teamDrpDwn" class="form-control">
+                <option selected="selected">Select Team</option>
+                {% for result in teamsData %}
+                    <option value="{{result.getId()}}">{{ result.getTname() }}</option>
+                {% endfor %}  
+            </select>
+             <div> 
+                <select id="dropdownList" class="form-control" style="display:none;">                  
+                </select>
+             </div>
+            <div id ="resumeBuilderDivButton" style="display:none;">
+                <input type="hidden" id="idForResume"  value=''>
+                <button id='getUserResume' class='btn btn-green col-md-5' style=' margin: 10px 0 0 82px;'>Build Resume</button>
+            </div>            
+                        
+    </div> 
+     <div class="clearfix"></div>
+    <div id="displayResume" style="display:none;">
+        {% include 'VlreleasesUserBundle:User:userResume.html.twig' %}
+    </div>
+
+<!-- global scripts-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<!--<script src="{{jsPath}}chart-demo.js"></script> -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+
+<script>
+        $(document).ready(function (){            
+            //get the selected team id send it through ajax to get the corresponding users list to display
+            $("body").on('change','#teamDrpDwn',function(){   
+                $("#dropdownList").show();
+                var teamId = $("#teamDrpDwn option:selected").val();
+                $("#dropdownList").html("<option selected='selected'>Select User</option>");
+                $.ajax({
+                    type:"GET",
+                    url:"{{path('vlreleases_resume_getUsersOfTeam')}}",
+                    cache: false,
+                    data: {'team': teamId},
+                    success: function(result){
+                        var data = JSON.parse(result);                      
+                         for(var key in data)                        
+                        {                              
+                            var html = "<option value='"+data[key].id+"'>"+data[key].email+"</option>";              
+                            $("#dropdownList").append(html);                           
+                        }
+                    }
+                })
+                return false;
+            });
+            
+            //get the selected user id value
+            $("body").on('change','#dropdownList',function(){                
+                var userId = $("#dropdownList option:selected").val();  
+                $("#idForResume").val(userId);
+                $("#resumeBuilderDivButton").show();
+            });
+            
+            //send userid to controller through ajax to build resume
+             $("body").on('click','#getUserResume',function(){ 
+                 $("#displayResume").show();
+                var id = $("#idForResume").val();
+                $.ajax({
+                    type:"POST",
+                    url:"{{path('vlreleases_resume_buildResume')}}",
+                    cache: false,
+                    data: {'uId': id},
+                    success: function(result){ 
+                        //alert(result);return false;
+                        $("#displayResume").html(result); 
+                    }
+                });
+               return false;                
+            });
+    });
+</script>
+</body>
+</html>
+

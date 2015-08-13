@@ -1,0 +1,39 @@
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-head">
+        <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>Employee Id</th>
+            <th>Email</th>
+            <th>Reporting Persons</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        {% if userDetails %}
+            {% set counter = 1 %}
+            {% set id = 0 %}
+            {% for details in userDetails %}
+                <tr>
+                    <td>{{counter}}</td>
+                    <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{details.id}}">{{ details['name'] }}</a></td>
+                    <td>{{details.employeeId}}</td>
+                    <td>{{details.email}}</td>
+                    <td>{{userDetails1[id]}}</td>
+                </tr>
+                {% set id = id + 1 %}
+                {% set counter = counter + 1 %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" align="center"><h4>No Results found</h4></td>
+            </tr>
+
+        {% endif %}
+    </tbody>
+</table>	
+
+               

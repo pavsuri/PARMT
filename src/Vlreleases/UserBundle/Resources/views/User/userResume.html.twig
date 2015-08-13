@@ -1,0 +1,109 @@
+<div class="resume" style="margin:10px;">   
+{% if (resumeData) %}
+        <div class="col-md-12 panel panel-default">
+        <h3 class="text-center">Resume </h3>
+        <div class="panel-body">
+            <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Personal Detials</div>
+                <div class="panel-body">
+                  <p class="col-md-12">
+                      <span class="col-md-4"><b>Name :</b></span>
+                        {% if (resumeData[0]['userName']) %}
+                            <span class="col-md-6">{{ resumeData[0]['userName'] }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p>
+                  <p class="col-md-12">
+                      <span class="col-md-4"><b>EmployeeId :</b></span>
+                        {% if (resumeData[0]['employeeId']) %}
+                            <span class="col-md-6">{{ resumeData[0]['employeeId'] }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p>  
+                  <p class="col-md-12">
+                      <span class="col-md-4"><b>Email :</b></span>
+                        {% if (resumeData[0]['email']) %}
+                            <span class="col-md-6">{{ resumeData[0]['email'] }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p>  
+                  <p class="col-md-12">
+                      <span class="col-md-4"><b>DOB :</b></span>
+                        {% if resumeData[0]['dob']|date('d-m-Y') %}
+                            <span class="col-md-6">{{ resumeData[0]['dob']|date('d-m-Y') }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p>  
+                   <p class="col-md-12">
+                      <span class="col-md-4"><b>Mobile No :</b></span>
+                        {% if (resumeData[0]['mobile']) %}
+                            <span class="col-md-6">{{ resumeData[0]['mobile'] }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p>  
+                  <p class="col-md-12">
+                      <span class="col-md-4"><b>Highest Education :</b></span>
+                        {% if (resumeData[0]['highestEducation']) %}
+                            <span class="col-md-6">{{ resumeData[0]['highestEducation'] }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p> 
+                  <p class="col-md-12">
+                      <span class="col-md-4"><b>Passed Out Year :</b></span>
+                        {% if (resumeData[0]['passedoutYear']) %}
+                            <span class="col-md-6">{{ resumeData[0]['passedoutYear'] }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p> 
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Work Detials</div>
+                <div class="panel-body">                   
+                  <p class="col-md-12">
+                      <span class="col-md-4"><b>Date Of Joining :</b></span>
+                        {% if (resumeData[0]['doj']|date('d-m-Y')) %}
+                            <span class="col-md-6">{{ resumeData[0]['doj']|date('d-m-Y') }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p> 
+                    <div class="col-md-12">
+                      <span class="col-md-4"><b>Work Experience :</b></span>
+                        {% if (resumeData[0]['workExperience']) %}
+                            <span class="col-md-6">{{ resumeData[0]['workExperience'] }}</span>
+                        {% else %}   
+                            <span class="col-md-6"></span>
+                        {% endif %}                      
+                  </p> 
+                  <p class="col-md-12">
+                      <p class="col-md-4"><b>Projects :</b></p>  
+                      {% if (resumeData[0]['name']) %}
+                          <div class="col-md-6">
+                        {% for data in resumeData %}
+                            <p >{{ data['name'] }}</p>
+                        {% endfor %}  
+                          </div>
+                      {% endif %}
+                  </p> 
+                </div>
+            </div>
+            </div>
+                  
+            </div>
+            <div class=" col-md-3 col-md-offset-1">
+                <img class="img-thumbnail" src="{{userImagePath}}{{resumeData[0]['photo']}}" alt="..." style="height:200px; width:180px;" >
+            </div>
+            
+        </div>
+    </div>
+                  {% endif %}
+</div>

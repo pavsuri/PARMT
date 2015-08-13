@@ -1,0 +1,22 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="registration" name="Vlreleases\UserBundle\Entity\Registration">
+        <id name="id" type="integer" column="id" length="20">
+            <generator strategy="AUTO" />
+        </id>
+        
+        <field name="name" column="name" type="string" length="200"/>
+        <field name="empId" column="empId" type="string" length="20"/>
+        <field name="password" column="password" type="string" length="20"/>
+        <field name="email" column="email" type="string" length="50"/>
+        <field name="dob"   column = "dob" type="string"/>
+        <field name="mobile" column="mobile" type="integer" length="11"/>
+        <field name="gender" column="gender" type="string" length="10"/>
+        <field name="doj"   column = "doj" type="string"/>
+        <field name="image" column="image" type="string"/>
+         
+    </entity>
+</doctrine-mapping>

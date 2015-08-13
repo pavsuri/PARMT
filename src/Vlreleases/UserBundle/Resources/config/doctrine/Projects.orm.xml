@@ -1,0 +1,44 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="project" name="Vlreleases\UserBundle\Entity\Projects">
+        <id name="pid" type="integer" column="proj_id">
+            <generator strategy="AUTO" />
+        </id>
+        <!--<field name="projectName" column="pname_id" type="integer"/>-->
+        <one-to-one field="projectName" target-entity="Vlreleases\UserBundle\Entity\Project">
+            <join-column name="pname_id" referenced-column-name="id" />
+        </one-to-one>
+        <!--<field name="phase" column="phase_id" type="integer"/>-->
+        <one-to-one field="phase" target-entity="Vlreleases\UserBundle\Entity\Phase">
+            <join-column name="phase_id" referenced-column-name="id" />
+        </one-to-one>
+        <!--<field name="client" column="client_id" type="integer"/>-->
+        <one-to-one field="client" target-entity="Vlreleases\UserBundle\Entity\Client">
+            <join-column name="client_id" referenced-column-name="id" />
+        </one-to-one>
+<!--        <field name="createdBy" column="created_by" type="integer"/>-->
+        <one-to-one field="user" target-entity="Vlreleases\UserBundle\Entity\User">
+            <join-column name="created_by" referenced-column-name="id" />
+        </one-to-one>
+        <one-to-one field="platforms" target-entity="Vlreleases\UserBundle\Entity\Platforms">
+            <join-column name="platforms_id" referenced-column-name="id" />
+        </one-to-one>
+        <field name="createDate" column="create_date" type="datetime"/>
+        <field name="startDate" column="start_date" type="datetime"/>
+        <field name="endDate" column="end_date" type="datetime"/>
+        <field name="projectStatus" column="status" type="boolean"/>
+        <field name="svnPath" column="svn_path" type="string"/>
+        <field name="bugTool" column="bug_tool" type="string"/>
+        <field name="bugToolLink" column="bug_tool_link" type="string"/>
+        <field name="description" column="description" type="string"/>
+        <field name="icon" column="icon" type="string"/>
+        <field name="lifeCycleStatus" column="life_cycle_status" type="string"/>
+        <field name="billingStatus" column="project_billing_status" type="string"/>
+        <field name="billingType" column="project_billing_type" type="string"/>
+        <field name="billingCost" column="project_billing_cost" type="string"/>
+        <field name="liveLink" column="livelink" type="string"/>
+    </entity>
+</doctrine-mapping>

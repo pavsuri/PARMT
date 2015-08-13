@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    $(document).ready(
+        function () {
+            $('#leaddashboardform_projects').change(
+                    function () {
+                        var projectId = $(this).val();
+
+                        $.post(
+                                '{{path('vlreleases_user_manager')}}', {project: projectId}, function (data) {
+                            ($('#approved_id').html(data.allApprovals));
+                            $('#pendingApprovals_id').html(data.pendingApprovals);
+                            $('#resourceHours_id').html(data.resourceHours);
+                            $('#resources_Id').html(data.resources);
+
+                            if ($('#leaddashboardform_projects').val() != '') {
+                                $('.resourceAnchor1').show();
+                                $('.approveAnchor1').show();
+                                $('.resourceAnchor2').hide();
+                                $('.approveAnchor2').hide();
+                            }
+                            else {
+                                $('.resourceAnchor1').hide();
+                                $('.approveAnchor1').hide();
+                                $('.resourceAnchor2').show();
+                                $('.approveAnchor2').show();
+
+                            }
+                            if (data.allApprovals < 1) {
+                                $('.approveAnchor1').hide();
+                                $('.approveAnchor2').show();
+                            }
+
+                            if (data.resources < 1) {
+                                $('.resourceAnchor1').hide();
+                                $('.resourceAnchor2').show();
+                            }
+                       });
+                });
+        });
+</script>
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">        
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            
+            <div class="" id="page-wrapper" style="min-height: 863px;">
+                <div class="page-content page-content-ease-in">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Dashboard</h1>                            
+                            </div>
+                        </div>                   
+                    </div>
+
+                    <div class="row marbottom">				
+                        <div class="col-lg-12">
+                            {{ form_widget(form.projects, { 'attr': {'class': 'form-control'}}) }}
+                            </select>  
+                        </div>               
+                    </div>
+
+                    <!-- Resource Status Start -->
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="circle-tile">                           
+                                <div class="circle-tile-heading blue">
+
+                                    {% if  userData.resources > 0 %}
+                                        <a class="resourceAnchor1" style="display:none" href={{path('vlreleases_resourceNames_getResourcesNames')}}><i class="fa fa-users fa-fw fa-3x"></i></a>                        
+                                        <a class="resourceAnchor2" href="javascript:void(0)"><i class="fa fa-users fa-fw fa-3x"></i></a>
+                                        {% else %}
+                                        <i class="fa fa-tasks fa-fw fa-3x"></i>
+                                    {% endif %}
+
+
+                                </div>                           
+                                <div class="circle-tile-content blue">
+                                    <div class="circle-tile-description text-faded" id="resources_Id">{{userData.resources}}</div>
+                                    <div class="circle-tile-number text-faded">Resources</div>
+                                    <div class="circle-tile-footer"></div>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="circle-tile">
+                                <div class="circle-tile-heading orange">
+                                    <i class="fa fa-clock-o fa-fw fa-3x"></i>
+                                </div>
+                                <div class="circle-tile-content orange">
+                                    <div class="circle-tile-description text-faded" id="resourceHours_id">{{userData.resourceHours}}</div>
+                                    <div class="circle-tile-number text-faded">Effort</div>
+                                    <div class="circle-tile-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="circle-tile">
+                                <div class="circle-tile-heading red">
+                                    {% if  userData.pendingApprovals > 0 %}
+                                        <a href={{path('vlreleases_user_taskapproval')}}><i class="fa fa-tasks fa-fw fa-3x"></i></a>
+                                        {% else %}
+                                        <i class="fa fa-tasks fa-fw fa-3x"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="circle-tile-content red">
+                                    <div class="circle-tile-description text-faded" id="pendingApprovals_id">{{userData.pendingApprovals}}</div>
+                                    <div class="circle-tile-number text-faded">Pending</div>
+                                    <div class="circle-tile-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="circle-tile">
+                                <div class="circle-tile-heading green">
+
+                                    {% if  userData.allApprovals > 0 %}
+                                        <a class="approveAnchor1" style="display:none" href={{path('vlreleases_approvalList_approvalList')}}><i class="fa fa-tasks fa-fw fa-3x"></i></a>
+                                        <a class="approveAnchor2"  href="javascript:void(0)" ><i class="fa fa-tasks fa-fw fa-3x"></i></a>
+
+                                    {% else %}
+                                        <i class="fa fa-tasks fa-fw fa-3x"></i>
+                                    {% endif %}
+
+                                </div>
+                                <div class="circle-tile-content green">
+                                    <div class="circle-tile-description text-faded" id="approved_id">{{userData.allApprovals}}</div>
+                                    <div class="circle-tile-number text-faded">Approved</div>
+                                    <div class="circle-tile-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Resource Status End -->
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="tile green" style="height: 320px">
+                                <h4>Resource Utilization</h4>
+                                <p></p>
+                                <div style="position: relative;" id="morris-chart-dashboard"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>	
+
+        <!-- global scripts -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="{{jsPath}}jquery_003.js"></script>
+        <script src="{{jsPath}}bootstrap.js"></script>
+        <script src="{{jsPath}}defaults.js"></script>
+
+        <!-- morris charts -->
+        <script src="{{jsPath}}raphael-2.js"></script>
+        <script src="{{jsPath}}morris.js"></script>
+
+        <!-- theme scripts -->
+        <script src="{{jsPath}}chart-demo.js"></script>
+        <script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
+        <script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+        <script>
+            var hours_data = $.parseJSON('{{ userData.resourceHoursPerDate | raw }}');
+            var userNameYkey = 'hours';
+            var userNameLabel = 'Hours';
+        </script>
+
+    </body>
+</html>

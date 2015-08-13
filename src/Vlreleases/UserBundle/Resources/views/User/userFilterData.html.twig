@@ -1,0 +1,80 @@
+
+<div class="profileTable">
+        <div class="table-responsive">
+<table class="table table-bordered table-striped">
+
+<thead class="table-head">
+    <tr>
+        <th>S.No</th>
+        <th>Name</th>
+        <th>Photo</th>
+        <th>Employee Id</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Extension Number</th>
+        <th>Work Station</th>
+        <th>System Id</th>
+        <th>System Ip</th>
+        <th>Team</th>
+
+    </tr>
+</thead>
+<tbody>
+
+    {% if filterData %}
+        {% set counter=1 %}
+
+        {% for userDetailsn in filterData %}
+            <tr>
+                <td>{{ counter }}</td>
+                <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{ userDetailsn[0]['id'] }}">{{ userDetailsn[0]['name'] }}</a></td>
+                <td><div data-toggle="modal" data-target="#ImageModal"><img onClick="testi('{{userDetailsn[0]['photo']}}+{{userDetailsn[0]['name']}}+{{userDetailsn[0]['employeeId']}}');" src="{{userThumbImagePath}}{{userDetailsn[0]['photo']}}" alt=""/></div></td>
+                <td>{{ userDetailsn[0]['employeeId'] }}</td>
+                <td>{{ userDetailsn[0]['email'] }}</td>
+                <td>{{ userDetailsn[0]['mobile'] }}</td>
+                <td>{{ userDetailsn[0]['extensionNumber'] }}</td>
+                <td>{{ userDetailsn[0]['workStation'] }}</td>
+                <td>{{ userDetailsn[0]['systemId'] }}</td>
+                <td>{{ userDetailsn[0]['systemIp'] }}</td>
+                <td>{{ userDetailsn[0]['tname'] }}</td>
+
+            </tr>
+            {% set counter = counter + 1 %}
+
+        {% endfor %}
+
+    {% endif %}
+
+
+
+
+    {% if filterData1 %}
+        {% set counter=1 %}
+
+        {% for userDetailsn in filterData1 %}
+            <tr>
+                <td>{{ counter }}</td>
+                <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{ userDetailsn['id'] }}">{{ userDetailsn['name'] }}</a></td>
+                <td><div data-toggle="modal" data-target="#ImageModal"><img  onClick="testi('{{userDetailsn['photo']}}+{{userDetailsn['name']}}+{{userDetailsn['employeeId']}}');" src="{{userThumbImagePath}}{{userDetailsn['photo']}}" alt=""/></div></td>
+                <td>{{ userDetailsn['employeeId'] }}</td>
+                <td>{{ userDetailsn['email'] }}</td>
+                <td>{{ userDetailsn['mobile'] }}</td>
+                <td>{{ userDetailsn['extensionNumber'] }}</td>
+                <td>{{ userDetailsn['workStation'] }}</td>
+                <td>{{ userDetailsn['systemId'] }}</td>
+                <td>{{ userDetailsn['systemIp'] }}</td>
+                <td>{{ userDetailsn['tname'] }}</td>
+
+            </tr>
+            {% set counter = counter + 1 %}
+
+        {% endfor %}
+
+    {% endif %}
+
+</tbody>
+</table>	
+        </div>
+</div>
+
+                   

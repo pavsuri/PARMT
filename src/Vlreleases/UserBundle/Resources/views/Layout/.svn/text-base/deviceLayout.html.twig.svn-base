@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+{% block extrajavascripts %}
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+<script src="{{jsPath}}/mobiledevice.js"></script>
+{% endblock %}
+

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">       
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            
+            <div class="" id="page-wrapper" style="min-height: 863px;">
+        <div class="page-content page-content-ease-in dsp">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title">
+                        <h1>Profile</h1>                            
+                    </div>
+                    
+                </div>                   
+            </div>				
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="clearfix"></div>				
+                        <!-- Widget content -->
+
+                        <div class="profile">
+                            
+                              <div class="userTitle" style="color:#0B614B;">Personal Profile<span class="pull-right"></span></div>
+                              <div class="userHold" style=display:block;">
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Name:</span></li>
+                                        <li>
+                                            {% if (userData.userPersonalProfile.name) %}
+                                            {{ userData.userPersonalProfile.name }}
+                                            {% else %}   
+                                             --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Employee Id:</span></li>
+                                        <li>
+                                            {% if (userData.userPersonalProfile.employeeId) %}
+                                            {{ userData.userPersonalProfile.employeeId }}
+                                            {% else %}   
+                                             --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>DateOfBirth:</span></li>
+                                        <li>
+                                            {% if  userData.userPersonalProfile.dob|date('d-m-Y') %}
+                                             {{ userData.userPersonalProfile.dob|date('d-m-Y')}}
+                                            {% else %}
+                                             --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>DateOfJoining:</span></li>
+                                        <li>
+                                            {% if  userData.userPersonalProfile.doj|date('d-m-Y') %}
+                                                {{ userData.userPersonalProfile.doj|date('d-m-Y')}}
+                                             {% else %}
+                                                 --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>DOJ To Jyo:</span></li>
+                                        <li>
+                                            {% if  userData.userPersonalProfile.dojj|date('d-m-Y') %}
+                                                {{ userData.userPersonalProfile.dojj|date('d-m-Y')}}
+                                            {% else %}
+                                                 --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Mobile:</span></li>
+                                        <li>
+                                            {% if  userData.userPersonalProfile.mobile%}
+                                                {{ userData.userPersonalProfile.mobile}}
+                                            {% else %}
+                                                --
+                                             {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Email:</span></li>
+                                        <li>
+                                            {% if userData.userPersonalProfile.email %}
+                                                {{ userData.userPersonalProfile.email}}
+                                            {% else %}
+                                               --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                              <div class="userTitle" style="color:#0B614B;">Work Profile<span class="pull-right"></span></div>
+                                <div class="userHold" style="display:block;">
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Department:</span></li>
+                                        <li>
+                                            {% if  userData.Department %}
+                                                {{ userData.Department}}
+                                            {% else %}
+                                               --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Band:</span></li>
+                                        <li>
+                                            {% if  userData.Band %}
+                                                {{ userData.Band}}
+                                            {% else %}
+                                                  --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Team:</span></li>
+                                        <li>
+                                            {% if  userData.Team %}
+                                                {{ userData.Team}}
+                                            {% else %}
+                                                 --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>ExtensionNumber:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.extensionNumber) %}
+                                                {{ userData.userWorkProfile.extensionNumber }}
+                                            {% else %}
+                                                   --
+                                           {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Highest Education:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.highestEducation) %}
+                                                {{ userData.userWorkProfile.highestEducation }}
+                                            {% else %}
+                                                   --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Passed Out Year:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.passedoutYear) %}
+                                                {{ userData.userWorkProfile.passedoutYear }}
+                                            {% else %}
+                                               --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>TotalExperience:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.totalExperience) %}
+                                                {{ userData.userWorkProfile.totalExperience }}
+                                            {% else %}
+                                                   --
+                                           {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>WorkStation:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.workStation) %}
+                                                {{ userData.userWorkProfile.workStation }}
+                                           {% else %}
+                                                   --
+                                           {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>SystemIp:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.systemIp) %}
+                                                {{ userData.userWorkProfile.systemIp }}
+                                           {% else %}
+                                                   --
+                                           {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>SystemId:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.systemId) %}
+                                                {{ userData.userWorkProfile.systemId }}
+                                            {% else %}
+                                               --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>AssertTag:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.assetTag) %}
+                                                {{ userData.userWorkProfile.assetTag }}
+                                            {% else %}
+                                               --
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>gtalkId:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.gtalkId) %}
+                                                    {{ userData.userWorkProfile.gtalkId }}
+                                               {% else %}
+                                                   --
+                                           {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>SkypeId:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.skypeId) %}
+                                                {{ userData.userWorkProfile.skypeId }}
+                                           {% else %}
+                                                   --
+                                           {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>LeadName:</span></li>
+                                        <li>
+                                            {% if (userData.userWorkProfile.leadName) %}
+                                                {{ userData.userWorkProfile.leadName }}
+                                           {% else %}
+                                                   --
+                                           {% endif %}
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="userTitle" style="color:#0B614B;">Project Profile<span class="pull-right"></span></div>
+                                <div class="userHold" style="display: block;"> 
+                                    <ul class="listItems">
+                                        <li class="listTitle"><span>Projects:</span></li>
+                                        <li>
+                                            <ul>
+                                                {% if userData.userProjects %}
+                                                    {% for data in userData.userProjects %}
+                                                        <li>                                                    
+                                                                {{ data[0]['name'] }}                                                                                                             
+                                                        </li>     
+                                                    {% endfor %}
+                                                {% else %}
+                                                            --
+                                                {% endif %}
+                                            </ul>
+                                        </li>
+                                    </ul> 
+                                    <div class="clearfix"></div>
+                                 </div>
+                                <div class="userTitle" style="color:#0B614B;">Skill Profile<span class="pull-right"></span></div>
+                                <div class="userHold" style="display:block;">              
+                                    <ul class="listTitle">
+                                        <li><span>Skills</span></li>
+                                        <li><span>Experience</span></li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    {% for skill in userSkills %}
+                                    <ul class="listItems">
+                                        <li><span>{{skill.getSkill.getName}}</span></li>
+                                        <li><span>{{ skill.getExperience }}</span></li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    {% endfor %}
+                                    
+                                </div>
+                        </div>
+                        
+                    </div>
+                    <!-- Widget ends -->
+                </div>
+            </div>				
+        </div>
+    </div>
+
+<!-- global scripts-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<!--<script src="{{jsPath}}chart-demo.js"></script> -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+</body>
+</html>

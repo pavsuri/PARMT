@@ -1,0 +1,21 @@
+
+	<table class="table table-bordered table-striped">				 
+	  <thead class="table-head">
+		<tr>
+		<th>Name</th>
+		<th>Email</th>
+		<th>Extension</th>
+		<th>Location</th>				
+		</tr>
+	  </thead>
+	  <tbody>
+	  {% for queueUser in queueUserListData %}
+		<tr>
+		  <td>{{queueUser.name}}</td>
+		  <td>{{queueUser.email}}</td>
+		  <td>{{queueUser.extension}}</td> location
+		  <td>{{queueUser.location}}</td>
+		</tr>
+		{% endfor %}    
+	  </tbody>
+	</table>

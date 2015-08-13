@@ -1,0 +1,66 @@
+<form id='takeDeviceSearchListform' action='{{path('vlreleases_mobiledevice_takedeviceList')}}' method='POST'>
+    <div class="table-responsive" id="takeDeviceSearch">
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-head">
+                <tr>
+                    <th>S.No</th>
+                    <th>Brand/Name</th>
+                    <th>OS</th>
+                    <th>Version</th>
+                    <th>Taken By</th>					
+                    <th>Taken At</th>			
+                    <th>Submitted At</th>
+                    <th>Queue</th>
+                    <th>Take/Return</th>
+                    <th>Raise A Hand</th>					
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for device1 in takeDeviceListData %}
+                    <tr>
+                        <td>{{device1.sno}}</td>
+                        <td>{{device1.brand}} / {{device1.name}}</td>
+                        <td>{{device1.os}}</td>
+                        <td>{{device1.version}}</td>
+                        <td id='takenName-{{device1.id}}'>{{device1.takenBy}}</td>		  
+                        <td id='takenDate-{{device1.id}}'>{% if  device1.takenAt  %}{{device1.takenAt |date('d-m-Y')}} {% endif %}</td>		  
+                        <td id='submittedDate-{{device1.id}}'>{% if  device1.submittedAt  %} {{device1.submittedAt|date('d-m-Y')}}{% endif %}</td>
+
+                        <td class="Queue-no"><a href="javaScript:void(0)" data-toggle="modal" data-target="#Queue"><span class='queueDevice' id='queue_{{device1.id}}'>{% if  device1.queue > 0  %}{{device1.queue}}{% endif %}</span></a></td>
+                        <td><a href="javaScript:void(0)">
+                                {% if  device1.showReturnOption  %} 
+
+                                    <span class='returnDevice' id='returnDevice_{{device1.id}}_{{userName}}'>Return</span>{% elseif device1.available %} 
+                                    <span class='takeDevice' id='takeDevice_{{device1.id}}_{{userName}}'>
+                                        Take {% else  %}  - {% endif %}
+                                    </span>
+
+                                </a></td> 
+                            <td class="hand-icon">
+                                {% if  device1.showRaiseHandOption  %} 
+                                    <a href="javaScript:void(0)"><span class='raiseHand' id='raiseHand_{{device1.id}}'><i class="fa fa-hand-o-up"></i></span></a> 
+                                        {% elseif device1.showCancelRequestOption %} 
+                                    <a href="javaScript:void(0)"><span class='cancelRequest' id='cancelRequest_{{device1.id}}'>Cancel Request 
+                                        {% else  %}  - {% endif %}
+                                    </span>
+                            </td>
+
+                        </tr>
+                        {% endfor %}    
+                        </tbody>
+                    </table>
+                    <span style='display:none;' id='queueUrl'>{{path('vlreleases_mobiledevice_queuelist')}}</span>
+                    <span style='display:none;' id='cancelRequestUrl'>{{path('vlreleases_mobiledevice_cancel_request')}}</span>
+                    <span style='display:none;' id='returnDeviceUrl'>{{path('vlreleases_mobiledevice_return')}}</span>
+                    <span style='display:none;' id='takeDeviceUrl'>{{path('vlreleases_mobiledevice_take')}}</span>
+                    <span style='display:none;' id='raiseHandUrl'>{{path('vlreleases_mobiledevice_request')}}</span>					
+                </div>
+
+            </div>
+        </div>
+    </div>	
+
+
+</form>

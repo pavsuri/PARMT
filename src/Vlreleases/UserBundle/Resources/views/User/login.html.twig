@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+    </head>
+    <body class="login">
+        <div align="center" style="color: white"><h4>{{error.message}}</h4></div>
+
+        {% if flag1==1 %}
+            <div align="center" style="color: white"> 
+                your password has been reset and sent to your mail.Please check it.
+            </div>
+        {% endif %}
+
+        <div class="container">
+            <div class="row">               
+                    <div class="portlet portlet-green">
+                        <div class="portlet-heading login-heading">
+                            <div class="portlet-title">
+                                <h4><strong>Login</strong></h4>
+                            </div>                        
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="portlet-body">
+                            {{ form_start(form, {'action': path('vlreleases_user_login'), 'method': 'POST'}) }}
+                            <fieldset>
+                                <div class="form-group">
+
+                                    {{ form_widget(form.email, { 'attr': {'class': 'form-control','placeholder': 'E-mail'}}) }}
+                                </div>
+                                <div class="form-group">
+
+                                    {{ form_widget(form.password, { 'attr': {'class': 'form-control','placeholder': 'Password'}}) }}
+                                </div>
+
+
+                                <input class="btn btn-lg btn-green btn-block" type='submit' value='Sign In'>
+                            </fieldset>
+
+                            {{ form_end(form) }}
+                            <a href="{{path('vlreleases_user_register')}}" class="btn btn-lg btn-green pull-left">Register here</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="{{path('vlreleases_user_forgotPassword')}}" class="btn btn-lg btn-green pull-right forgot">Forgot Password</a>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <!-- global scripts -->
+        <script src="{{jsPath}}jquery_003.js"></script>
+        <script src="{{jsPath}}bootstrap.js"></script>
+        <script>
+        $(document).ready(function(){
+                $("#forPwdHolder, .status").hide();
+                $("#forPwd").click(function(){
+                        $(".status").hide();
+                        $("#forPwdHolder").toggle();
+                })
+		
+                $("#forPwdSend").click(function(){
+                        $("#forPwdHolder").hide();
+                        $(".status").show();
+                })
+		
+        })
+        </script>
+    </body>
+</html>

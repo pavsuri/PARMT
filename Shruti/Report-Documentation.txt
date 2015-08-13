@@ -1,0 +1,24 @@
+01-Shruthi-Dashboard:
+	->Email column is missing.
+	->Need clarification regarding 'history functionality'.
+
+09-Enquiry-List:
+	->Enquiry field is there in the form but it is missing in the 09-Enquiry-List.
+
+06-Post-issue:
+	->In the top menu,there is a print button and in the bottom there is one button i.e., print for post.
+	->What is the difference between post and print for post buttons.
+
+11-Add-new-book:
+	->While adding a new magazine,there is a field called 'issueno'.
+	->As magzine can be a weekly magzine or monthly magzine.
+	->So there should be seperate issueno for monthly magazine weekly magazine.
+	->While adding a new magzine,there required a new field to differentiate whether it is monthly magzine,weekly magazine.
+
+13-Articles:
+	->In most of magzines,there are some common articles like sports,health etc.
+	->So can article name repeated?
+
+14-Activity:
+	->on adding a new activity,description field  is there in the form.
+	->But it is missing in the 14-activity screen.

@@ -1,0 +1,52 @@
+
+<div class="profileTable">
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-head">
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Employee Id</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Extension Number</th>
+                <th>Work Station</th>
+                <th>System Id</th>
+                <th>System Ip</th>
+                <th>Team</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% if userDetails %}
+                {% set counter=1 %}
+                {% for userDetailsn in userDetails %}
+                    <tr>
+                        <td>{{ counter }}</td>
+                        <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{ userDetailsn['id'] }}">{{ userDetailsn['name'] }}</a></td>
+                        <td><div data-toggle="modal" data-target="#ImageModal"><img  onClick="testi('{{userDetailsn['photo']}}+{{userDetailsn['name']}}+{{userDetailsn['employeeId']}}');" src="{{userThumbImagePath}}{{userDetailsn['photo']}}" alt=""/></div></td>
+                        <td>{{ userDetailsn['employeeId'] }}</td>
+                        <td>{{ userDetailsn['email'] }}</td>
+                        <td>{{ userDetailsn['mobile'] }}</td>
+                        <td>{{ userDetailsn['extensionNumber'] }}</td>
+                        <td>{{ userDetailsn['workStation'] }}</td>
+                        <td>{{ userDetailsn['systemId'] }}</td>
+                        <td>{{ userDetailsn['systemIp'] }}</td>
+                        <td>{{ userDetailsn['tname'] }}</td>
+
+                    </tr>
+                    {% set counter = counter + 1 %}
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="11" align="center"><h4>No Results found</h4></td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>	
+</div>
+</div>
+                    

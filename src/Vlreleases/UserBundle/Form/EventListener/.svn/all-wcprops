@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Vl-releases2/!svn/ver/95/src/Vlreleases/UserBundle/Form/EventListener
+END
+AddActivityFieldSubscriber.php
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Vl-releases2/!svn/ver/19/src/Vlreleases/UserBundle/Form/EventListener/AddActivityFieldSubscriber.php
+END
+AddProjectFieldSubscriber.php
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Vl-releases2/!svn/ver/19/src/Vlreleases/UserBundle/Form/EventListener/AddProjectFieldSubscriber.php
+END
+AddResourceFieldSubscriber.php
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Vl-releases2/!svn/ver/95/src/Vlreleases/UserBundle/Form/EventListener/AddResourceFieldSubscriber.php
+END

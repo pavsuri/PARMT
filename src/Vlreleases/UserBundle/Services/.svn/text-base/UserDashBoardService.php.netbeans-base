@@ -1,0 +1,158 @@
+<?php
+namespace Vlreleases\UserBundle\Services;
+
+use Doctrine\ORM\EntityManager;
+
+class UserDashBoardService 
+{
+    private $em;
+    
+    private $session;
+    
+    private $userId;
+    
+    public function __construct($session) 
+    {
+        $this->session = $session;        
+        $this->userId = $this->session->get('userId');
+    } 
+    
+    public function setEntityManager (EntityManager $em) 
+    {
+        $this->em = $em;
+    }
+
+    public function findAllUserActivities() 
+    {
+        $activityRepository = $this->em->getRepository('VlreleasesUserBundle:Activity');
+        $userActivityList = $activityRepository->findAll();
+        
+        return $userActivityList;
+    }
+    
+    public function getUserProjects() 
+    {
+        $userRepository = $this->em->getRepository('VlreleasesUserBundle:User');
+        $currentUser = $userRepository->findOneById($this->userId);
+        $userProjects = $currentUser->getProjects();
+
+        return $userProjects;
+    }
+    
+    public function getUserHoursPerDate() 
+    {
+
+        $dayHours = array();
+        $userTaskRepository = $this->em->getRepository('VlreleasesUserBundle:UserTask');
+        $filters = array();
+        $filters['user'] = $this->userId;
+        $filters['status'] = 'approved';
+        $hoursPerDate = $userTaskRepository->getUserHoursPerDate($filters);
+        foreach($hoursPerDate as $hoursdate) {
+            $dayHours[] = array('date' => $hoursdate['date']->format('Y-m-d'),'hours' => round($hoursdate['duration']));
+        }
+        return json_encode($dayHours);
+    }
+	
+	public function getUserTasksPerProject($resourceId, $projectId) 
+    {
+        $tasks = array();
+        $userTaskRepository = $this->em->getRepository('VlreleasesUserBundle:UserTask');
+        $filters = array();
+        $filters['user'] = $resourceId;
+		$filters['project'] = $projectId;
+		
+        $resourceTasks = $userTaskRepository->getUserTasksPerProject($filters);
+        return  $resourceTasks;
+	}
+	
+	public function updateApprovals($allApprovals, $status)
+	{
+		$userTaskRepository = $this->em->getRepository('VlreleasesUserBundle:UserTask');
+		$changeStatus = $userTaskRepository->changeStatusOfApprovals($allApprovals, $status);
+		return $changeStatus;
+	}
+    
+    private function convertToMinutes($time) 
+    {
+        $time =  substr($time,0,5);
+        $times = explode(':',$time);
+        $mins = $times[1] + ($times[0]*60);
+        return $mins;
+    }
+    
+    public function prepareUserTask($data, $taskId = null)
+    {
+        if ($taskId > 0) {
+            $taskRepository = $this->em->getRepository('VlreleasesUserBundle:UserTask');
+            $userTask = $taskRepository->findOneById($taskId);
+        } else {
+            $userTask = new \Vlreleases\UserBundle\Entity\UserTask();
+        }
+        
+        $project = $this->getProject($data['project']);
+        $userTask->setProject($project);
+       
+        $activity = $this->getActivity($data['activity']);
+        $userTask->setActivity($activity);
+
+        $currentUser = $this->getUser($this->userId);
+        $userTask->setUser($currentUser);
+
+        $userTask->setDescription($data['task']);
+
+        if (array_key_exists('selectedDate',$data)) {
+            $taskDate = new \DateTime($data['selectedDate']);
+        } else {
+            $taskDate = new \DateTime();
+        }
+        
+
+        $userTask->setDate($taskDate);
+
+        $duration = $this->convertToMinutes($data['totalHours']);
+        $userTask->setDuration($duration);
+        
+        return $userTask;
+    }
+    
+    public function persistUserTask($userTask)
+    {
+        $this->em->persist($userTask);
+        $this->em->flush();
+    }
+    public function getProject($project)
+    {
+        $projectRepository = $this->em->getRepository('VlreleasesUserBundle:Project');
+        $project = $projectRepository->findOneById($project);
+        
+        return $project;
+    }
+    
+    public function getActivity($activity)
+    {
+        $activityRepository = $this->em->getRepository('VlreleasesUserBundle:Activity');
+        $activity = $activityRepository->findOneById($activity);
+        
+        return $activity;
+    }   
+       
+    public function getUser($userId)
+    {
+        $userRepository = $this->em->getRepository('VlreleasesUserBundle:User');
+        $user = $userRepository->findOneById($userId);
+        
+        return $user;
+    }
+    
+    /**
+     * 
+     * @param \DateTime $selectedDate
+     * @return boolean
+     */
+    public function isTaskEditable($selectedDate)
+    {
+        $userTaskRepository = $this->em->getRepository('VlreleasesUserBundle:UserTask');
+        return $userTaskRepository->isTaskEditable($this->userId, $selectedDate);
+    }
+}

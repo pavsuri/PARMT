@@ -1,0 +1,18 @@
+<form id='searchProductform' action='{{path('vlreleases_products_takeassetsearchlist')}}' method='POST'>
+
+    <div class="widget-content">					
+        <div class="row">
+            <div class="col-lg-2">							
+                {{ form_widget(searchAssetForm.category, { 'attr': {'class': 'form-control','placeholder': 'Select category'}}) }} 
+            </div>
+            <div class="col-lg-2">
+                {{ form_widget(searchAssetForm.productname, { 'attr': {'class': 'form-control','placeholder': 'Select product'}}) }}
+            </div>
+            <div class="col-lg-2">
+                <span  id='spinnerSearchDevice' style='display:none;'><img src={{imagesPath}}spinner.gif /></span> 
+                <div class="btn btn-green" name="btnSubmit" id="searchDeviceSubmit2">Search</div>
+            </div>
+        </div>
+    </div>
+    <span style='display:none;' id='deviceNameListURL'>{{path('vlreleases_products_listDeviceName')}}</span>
+</form>

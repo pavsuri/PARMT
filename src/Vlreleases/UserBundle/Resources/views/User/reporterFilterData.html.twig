@@ -1,0 +1,54 @@
+
+<div class="profileTable">
+<div class="table-responsive"> 
+<table class="table table-bordered table-striped">
+
+<thead class="table-head">
+   <tr>
+       <th>S.No</th>
+       <th>Name</th>
+       <th>Employee Id</th>
+       <th>Email</th>
+       <th>Reporting Persons</th>
+
+   </tr>
+</thead>
+<tbody>
+   {% if filterData %}  
+       {% if details %}
+           {% set counter = 1 %}
+           {% set id = 0 %}
+           {% for details2 in filterData %}
+               <tr>
+                   <td>{{counter}}</td>
+                   <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{details2[0]['id']}}">{{details2[0]['name']}}</a></td>
+                   <td>{{details2[0]['employeeId']}}</td>
+                   <td>{{details2[0]['email']}}</td>
+                   <td>{{details[id]}}</td>
+               </tr>
+               {% set counter = counter + 1 %}
+               {% set id = id + 1 %}
+           {% endfor %}
+       {% endif %}
+   {% endif %}
+   {% if filterData1 %}  
+       {% if details1 %}
+           {% set counter = 1 %}
+           {% set id = 0 %}
+           {% for details2 in filterData1 %}
+               <tr>
+                   <td>{{counter}}</td>
+                   <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{details2['id']}}">{{details2['name']}}</a></td>
+                   <td>{{details2['employeeId']}}</td>
+                   <td>{{details2['email']}}</td>
+                   <td>{{details1[id]}}</td>
+               </tr>
+               {% set counter = counter + 1 %}
+               {% set id = id + 1 %}
+           {% endfor %}
+       {% endif %}
+   {% endif %}
+</tbody>    
+</table>	
+</div>
+</div>

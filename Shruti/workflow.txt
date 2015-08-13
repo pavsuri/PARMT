@@ -1,0 +1,71 @@
+				Work flow of admin
+
+
+	Admin Login:
+		step1. Admin enters the login credentials.
+		step2. After validating,if he is the correct admin,he/she will enter into admin home page.
+		step3. The home page contains a top menu which includes:
+	
+	a. Subscriber list: -This list contains two types of users-active users,inactive users.
+			    -By default it shows the list of active users.
+			    -The list includes details of users like name,address etc.
+			    -It also includes some buttons to perform operations like:
+				Add new subscriber,Filtering,Sorting,Export to excel, Print,Edit/Delete/no. of posts options.
+		1.Add new Subscriber:
+			If the admin wants to add a new subscriber,
+			step1: click on add a new subscriber button.
+
+
+			step2: A form will be opened.
+			step3: Fill the details:name,address,phone number,pincode,starting issue and ending issue.
+			step4: Click on 'add subscriber' button.
+		2.Filtering:
+			step1: Click on filter button on the top menu.
+			step2: A popup box will display.
+			step3: Enter the starting date and ending date.
+			step4: Click on apply filter.
+		3.Sorting:
+			step1: Click on sort button.
+			step2: Sorts the list based on the name.
+		
+	b. Enquiry list: -Shows a list of enquiries.
+			 -Admin can perform two actions:
+			 1. By clicking on 'mark complete',admin can fill the details and complete the task.
+			 2. By clicking on delete admin can delete the list. 
+
+	c. Books:	
+			step1: Click on books button on the top menu.
+			step2: Displays a list of books which are uploaded.
+			step3: Click on add a book button.
+			step4: A form will open.
+			step5: Fill the form containing fields like:
+				 -Name of the issue
+				 -Enter issue number
+				 -Upload PDF file
+			step6: Click on 'add' button.
+
+	d. Articles:	
+			step1: Click on articles button.
+			step2: Contains two columns
+				1.Left column – List of categories like Historic hero’s, places etc.
+				2.Right column - List of Articles
+			step3: To add a new article,
+			       Click on 'add new category' button placed in the right column.
+			step4: It shows an entry form with the following fields
+				-Name of the article,
+				-Select category like Historic hero’s, places etc,
+				-Upload PDF file.
+			step5: Click on 'add' button.
+				
+	e. Events/Activities:
+			step1: Click on 'Activities' button.
+			step2: It shows a list of activities.
+			step3: Admin can add a new activity by clicking on 'Add new activity' buton.
+			step4: It shows an entry form with the following fields:
+			        -Title of the activity
+				-Date
+				-Description
+				-Upload image
+			step5: Click on 'Add' button.
+	f. Reports
+    

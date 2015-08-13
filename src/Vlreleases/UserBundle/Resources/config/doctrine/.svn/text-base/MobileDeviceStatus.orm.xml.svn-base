@@ -1,0 +1,23 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="mobiledevice_status" name="Vlreleases\UserBundle\Entity\MobileDeviceStatus">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        
+        <many-to-one field="mobileDevice" target-entity="Vlreleases\UserBundle\Entity\MobileDevice" nversed-by="requesters">
+            <join-column name="mobiledevice_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <many-to-one field="assignee" target-entity="Vlreleases\UserBundle\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <field name="startTime" column = "starttime" type="datetime"/>
+        <field name="expectedEndTime" column = "expectedendtime" type="datetime"/>
+        <field name="endTime" column = "endtime" type="datetime"/>
+    </entity>
+</doctrine-mapping>

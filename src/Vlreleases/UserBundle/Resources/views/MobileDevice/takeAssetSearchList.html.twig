@@ -1,0 +1,76 @@
+<form id='takeAssetSearchListform' action='{{path('vlreleases_products_takeassetList')}}' method='POST'>
+    <div class="table-responsive" id="takeDeviceSearch">
+<div class="profileTable">
+                         <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-head">
+                <tr>
+                    <th>S.No</th>
+		    <th>Category Name</th>
+                    <th>Product Name</th>
+                    <th>Owner Name</th>
+                    <th>Taken By</th>					
+                    <th>Taken At</th>			
+                    <th>Submitted At</th>
+                    <th>Queue</th>
+                    <th>Take/Return</th>
+                    <th>Raise A Hand</th>					
+                </tr>
+            </thead>
+            <tbody>
+                {% set counter = 1 %}
+                {% for product1 in takeAssetListData %}
+                    <tr>
+                        <td>{{counter}}</td>
+				   <td>{{product1.category}}</td>
+                        <td>{{product1.productname}}</td>
+
+                        <td>{{product1.ownername}}</td>
+                        <td id='takenName-{{product1.id}}'>{{product1.takenBy}}</td>		  
+                        <td id='takenDate-{{product1.id}}'>{% if  product1.takenAt  %}{{product1.takenAt |date('d-m-Y')}} {% endif %}</td>		  
+                        <td id='submittedDate-{{product1.id}}'>{% if  product1.submittedAt  %}{{product1.submittedAt |date('d-m-Y')}} {% endif %}</td>
+
+                        <td class="Queue-no"><a href="javaScript:void(0)" data-toggle="modal" data-target="#Queue"><span class='queueDevice1' id='queue1_{{product1.id}}'>{% if  product1.queue > 0  %}{{product1.queue}}{% endif %}</span></a></td>
+                        <td><a href="javaScript:void(0)">
+                                {% if  product1.showReturnOption  %} 
+
+                                    <span class='returnDevice1' id='returnDevice1_{{product1.id}}_{{userName}}'>Return</span>{% elseif product1.available %} 
+                                    <span class='takeDevice1' id='takeDevice1_{{product1.id}}_{{userName}}'>
+                                        Take {% else  %}  _ {% endif %}
+                                    </span>
+
+                                </a></td> 
+                            <td class="hand-icon">
+                                {% if  product1.showRaiseHandOption  %} 
+                                    <a href="javaScript:void(0)"><span class='raiseHand1' id='raiseHand1_{{product1.id}}'><i class="fa fa-hand-o-up"></i></span></a> 
+                                        {% elseif product1.showCancelRequestOption %} 
+                                    <a href="javaScript:void(0)"><span class='cancelRequest1' id='cancelRequest1_{{product1.id}}'>Cancel Request 
+                                        {% else  %}  _ {% endif %}
+                                    </span>
+                            </td>
+
+                        </tr>
+                        {% set counter = counter + 1 %}
+                        {% endfor %}    
+                            {% if counter == 1%}
+                                <tr>
+                                    <td colspan="13" align = "center">No search results found</td>
+                                </tr>
+                            {%endif%}	
+                        </tbody>
+                    </table>
+</div>
+</div>
+                    <span style='display:none;' id='queueUrl1'>{{path('vlreleases_products_queuelist')}}</span>
+                    <span style='display:none;' id='cancelRequestUrl1'>{{path('vlreleases_products_cancel_request')}}</span>
+                    <span style='display:none;' id='returnDeviceUrl1'>{{path('vlreleases_products_return')}}</span>
+                    <span style='display:none;' id='takeDeviceUrl1'>{{path('vlreleases_products_take')}}</span>
+                    <span style='display:none;' id='raiseHandUrl1'>{{path('vlreleases_products_request')}}</span>					
+                </div>
+
+            </div>
+        </div>
+    </div>	
+
+
+</form>

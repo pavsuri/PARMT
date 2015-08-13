@@ -1,0 +1,115 @@
+vlreleases_user_homepage:
+    pattern:  /dashboard/
+    defaults: { _controller: VlreleasesUserBundle:Default:dashboard }
+
+vlreleases_user_login:
+    pattern:  /user/login
+    defaults: { _controller: VlreleasesUserBundle:User:login }
+    
+vlreleases_user_logout:
+    pattern:  /user/logout
+    defaults: { _controller: VlreleasesUserBundle:User:logout }    
+    
+vlreleases_user_dailystatus:
+    pattern:  /user/dailystatus
+    defaults: { _controller: VlreleasesUserBundle:UserDailyStatus:dailystatus }
+
+vlreleases_user_dailystatus_delete:
+    pattern:  /user/dailystatus/deleteTask
+    defaults: { _controller: VlreleasesUserBundle:UserDailyStatus:deleteTask }
+    
+vlreleases_user_dailystatus_submithours:
+    pattern:  /user/submitHours
+    defaults: { _controller: VlreleasesUserBundle:UserDailyStatus:submitHours }    
+    
+vlreleases_user_lead:
+    pattern:  /leaddashboard/
+    defaults: { _controller: VlreleasesUserBundle:LeadDashboard:leadDashboard }
+
+vlreleases_user_manager:
+    pattern:  /managerdashboard/
+    defaults: { _controller: VlreleasesUserBundle:ManagerDashboard:managerDashboard }
+    
+vlreleases_user_taskapproval:
+    pattern:  /user/taskapproval/
+    defaults: { _controller: VlreleasesUserBundle:UserTaskApproval:taskApproval }
+
+vlreleases_user_updateapprovals:
+    pattern:  /user/updateapprovals/
+    defaults: { _controller: VlreleasesUserBundle:UserTaskApproval:updateApprovals }
+vlreleases_user_profile_home:
+    pattern: /userprofile/
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:index }
+    
+vlreleases_user_upload_photo:
+    pattern: /userprofile/uploadphoto
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:uploadPhoto }    
+    
+vlreleases_user_profile_getProjects:
+    pattern: /userprofile/getProjects
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:getProjects } 
+    
+vlreleases_user_profile_handlePersonalProfileData:
+    pattern: /userprofile/handlePersonalProfileData
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:handlePersonalProfileData }
+    
+vlreleases_user_profile_handleProjectProfileData:
+    pattern: /userprofile/handleProjectProfileData
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:handleProjectProfileData }     
+ 
+vlreleases_user_profile_handleWorkProfileData:
+    pattern: /userprofile/handleWorkProfileData
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:handleWorkProfileData }  
+
+vlreleases_mobiledevice_register:
+    pattern: /mobiledevice/register
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:register }     
+    
+vlreleases_user_profile_handleSkillsData:
+    pattern: /userprofile/handleSkillsData
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:handleSkillsData}     
+    
+vlreleases_user_profile_getSkills:
+    pattern: /userprofile/getSkills
+    defaults: { _controller: VlreleasesUserBundle:UserProfile:getSkills }    
+vlreleases_mobiledevice:
+    pattern: /mobiledevice/
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:index }
+vlreleases_mobiledevice_delete:
+    pattern: /mobiledevice/delete
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:delete }
+vlreleases_mobiledevice_take:
+    pattern: /mobiledevice/take
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:take }
+vlreleases_mobiledevice_return:
+    pattern: /mobiledevice/return
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:return }
+vlreleases_mobiledevice_request:
+    pattern: /mobiledevice/request
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:request }
+vlreleases_mobiledevice_cancel_request:
+    pattern: /mobiledevice/cancelrequest
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:cancelRequest }
+vlreleases_mobiledevice_queuelist:
+    pattern: /mobiledevice/queuelist
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:queueList }
+vlreleases_mobiledevice_getListBySearchCriteria:
+    pattern: /mobiledevice/getlistbysearch
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:getlistbysearch }
+vlreleases_mobiledevice_listDevice:
+    pattern: /mobiledevice/listDevice 
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:listDevice }
+vlreleases_mobiledevice_clickregister:
+    pattern: /mobiledevice/clickRegister
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:clickRegister }
+vlreleases_mobiledevice_listDeviceName:
+    pattern: /mobiledevice/listDeviceName
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:listDeviceName }
+vlreleases_mobiledevice_takedeviceList:
+    pattern: /mobiledevice/takeDeviceList
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:takeDeviceList }
+vlreleases_mobiledevice_takedevicesearchlist:
+    pattern: /mobiledevice/takeDeviceSearchList
+    defaults: { _controller: VlreleasesUserBundle:MobileDevice:takeDeviceSearchList }
+
+

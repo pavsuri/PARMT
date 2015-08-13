@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <script src="{{jsPath}}respond.src.js"></script>
+        <![endif]-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper"> 
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            
+            <div class="device-list" id="page-wrapper">
+                <div class="page-content page-content-ease-in dsp">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Teams</h1>
+                            </div>
+                        </div>             
+                    </div>
+                    {#{% if  userData.userType == '9' or userData.userType == '4' %}#}
+					{% if(userData.rolePermission.getAdd == 'true') %}
+                    <div class="widget">
+                        <!-- Widget Header -->
+                        
+                        <div class="widget-head">
+                            <div class="pull-left">Register Team</div>					
+                        </div>
+                        <!-- Widget Header End-->
+                        <div class="clearfix"></div>				
+                        <!-- Widget content -->
+                        
+                        <li id='addCategories' style="list-style: none;">
+                            <div id="teamEdit">
+                        <form name="teamForm" id="teamForm" method="post">
+                        <div class="table-responsive">   
+                            <table   calss="table table-striped" style="margin-top: 10px;" id="table1">
+                                
+                                <tr class="form-group">
+                                    <td class="col-md-3"><div class="text-center">
+                                            <label>Team Name</label></td>
+                                    <td><input class="form-control" type=name name='tname' id='tname' required pattern="[a-zA-Z0-9]+" title="Please enter valid name"></td>
+                                <input type="hidden" id="tid" name="tid" value=''>
+                                <td>
+                                    <select id="teamStatus">
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </td>
+                                <td><input   data-url="{{ path('vlreleases_team_editTeam') }}" class="btn btn-success teamCreation" type="button" name='submit' id='submit' value='Add'></td>
+                                <td><span  id='spinnerAddDevice3' style='display:none;'><img src={{imagesPath}}spinner.gif /></span></td>
+                                <td><div id="resultteamProject"></div></td>
+                                </tr>
+
+                            </table> 
+                    </div>
+                        </form>
+                    </div>     
+                        </li>
+                        
+                    </div>
+                    {% endif %}
+                    <div id="ajaxteam">
+                    <div class="profileTable">
+                       <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                           <thead class="table-head">
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Team</th>
+                                    <th>Status</th>
+                                    {% if(userData.rolePermission.getEdit == 'true') %}
+                                        <th>Edit</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% if(userData.rolePermission.getView == 'true') %}
+                                {% set counter = 1 %}
+                                {% for resNames in teams %}
+                                    <tr>
+                                        <td>{{ counter }}</td>
+                                        <td>{{ resNames.tname }}</td>
+                                        <td>{{ resNames.status }}</td>
+                                        {#{% if  userData.userType == '9' or userData.userType == '4' %}#}
+					{% if(userData.rolePermission.getEdit == 'true') %}
+                                            <td class="dlEdit" ><span class='editTeam' id='{{resNames.id}}' data-path="{{ path('vlreleases_team_getTeam') }}">Edit</span></td>
+                                        {% else %}
+                                            
+                                        {% endif %}
+                                        
+                                    </tr>
+                                    {% set counter = counter + 1 %}
+                                {% endfor %}  
+							{% endif %}
+                           </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    <!-- global scripts-->
+                    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                    <script src="{{jsPath}}jquery_003.js"></script>
+                    <script src="{{jsPath}}bootstrap.js"></script>
+                    <script src="{{jsPath}}defaults.js"></script>
+
+
+                    <!-- morris charts -->
+                    <script src="{{jsPath}}raphael-2.js"></script>
+                    <script src="{{jsPath}}morris.js"></script>
+
+                    <!-- theme scripts -->
+                    <!--<script src="{{jsPath}}chart-demo.js"></script> -->
+                    <script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+                    <script src="http://malsup.github.com/jquery.form.js"></script> 
+                    <script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+    <script>
+$(document).ready(function () {
+    //creating new team using ajax
+    $(".teamCreation").click(function () {
+
+        var myurl = $(this).attr("data-url");
+        var name = $("#tname").val();
+        var status = $("#teamStatus").val();
+        var tid = $("#tid").val();
+
+        $('#spinnerAddDevice3').show();
+        $.ajax({
+            type: "POST",
+            url: myurl,
+            cache: false,
+            data: {tname: name, status: status, tid: tid},
+            success: function (result) {
+
+                if (result)
+                {
+                    $('#resultteamProject').html("team added/updated successfully");
+                    $('#spinnerAddDevice3').hide();
+                    $("#tname").val('');
+                    $("#ajaxteam").html(result);
+                    setTimeout(function () {
+                        $("#resultteamProject").fadeOut(1000);
+                    }, 3000)
+                }
+                else
+                {
+                    $('#resultteamProject').html("team already existed");
+                    $('#spinnerAddDevice3').hide();
+                    $("#tname").val('');
+
+                    setTimeout(function () {
+                        $("#resultteamProject").fadeOut(1000);
+                    }, 3000)
+
+                }
+            }
+
+
+
+        });
+    });
+
+
+    //edit team details
+    $("body").on("click", '.editTeam', function () {
+        teamId = $(this).attr('id');
+        var path = $(this).attr("data-path");
+        $("#submit").attr('value', 'Update');
+        $.ajax({
+            type: "POST",
+            url: path,
+            dataType: "html",
+            cache: false,
+            data: {teamid: teamId},
+            success: function (result) {
+                var arr = result.split('^');
+                 $("#tname").val(arr[0]);
+                 $("#teamStatus").val(arr[1]);
+
+                 $("#tid").val(teamId);
+                }
+           }
+        );
+
+    });
+
+    function showFlashAlert(message)
+    {
+
+        $('#spinnerAddDevice3').hide();
+        $('#resultteamProject').html(message);
+        $('#resultteamProject').show();
+        setTimeout(function () {
+            $("#resultteamProject").fadeOut(1000);
+        }, 3000)
+    }
+
+});
+    </script>
+    </body>
+    </html>

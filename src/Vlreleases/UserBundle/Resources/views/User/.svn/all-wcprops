@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/Vl-releases2/!svn/ver/212/src/Vlreleases/UserBundle/Resources/views/User
+END
+userDailyStatus.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Vl-releases2/!svn/ver/212/src/Vlreleases/UserBundle/Resources/views/User/userDailyStatus.html.twig
+END
+userTaskApproval.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Vl-releases2/!svn/ver/201/src/Vlreleases/UserBundle/Resources/views/User/userTaskApproval.html.twig
+END
+dashboard.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Vl-releases2/!svn/ver/200/src/Vlreleases/UserBundle/Resources/views/User/dashboard.html.twig
+END
+login.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/Vl-releases2/!svn/ver/85/src/Vlreleases/UserBundle/Resources/views/User/login.html.twig
+END
+approvalForm.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Vl-releases2/!svn/ver/67/src/Vlreleases/UserBundle/Resources/views/User/approvalForm.html.twig
+END
+userDailyStatusAjax.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/Vl-releases2/!svn/ver/120/src/Vlreleases/UserBundle/Resources/views/User/userDailyStatusAjax.html.twig
+END
+userPendingTasks.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Vl-releases2/!svn/ver/118/src/Vlreleases/UserBundle/Resources/views/User/userPendingTasks.html.twig
+END
+leadDashboard.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Vl-releases2/!svn/ver/212/src/Vlreleases/UserBundle/Resources/views/User/leadDashboard.html.twig
+END
+managerDashboard.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Vl-releases2/!svn/ver/95/src/Vlreleases/UserBundle/Resources/views/User/managerDashboard.html.twig
+END

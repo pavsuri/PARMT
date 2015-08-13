@@ -1,0 +1,79 @@
+<p>Hi,</p>
+<b>{{ resourceEmail }}</b> &nbsp;has sent you his/her status report.Please check and perform one of the actions below.
+<br><br>
+               {% if taskData %}
+				<div class="table-responsive">
+				<table class="table table-bordered table-striped">
+				 
+				  <thead class="table-head">
+					<tr>
+                        {#<th>Select   <input type="checkbox" name="allcheckboxes" id="allcheckboxes_id">
+                            <input type="hidden" name="countall" id="counts_id" value="{{userData.pendingApprovals|length}}">
+                        </th>#}
+                                         <th>Date</th>
+                                         <th>Project</th>
+					  <th>Task</th>
+                                          <th>Hours</th>
+                                          <th>Status</th>
+                                          <!--<th>Action</th>-->
+					</tr>
+				  </thead>
+				  <tbody>
+								
+                                        {% for i in range(0, taskData|length - 1) %}
+                                          
+                                        <tr>
+					   {#<td><input type="checkbox" name="allApprovals[]" id="checkbox_{{i}}" value="{{userData.pendingApprovals[i].id}}"/></td>#}
+                                           <td>
+                                            {{selectedDate|date('Y-m-d')}}
+                                           </td>
+                                           <td>
+                                            {{taskData[i].project}}
+                                           </td> 
+                                           <td>
+                                            {{taskData[i].description}}
+                                           </td> 
+										    <td>
+                                             {{taskData[i].totalhours}}
+                                           </td> 
+										   <td>
+                                             {{taskData[i].hourStatus}}
+                                           </td>
+										   <!--<td>
+                                             {{'approve'}}
+                                           </td>-->
+                                           
+                                           
+                                        </tr>   
+                                        {% endfor %} 
+                                        
+				  </tbody>
+				</table>
+			  </div>
+			  {% else %}
+			  <div>
+			  <div class="table-responsive">
+				<table class="table table-bordered table-striped">
+				 
+				  <tbody>
+				  <tr>
+					There are no tasks to approve/reject
+			  </tr>
+			  </tbody>
+			  </table>
+              </div>           
+			  
+                        {% endif %}  
+                        <br><br>
+				</div>
+			<div class="row">
+				<div class="col-lg-12 marbottom"> 
+                                        <a href="http://niti.stg.valuelabs.com/Vl-releases2/web/user/emailUpdateApprovals?value=Approve&task_id={{ ids }}&resourceEmail={{ resourceEmail }}">Aprove</a>
+                                        <a href="http://niti.stg.valuelabs.com/Vl-releases2/web/user/emailUpdateApprovals?value=Reject&task_id={{ ids }}&resourceEmail={{ resourceEmail }}">Reject</a>
+					{#<button class="btn btn-green" name="btnApp" id="btnApp" value="Approve">Approve</button>
+					<button class="btn btn-red" name="btnRej" id="btnRej" value="Reject">Reject</button>#}
+				</div>
+			  </div>
+                                <br><br>
+                                Thanks & Regards,<br>
+                                NITI.

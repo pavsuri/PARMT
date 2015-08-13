@@ -1,0 +1,19 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="user_personal_profile" name="Vlreleases\UserBundle\Entity\UserPersonalProfile">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        
+        <field name="name" column="name" type="string" length="100"/>
+        <field name="employeeId" column="employee_id" type="integer"/>
+        <field name="dob"   column = "dob" type="date"/>
+        <field name="mobile" column="mobile" type="string" />
+        <field name="photo" column="photo" type="string"/>
+        <field name="email" column="email" type="string"/>
+        
+    </entity>
+</doctrine-mapping>

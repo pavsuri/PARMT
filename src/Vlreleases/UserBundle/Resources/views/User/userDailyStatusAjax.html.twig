@@ -1,0 +1,42 @@
+{% if userData.userDailyStatusData %}
+    <table id='userStatusTable' class="table table-bordered table-striped">
+        <colgroup>					
+            <col class="col-xs-5">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+        </colgroup>
+        <thead id='userStatusTableHeader' class="table-head">
+            <tr>
+                <th>Task</th>
+                <th>Hours</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for i in range(0, userData.userDailyStatusData|length - 1) %}
+                <tr id="userdata_{{userData.userDailyStatusData[i].id}}">
+                    <td>
+                        {{userData.userDailyStatusData[i].description}} <span class="badge badge-pro">{{userData.userDailyStatusData[i].project}}</span>
+                    </td>   
+                    <td>{{userData.userDailyStatusData[i].totalhours}}</td>
+                    <td>{{userData.userDailyStatusData[i].hourStatus}}</td>
+                    {% if userData.userDailyStatusData[i].hourStatus == 'Saved' or userData.userDailyStatusData[i].hourStatus == 'Rejected'%}
+                        <td>
+                            <a class='editTask' href="javascript:void(0)" id="{{userData.userDailyStatusData[i].id}}">Edit</a>
+                            |
+                            <a class='deleteTask' href="javascript:void(0)" id="{{userData.userDailyStatusData[i].id}}">Delete</a>
+                        </td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                </tr>   
+            {% endfor %} 
+        </tbody>
+    </table>
+
+{% endif %}   
+
+

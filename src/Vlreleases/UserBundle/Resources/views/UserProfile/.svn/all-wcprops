@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Vl-releases2/!svn/ver/210/src/Vlreleases/UserBundle/Resources/views/UserProfile
+END
+workProfile.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/Vl-releases2/!svn/ver/210/src/Vlreleases/UserBundle/Resources/views/UserProfile/workProfile.html.twig
+END
+personalProfile.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/Vl-releases2/!svn/ver/183/src/Vlreleases/UserBundle/Resources/views/UserProfile/personalProfile.html.twig
+END
+projectProfile.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/Vl-releases2/!svn/ver/183/src/Vlreleases/UserBundle/Resources/views/UserProfile/projectProfile.html.twig
+END
+skillProfile.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/Vl-releases2/!svn/ver/183/src/Vlreleases/UserBundle/Resources/views/UserProfile/skillProfile.html.twig
+END
+profile.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Vl-releases2/!svn/ver/204/src/Vlreleases/UserBundle/Resources/views/UserProfile/profile.html.twig
+END

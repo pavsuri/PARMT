@@ -1,0 +1,159 @@
+
+<div id='addProjectHTML'>
+    <form id='AddProjectForm'  method='POST' action="{{ path('vlreleases_projects_getProjectData') }}">
+        <input type="hidden" id="updateprojectId"  name="updateprojectId" value=''>
+        <div class="widget-content">
+            <div class="addTextBoxDiv">
+                <div class="addTask">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            {{ form_errors(addProjectForm.projectName) }}
+                            {{ form_widget(addProjectForm.projectName, { 'attr': {'class': 'form-control','placeholder': ' select project'}}) }}
+                        </div>
+                        <input type="hidden" id="tid" name="tid" value=''>
+                        <div class="col-lg-1 projectHide" id="projectadd1">
+
+                            <button type="button" class="btn btn-green glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal1">
+                            </button>
+                        </div>
+                       
+                        <div class="col-lg-1 projectHide" id="projectedit1">
+
+                            <button type="button" class="btn btn-green glyphicon glyphicon-edit" id="prj-add" data-toggle="modal" data-target="#editmodal">
+                            </button>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ form_errors(addProjectForm.client) }}
+                            {{ form_widget(addProjectForm.client, { 'attr': {'class': 'form-control','placeholder': 'select client'}}) }}
+                        </div>
+                        <div class="col-lg-1 projectHide" id="clientadd1">
+
+                            <button type="button" class="btn btn-green glyphicon glyphicon-plus" data-toggle="modal" data-target="#client">
+                            </button>
+                        </div>
+                        <div class="col-lg-1 projectHide" id="clientedit1">
+
+                            <button type="button" class="btn btn-green glyphicon glyphicon-edit" id="cln-add" data-toggle="modal" data-target="#clientedit">
+                            </button>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ form_errors(addProjectForm.phase) }}
+                            {{ form_widget(addProjectForm.phase, { 'attr': {'class': 'form-control','placeholder': 'select phase'}}) }}
+                        </div>
+                        <div class="col-lg-3">      
+                            <div id="datepicker" class="input-append">
+                                <span class="add-on">
+                                    {{ form_widget(addProjectForm .startDate, { 'attr': {'id':'datePicker','data-format':'yyyy-MM-dd','class': 'form-control','placeholder': 'startDate'}}) }}                                                                    
+                                    <i class="fa fa-calendar icon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProjectForm.bugTool) }}
+                            {{ form_widget(addProjectForm.bugTool, { 'attr': {'class': 'form-control','placeholder': 'bugTrackingTool'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProjectForm.description) }}
+                            {{ form_widget(addProjectForm.description, { 'attr': {'class': 'form-control','placeholder': 'description'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProjectForm.billingStatus) }}
+                            {{ form_widget(addProjectForm.billingStatus, { 'attr': {'class': 'form-control','placeholder': 'Select Billingstatus'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProjectForm.svnpath) }}
+                            {{ form_widget(addProjectForm.svnpath, { 'attr': {'class': 'form-control','placeholder': 'svnpath'}}) }}
+                        </div>
+                       <div class="col-lg-3">
+                            {{ form_errors(addProjectForm.lifeCycleStatus) }}
+                            {{ form_widget(addProjectForm.lifeCycleStatus, { 'attr': {'class': 'form-control','placeholder': 'project status'}}) }}
+                        </div>
+                       <div class="col-lg-3">
+                            {{ form_errors(addProjectForm.platforms) }}
+                            {{ form_widget(addProjectForm.platforms, { 'attr': {'class': 'form-control','placeholder': 'select platform'}}) }}
+                        </div>
+                       {{ form_rest(addProjectForm) }}
+                        </div>					
+                    </div>		
+                        <div class="row">
+                            <div class="col-lg-12" id="buttons"> 
+                                <!--<div class="btn btn-green" name="btnSave" id="btnSave">Submit</div>--->
+                                <input type="submit" class="btn btn-green" name="btndeviceAddProject" id="btndeviceAddProject_id" value="Add">
+
+                                <span  id='spinnerAddDevice' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+                                <div class="btn btn-green" name="btnCancel" id="prj-Cancel">Cancel</div>
+                            </div>
+                       </div>
+                     </div>
+            </div> 
+    </form>
+         
+                   <input type="hidden" id="prj-name"  value=''>
+                   <input type="hidden" id="cln-name"  value=''>
+           
+  </div>                               
+ <script>
+    //edit project name
+    $(document).ready(
+            function() {
+        $("#addProjectform_projectName").change(function() {
+        path = "{{ path('vlreleases_projects_editProjectName') }}";
+        chname = $('#addProjectform_projectName').val();
+           
+                    $.ajax({
+                        type: "POST",
+                        url: path  ,
+                        cache: false,
+                        data: {chname: chname},
+                        success: function (result) {
+                             $("#prj-name").val(result);  
+                        }
+                    });
+        
+            });
+            //get old project name
+            $("#prj-add").click(function(){
+	       var arr1 = $("#prj-name").val();
+               var arr = $("#prj-name").val().split('^');
+               if(arr1 == '')
+		{
+			alert("please select a project to edit");return false;
+		}
+		else
+		{
+                	$("#prjname").val(arr[0]);
+		}
+           }); 
+           
+        //update client name  
+        $("#addProjectform_client").change(function() {
+        path = "{{ path('vlreleases_projects_editClientName') }}";
+        clname = $('#addProjectform_client').val();
+        
+             $.ajax({
+                        type: "POST",
+                        url: path  ,
+                        cache: false,
+                        data: {clname: clname},
+                        success: function (result) {
+                             $("#cln-name").val(result);  
+                        }
+                    });
+        
+            });
+         //get old client name
+            $("#cln-add").click(function(){
+		var arr2 = $("#cln-name").val();
+                var arr3 = $("#cln-name").val().split('^');
+		if(arr2 == '')
+		{
+			alert("please select a client name to edit");return false;
+		}
+		else
+		{
+                	 $("#clntname").val(arr3[0]);
+		}
+           }); 
+         
+     });
+ </script>

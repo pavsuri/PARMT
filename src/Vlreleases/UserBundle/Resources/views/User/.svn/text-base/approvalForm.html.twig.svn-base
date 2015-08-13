@@ -1,0 +1,28 @@
+			
+					
+                                            {{ form_start(form, {'attr': {'id': 'form_person_edit', 'method': 'POST', 'action': path('vlreleases_user_taskapproval')}}) }}
+					<div class="row">
+						<div class="col-lg-3">                               
+						{{ form_widget(form.projects, { 'attr': {'class': 'form-control'}}) }}
+						</div>
+						
+						{% if form.resources is defined %}
+						<div class="col-lg-3">  
+    						{{ form_widget(form.resources, { 'attr': {'class': 'form-control'}}) }}  
+						</div>
+						{% endif %}
+					</div>
+					<div class="row">
+						
+						
+					</div>
+					<div class="row">
+						<div class="col-lg-3">						
+						  								
+						</div>
+						<!--<div class="col-lg-3"> 
+							<input class="btn btn-green"  type = "submit" name="btnSub" id="btnSub" value='Submit'/>
+						</div> -->
+					</div>
+                                        </form>
+

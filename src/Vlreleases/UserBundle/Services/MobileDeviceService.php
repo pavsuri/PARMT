@@ -1,0 +1,397 @@
+<?php
+
+namespace Vlreleases\UserBundle\Services;
+
+use Doctrine\ORM\EntityManager;
+
+class MobileDeviceService {
+
+    /**
+     * session 
+     * 
+     * @var object 
+     */
+    private $session;
+
+    /**
+     * user id
+     * 
+     * @var integer 
+     */
+    private $userId;
+
+    /**
+     * user Repository
+     * 
+     * @var object 
+     */
+    private $userRepository;
+
+    /**
+     * current user
+     * 
+     * @var string
+     */
+    private $currentUser;
+
+    /**
+     * mobile rpository
+     * 
+     * @var object
+     */
+    private $mobileDeviceRepository;
+
+    /**
+     * Get the team repository
+     * 
+     * @var object
+     */
+    private $team;
+
+    /**
+     * Get the mobile Os.
+     * 
+     * @var object 
+     */
+    private $mobileOs;
+
+    /**
+     * Constructor
+     */
+    public function __construct($em, $session) {
+        $this->em = $em;
+        $this->userRepository = $em->getRepository('VlreleasesUserBundle:User');
+        $this->session = $session;
+        $this->userId = $this->session->get('userId');
+        $this->currentUser = $this->getCurrentUser();
+        $this->mobileDeviceRepository = $em->getRepository('VlreleasesUserBundle:MobileDevice');
+        $this->mobileDeviceQueueRepository = $em->getRepository('VlreleasesUserBundle:MobileDeviceQueue');
+        $this->team = $em->getRepository('VlreleasesUserBundle:Team');
+        $this->mobileOs = $em->getRepository('VlreleasesUserBundle:MobileOs');
+        $this->project = $em->getRepository('VlreleasesUserBundle:Project');
+        $this->brand = $em->getRepository('VlreleasesUserBundle:MobileBrand');
+    }
+
+    /**
+     * Returns the current user.
+     * 
+     * @return \Vlreleases\UserBundle\Entity\User
+     */
+    public function getCurrentUser() {
+        return $this->userRepository->findOneById($this->userId);
+    }
+
+    /**
+     * Returns the user.
+     * 
+     * @param integer $id
+     * 
+     * @return \Vlreleases\UserBundle\Entity\User
+     */
+    public function getUser($id) {
+        if ($id > 0) {
+            $user = $this->userRepository->findOneById($id);
+        }
+        return $user;
+    }
+
+    /**
+     * Returns the mobile os.
+     * 
+     * @param integer $id
+     * 
+     * @return \Vlreleases\UserBundle\Entity\MobileOs
+     */
+    public function getMobileOs($id) {
+        if ($id > 0) {
+            $mobileOs = $this->mobileOs->findOneById($id);
+        }
+        return $mobileOs;
+    }
+
+    /**
+     * Returns the mobile brand.
+     * 
+     * @param integer $id
+     * 
+     * @return \Vlreleases\UserBundle\Entity\MobileBrand
+     */
+    public function getBrand($id) {
+        if ($id > 0) {
+            $brand = $this->brand->findOneById($id);
+        }
+        return $brand;
+    }
+
+    /**
+     * Returns the project.
+     * 
+     * @param integer $id
+     * 
+     * @return \Vlreleases\UserBundle\Entity\Project
+     */
+    public function getProject($id) {
+        if ($id > 0) {
+            $brand = $this->project->findOneById($id);
+        }
+        return $brand;
+    }
+
+    /**
+     * Persist the mobile device.
+     * 
+     * @param \Vlreleases\UserBundle\Entity\MobileDevice $mobileDevice
+     * 
+     * @throws Exception
+     */
+    public function save($mobileDevice) {
+        try {
+            $this->em->persist($mobileDevice);
+            $this->em->flush();
+            return true;
+        } catch (\Exception $ex) {
+            throw new \Exception($ex->getMessage());
+        }
+    }
+
+    /**
+     * Prepare the mobile device for persist.
+     * 
+     * @param \Vlreleases\UserBundle\Entity\MobileDevice $mobileDevice
+     * 
+     * @return boolean
+     */
+    public function register($mobileDevice) {
+        if (!$mobileDevice->getId()) {
+            $mobileDevice->setCreatedDate(new \DateTime());
+        }
+        $mobileDevice->setLastModifiedDate(new \DateTime());
+        $mobileDevice->setAvailable(1);
+        $mobileDevice->setCreatedBy($this->getCurrentUser());
+        $this->save($mobileDevice);
+    }
+
+    /**
+     * Prepare the mobile device before persistance.
+     * 
+     * @param array $data
+     * 
+     * @return \Vlreleases\UserBundle\Entity\MobileDevice
+     */
+    public function prepareMobileDevice(array $data) {
+        if ($data['id'] > 0) {
+            $mobileDevice = $this->mobileDeviceRepository->findOneById($data['id']);
+        } else {
+            $mobileDevice = new \Vlreleases\UserBundle\Entity\MobileDevice();
+            $mobileDevice->setCreateddate(new \DateTime());
+        }
+
+        //set all the properties of the entities
+        $mobileDevice->setName($data['name']);
+        $brand = $this->getBrand($data['brand']);
+        $mobileDevice->setBrand($brand);
+
+        $os = $this->getMobileOs($data['os']);
+        $mobileDevice->setOs($os);
+
+        $mobileDevice->setVersion($data['version']);
+
+        $project = $this->getProject($data['project']);
+        $mobileDevice->setProject($project);
+
+        $mobileDevice->setActive($data['active']);
+        $mobileDevice->setStatus($data['status']);
+        $mobileDevice->setCreatedBy($this->getCurrentUser());
+
+        $mobileDevice->setUUID($data['uuid']);
+        $mobileDevice->setSerialNumber($data['serialNumber']);
+        return $mobileDevice;
+    }
+
+    /**
+     * Get the team.
+     * 
+     * @param integer $id
+     * 
+     * @return \Vlreleases\UserBundle\Entity\Team
+     */
+    public function getTeam($id) {
+        if ($id > 0) {
+            $team = $this->team->findOneById($id);
+        }
+        return $team;
+    }
+
+    public function findBy(array $criteria) {
+        $return = $this->mobileDeviceRepository->findBy($criteria);
+
+        return $return;
+    }
+
+    public function findOne($id) {
+        return $this->mobileDeviceRepository->findOneBy(array('id' => $id));
+    }
+
+    /**
+     * 
+     * @param integer $id
+     * @return boolean
+     */
+    public function delete($id) {
+        $device = $this->mobileDeviceRepository->find($id);
+        try {
+            $this->em->remove($device);
+            $this->em->flush();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * 
+     * @param int $id
+     * @param \DateTime $expectedEndTime
+     * @return boolean
+     */
+    public function take($id, \DateTime $expectedEndTime) {
+        $device = $this->mobileDeviceRepository->find($id);
+
+        $this->deleteAssigneeFromQueue($device);
+        $deviceStatus = new \Vlreleases\UserBundle\Entity\MobileDeviceStatus();
+
+        $deviceStatus->setExpectedEndTime($expectedEndTime);
+        $deviceStatus->setStartTime(new \DateTime());
+        $deviceStatus->setMobileDevice($device);
+        $device->setDeviceStatus($deviceStatus);
+        $device->setAvailable(false);
+
+
+        $deviceStatus->setAssignee($this->getCurrentUser());
+        return $this->save($device);
+    }
+
+    /**
+     * 
+     * @param \Vlreleases\UserBundle\Entity\MobileDevice $device
+     * @return boolean
+     */
+    private function deleteAssigneeFromQueue(\Vlreleases\UserBundle\Entity\MobileDevice $device) {
+        $queue = $this->mobileDeviceQueueRepository->findOneBy(
+                array('mobileDevice' => $device, 'requester' => $this->getCurrentUser())
+        );
+
+        if ($queue instanceOf \Vlreleases\UserBundle\Entity\MobileDeviceQueue) {
+
+            $this->em->remove($queue);
+
+            $this->em->flush();
+        }
+        return true;
+    }
+
+    /**
+     * 
+     * @param int $id
+     * @param \DateTime $endTime
+     * @return boolean
+     */
+    public function returnDevice($id, \DateTime $endTime) {
+        $device = $this->mobileDeviceRepository->find($id);
+        $deviceStatus = $device->getDeviceStatus();
+        $deviceStatus->setEndTime($endTime);
+        $device->setDeviceStatus($deviceStatus);
+        $device->setAvailable(true);
+        return $this->save($device);
+    }
+
+    /**
+     * 
+     * @param integer $id
+     * @return boolean
+     */
+    public function cancelRequestDevice($id) {
+        $device = $this->mobileDeviceRepository->find($id);
+        return $this->deleteAssigneeFromQueue($device);
+    }
+
+    /**
+     * 
+     * @param int $id
+     * @return boolean
+     */
+    public function requestDevice($id) {
+        $device = $this->mobileDeviceRepository->find($id);
+        $deviceQueue = new \Vlreleases\UserBundle\Entity\MobileDeviceQueue();
+        $deviceQueue->setStartTime(new \DateTime());
+        $deviceQueue->setMobileDevice($device);
+        $deviceQueue->setRequester($this->getCurrentUser());
+        return $this->saveRequester($deviceQueue);
+    }
+
+    /**
+     * Persist the mobile device.
+     * 
+     * @param \Vlreleases\UserBundle\Entity\MobileDeviceQueue $requester
+     * 
+     * @throws Exception
+     */
+    public function saveRequester(\Vlreleases\UserBundle\Entity\MobileDeviceQueue $requester) {
+        try {
+            $this->em->persist($requester);
+            $this->em->flush();
+            return true;
+        } catch (\Exception $ex) {
+            throw new \Exception($ex->getMessage());
+        }
+    }
+
+    public function getRequesterList($id) {
+        $queueRepository = $this->em->getRepository('VlreleasesUserBundle:MobileDeviceQueue');
+        return $queueRepository->findByMobileDevice($id);
+    }
+
+    /**
+     * 
+     * @param \Vlreleases\UserBundle\Entity\MobileDevice $device
+     * @return boolean
+     */
+    public function showRaiseHandOption(\Vlreleases\UserBundle\Entity\MobileDevice $device) {
+        $queue = $this->mobileDeviceQueueRepository->findOneBy(
+                array('mobileDevice' => $device, 'requester' => $this->getCurrentUser())
+        );
+        if ($device->getAvailable()) {
+            return false;
+        }
+        if ($queue instanceof \Vlreleases\UserBundle\Entity\MobileDeviceQueue) {
+            return false;
+        }
+
+        if (
+                ($this->getCurrentUser()->getId() == $device->getDeviceStatus()->getAssignee()->getId()) &&
+                (!$device->getDeviceStatus()->getEndTime() instanceof \DateTime)
+        ) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 
+     * @param \Vlreleases\UserBundle\Entity\MobileDevice $device
+     * @return boolean
+     */
+    public function isLoggedInUserIsInQueue(\Vlreleases\UserBundle\Entity\MobileDevice $device) {
+        $queue = $this->mobileDeviceQueueRepository->findOneBy(
+                array('mobileDevice' => $device, 'requester' => $this->getCurrentUser())
+        );
+        if ($queue instanceof \Vlreleases\UserBundle\Entity\MobileDeviceQueue) {
+            return true;
+        }
+        return false;
+    }
+
+}
+
+?>

@@ -1,0 +1,54 @@
+{% extends 'VlreleasesUserBundle:Layout:deviceLayout.html.twig' %}
+
+{% block firstName%}
+    {{userName}}
+{% endblock %}
+{% block userImage %}
+    <span id='userImageSpan'>
+        <img alt="" src="{{userImagePath}}{{userData.photo}}" class="img-circle">
+    </span>
+{% endblock %}
+{% block body %}
+    <div class="device-list" id="page-wrapper">
+        <div class="page-content page-content-ease-in dsp">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title">
+                        <h1>Categories List</h1>
+                        <input type="hidden" id="currentpage" value="asset">
+                            {% if(userData.rolePermission.getAdd == 'true') %}
+                                    <div class="right btn" id="addDevDet"><i class="fa fa-plus"></i><span class='clickRegister1'>Register Category</span></div>
+                            {% endif %}
+                    </div>
+                </div>             
+            </div>
+            <div class="row device-register">
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <!-- Widget Header -->
+
+                        <div class="widget-head">
+                            <div class="pull-left">Register Category</div>					
+                        </div>
+                        <!-- Widget Header End-->
+                        <div class="clearfix"></div>				
+                        <!-- Widget content -->
+                        <li id='addCategories' style="list-style: none;">
+                            {% include 'VlreleasesUserBundle:MobileDevice:addCategories.html.twig' %}
+                        </li>
+                    </div>
+                    <!-- Widget ends -->
+                </div>
+            </div>
+            <div id='alertContainer' style='display:none;color:red;background:#c2c2c2;width:100%;height:25px;text-align: center;clear: both;margin:8px;'>Show Alerts</div>
+            {% if(userData.rolePermission.getView == 'true') %}
+				<div class="table-responsive" id="searchDeviceList2">
+					{% include 'VlreleasesUserBundle:MobileDevice:displayCategoryList.html.twig' %}
+				</div>
+			{% endif %}
+            <span style='display:none;' id='clickRegisterUrl1'>{{path('vlreleases_categories_clickregister')}}</span>
+
+        </div>
+    </div>
+</div>	
+{% endblock %}

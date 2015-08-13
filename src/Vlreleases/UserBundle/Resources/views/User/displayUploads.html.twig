@@ -1,0 +1,35 @@
+<div class="profileTable">
+<div class="table-responsive">
+ <table class="table table-bordered table-striped">
+    <thead class="table-head">
+         <tr>
+             <th>S.No</th>
+             <th>File Name</th>
+             <th>Uploaded By</th>
+             <th>Uploaded On</th>
+             <th>Download Link</th>
+             <th>Delete</th>
+             {#{% if(userData.rolePermission.getEdit == 'true') %}
+                 <th>Edit</th>
+             {% endif %}#}
+         </tr>
+     </thead>
+     <tbody>
+     {#{% if(userData.rolePermission.getView == 'true') %}#}
+         {% set counter = 1 %}
+         {% for resNames in uploadFilesData %}
+             <tr>
+                 <td>{{ counter }}</td>
+                 <td>{{ resNames.fileName }}</td>
+                 <td>{{ resNames.userName }}</td>
+                 <td>{{ resNames.uploadedDate|date('d-m-Y') }}</td>
+                 <td><a href="http://localhost/upload/{{resNames.uniqueId}}">{{ resNames.fileName }}</a></td>                                        
+                 <td class="sEdit" ><span class='deleteFile' fileId='{{resNames.id}}'>Delete</span></td>
+             </tr>
+             {% set counter = counter + 1 %}
+         {% endfor %} 
+         {#{% endif %}#}
+    </tbody>
+ </table>
+</div>
+</div>

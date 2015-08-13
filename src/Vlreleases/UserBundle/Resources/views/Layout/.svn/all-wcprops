@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/Vl-releases2/!svn/ver/208/src/Vlreleases/UserBundle/Resources/views/Layout
+END
+deviceLayout.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Vl-releases2/!svn/ver/174/src/Vlreleases/UserBundle/Resources/views/Layout/deviceLayout.html.twig
+END
+profileLayout.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Vl-releases2/!svn/ver/208/src/Vlreleases/UserBundle/Resources/views/Layout/profileLayout.html.twig
+END

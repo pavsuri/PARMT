@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/Vl-releases2/!svn/ver/163/src/Vlreleases/UserBundle/Resources/config/doctrine
+END
+Team.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Vl-releases2/!svn/ver/91/src/Vlreleases/UserBundle/Resources/config/doctrine/Team.orm.xml
+END
+MobileDevice.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Vl-releases2/!svn/ver/163/src/Vlreleases/UserBundle/Resources/config/doctrine/MobileDevice.orm.xml
+END
+MobileDeviceStatus.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/Vl-releases2/!svn/ver/163/src/Vlreleases/UserBundle/Resources/config/doctrine/MobileDeviceStatus.orm.xml
+END
+Activity.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/Vl-releases2/!svn/ver/27/src/Vlreleases/UserBundle/Resources/config/doctrine/Activity.orm.xml
+END
+MobileDeviceQueue.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/Vl-releases2/!svn/ver/163/src/Vlreleases/UserBundle/Resources/config/doctrine/MobileDeviceQueue.orm.xml
+END
+UserSkills.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Vl-releases2/!svn/ver/138/src/Vlreleases/UserBundle/Resources/config/doctrine/UserSkills.orm.xml
+END
+UserTask.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/Vl-releases2/!svn/ver/38/src/Vlreleases/UserBundle/Resources/config/doctrine/UserTask.orm.xml
+END
+Role.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Vl-releases2/!svn/ver/27/src/Vlreleases/UserBundle/Resources/config/doctrine/Role.orm.xml
+END
+UserWorkProfile.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Vl-releases2/!svn/ver/91/src/Vlreleases/UserBundle/Resources/config/doctrine/UserWorkProfile.orm.xml
+END
+UserPersonalProfile.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/Vl-releases2/!svn/ver/103/src/Vlreleases/UserBundle/Resources/config/doctrine/UserPersonalProfile.orm.xml
+END
+Department.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/Vl-releases2/!svn/ver/91/src/Vlreleases/UserBundle/Resources/config/doctrine/Department.orm.xml
+END
+Designation.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Vl-releases2/!svn/ver/91/src/Vlreleases/UserBundle/Resources/config/doctrine/Designation.orm.xml
+END
+Band.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Vl-releases2/!svn/ver/91/src/Vlreleases/UserBundle/Resources/config/doctrine/Band.orm.xml
+END
+Project.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Vl-releases2/!svn/ver/27/src/Vlreleases/UserBundle/Resources/config/doctrine/Project.orm.xml
+END
+UserCustomSkill.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/Vl-releases2/!svn/ver/138/src/Vlreleases/UserBundle/Resources/config/doctrine/UserCustomSkill.orm.xml
+END
+CustomSkill.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Vl-releases2/!svn/ver/91/src/Vlreleases/UserBundle/Resources/config/doctrine/CustomSkill.orm.xml
+END
+MobileOs.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Vl-releases2/!svn/ver/130/src/Vlreleases/UserBundle/Resources/config/doctrine/MobileOs.orm.xml
+END
+UserSkill.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/Vl-releases2/!svn/ver/138/src/Vlreleases/UserBundle/Resources/config/doctrine/UserSkill.orm.xml
+END
+User.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/Vl-releases2/!svn/ver/126/src/Vlreleases/UserBundle/Resources/config/doctrine/User.orm.xml
+END
+Skill.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/Vl-releases2/!svn/ver/91/src/Vlreleases/UserBundle/Resources/config/doctrine/Skill.orm.xml
+END
+MobileBrand.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Vl-releases2/!svn/ver/133/src/Vlreleases/UserBundle/Resources/config/doctrine/MobileBrand.orm.xml
+END
+Type.orm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Vl-releases2/!svn/ver/27/src/Vlreleases/UserBundle/Resources/config/doctrine/Type.orm.xml
+END

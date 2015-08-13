@@ -1,0 +1,66 @@
+
+<div id='addProductsHTML'>
+    <form id='AddProductsForm' action='{{path('vlreleases_products_register')}}' method='POST'>
+        <div class="widget-content">
+            <div class="addTextBoxDiv">
+                <div class="addTask">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.category) }}
+                            {{ form_widget(addProductsForm.category, { 'attr': {'class': 'form-control','placeholder': 'Select category'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.productname) }}
+                            {{ form_widget(addProductsForm.productname, { 'attr': {'class': 'form-control','placeholder': 'Product name'}}) }}
+                        </div>
+                        <div class="col-lg-3" id="autocompleteId">
+                            {{ form_errors(addProductsForm.ownername) }}
+                            {{ form_widget(addProductsForm.ownername, { 'attr': {'class': 'ownernametypeahead form-control','placeholder': 'Asset Owner'}}) }}
+		            <span  id='searchownerspinner' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.os) }}
+                            {{ form_widget(addProductsForm.os, { 'attr': {'class': 'form-control','placeholder': 'os'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.brand) }}
+                            {{ form_widget(addProductsForm.brand, { 'attr': {'class': 'form-control','placeholder': 'Brand'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.serialNumber) }}
+                            {{ form_widget(addProductsForm.serialNumber, { 'attr': {'class': 'form-control','placeholder': 'Serial Number'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.version) }}
+                            {{ form_widget(addProductsForm.version, { 'attr': {'class': 'form-control','placeholder': 'version'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.description) }}
+                            {{ form_widget(addProductsForm.description, { 'attr': {'class': 'form-control','placeholder': 'description'}}) }}
+                        </div>
+                        <div class="col-lg-3">
+                            {{ form_errors(addProductsForm.active) }}
+                            {{ form_widget(addProductsForm.active, { 'attr': {'class': 'form-control','placeholder': 'active'}}) }}
+                        </div>
+                        {% if errorValue is defined %}
+                            {% if (errorValue > 0) %}
+                                <div class="col-lg-3">
+                                    <h4 align="left">*Product already existed</h4> 
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        {{ form_rest(addProductsForm) }}
+                    </div>			
+                </div>						
+                <div class="row">
+                    <div class="col-lg-12"> 
+                        <input type="button" class="btn btn-green" name="btndeviceAddProduct" id="btndeviceAddProduct" value="Add">
+                        <span  id='spinnerAddDevice' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+                        <div class="btn btn-green" name="btnCancel" id="btnCancel">Cancel</div>
+                    </div>
+                </div>
+            </div>					
+        </div>				
+    </form>
+</div>     

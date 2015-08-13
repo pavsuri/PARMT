@@ -1,0 +1,19 @@
+vlreleases_user_homepage:
+    pattern:  /dashboard/
+    defaults: { _controller: VlreleasesUserBundle:Default:dashboard }
+
+vlreleases_user_login:
+    pattern:  /user/login
+    defaults: { _controller: VlreleasesUserBundle:User:login }
+    
+vlreleases_user_dailystatus:
+    pattern:  /user/dailystatus
+    defaults: { _controller: VlreleasesUserBundle:UserDailyStatus:dailystatus }
+    
+vlreleases_user_dailystatus_submithours:
+    pattern:  /user/submitHours
+    defaults: { _controller: VlreleasesUserBundle:UserDailyStatus:submitHours }    
+    
+vlreleases_user_lead:
+    pattern:  /leaddashboard/
+    defaults: { _controller: VlreleasesUserBundle:LeadDashboard:leadDashboard }

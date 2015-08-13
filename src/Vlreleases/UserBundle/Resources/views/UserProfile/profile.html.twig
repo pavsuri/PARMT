@@ -1,0 +1,80 @@
+{% extends 'VlreleasesUserBundle:Layout:profileLayout.html.twig' %}
+
+{% block firstName%}
+    {{userName}}
+{% endblock %}
+
+{% block userImage %}
+    <span id='userImageSpan'>
+        <img alt="" src="{{userImagePath}}{{userData.photo}}" class="img-circle img-logout">
+    </span>
+{% endblock %}
+
+{% block body %}
+    <div class="" id="page-wrapper" style="min-height: 863px;">
+        <div class="page-content page-content-ease-in dsp">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title">
+                        <h1>User Profile</h1>  
+                        <input type="hidden" id="currentpage" value="profile">
+                    </div>
+                    <div class="right btn" id="resetPassword"><span class='clickReset'>Reset Password</span></div>
+                </div>                   
+            </div>				
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="clearfix"></div>				
+                        <!-- Widget content -->
+
+                        <div class="row reset-password" style="display:none;">
+                        <div class="col-lg-12">
+                            
+                                <!-- Widget Header -->
+
+                                <div class="widget-head">
+                                    <div class="pull-left">Reset Password</div>					
+                                </div>
+
+                                <!-- Widget Header End-->
+                               				
+                                <!-- Widget content -->
+                                <li id='passwordReset' style="list-style: none;">
+                                    {% include 'VlreleasesUserBundle:User:resetPassword.html.twig' %}
+                                </li>
+                            
+                        </div>
+                    </div>
+                        
+                        <div class="userProfile">
+                            <ul>
+                                <input type="hidden" id="userId" value="{{ userData.emailId }}"/>
+                                <li id='personalProfile'>
+                                    {% include 'VlreleasesUserBundle:UserProfile:personalProfile.html.twig' %}
+                                </li>
+                                <li id='projectProfile'>
+                                    {% include 'VlreleasesUserBundle:UserProfile:projectProfile.html.twig' %}
+                                </li>
+                                <li id='workProfile'>
+                                    {% include 'VlreleasesUserBundle:UserProfile:workProfile.html.twig' %}
+                                </li>
+
+                                <li id='skillProfile'>
+                                    {% include 'VlreleasesUserBundle:UserProfile:skillProfile.html.twig' %}                                            
+                                </li>
+
+                            </ul>
+                        </div>
+                        </form>
+                    </div>
+                    <!-- Widget ends -->
+                </div>
+            </div>				
+        </div>
+    </div>
+                                    
+                                    
+                                    
+{% endblock %}

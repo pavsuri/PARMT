@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Niti</title>    
+    <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+    <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+	<link href="{{cssPath}}morris.css" rel="stylesheet">    
+    <link href="{{cssPath}}style.css" rel="stylesheet">
+    <link href="{{cssPath}}plugins.css" rel="stylesheet">
+    <link href="{{cssPath}}demo.css" rel="stylesheet">
+    <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+	<!--[if (lt IE 9) & (!IEMobile)]>
+	<script src="{{jsPath}}respond.src.js"></script>
+	<![endif]-->
+</head>
+<body class="pace-done">	
+    <div id="wrapper">        
+       <nav role="navigation" class="navbar-top">          
+            <div class="navbar-header">
+                <button data-target=".sidebar-collapse" data-toggle="collapse" class="navbar-toggle pull-right" type="button">
+                    <i class="fa fa-bars"></i> Menu
+                </button>
+                <div class="navbar-brand">
+                    <a href="index.html">
+                        <!--<img height="20" width="172" alt="" class="hisrc img-responsive" src="images/.png">-->
+						<h1>NITI</h1>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-top" >
+                <ul class="nav navbar-left">
+                    <li class="tooltip-sidebar-toggle">
+                        <a title="" data-placement="right" data-toggle="tooltip" id="sidebar-toggle" href="#" data-original-title="Sidebar Toggle">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                    </li>                   
+                </ul>                
+            </div>
+        </nav>
+      
+        <div class="navbar-side" role="navigation">
+            <div class="navbar-collapse sidebar-collapse collapse">               
+                <ul id="side" class="nav navbar-nav side-nav">
+				<li class="side-user hidden-xs">
+					<img class="img-circle" src="{{imagesPath}}profile-pic.jpg" alt="">
+					<p class="welcome">
+						<i class="fa fa-key"></i> Logged in as
+					</p>
+					<p class="name tooltip-sidebar-logout">
+						{% set username = userData.userName|split('.',2) %}
+						<span class="last-name">{{ username[0] }}</span> <a id="open_29188745" data-popup-ordinal="1" style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out" data-toggle="modal" data-target="#myModal"></i></a>
+					</p>
+					<div class="clearfix"></div>
+				</li>
+				<li class="nav-search">
+					<form role="form">
+						<input type="search" placeholder="Search..." class="form-control">
+						<button class="btn">
+							<i class="fa fa-search"></i>
+						</button>
+					</form>
+				</li>
+				<li>
+					<a href="{{path('vlreleases_user_lead')}}" class="active">
+						<i class="fa fa-dashboard"></i> Dashboard
+					</a>
+				</li>
+				<li>
+					<a href={{path('vlreleases_user_dailystatus')}}>
+						<i class="fa fa-files-o"></i> Daily Status Report
+					</a>
+				</li>					
+				</ul>
+            </div>
+        </nav>        
+        <div class="" id="page-wrapper">
+			<div class="page-content page-content-ease-in dsp">
+				<div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-title">
+                            <h1>Task Approval</h1>                            
+                        </div>
+                    </div>                   
+                </div>				
+				
+				<div class="row">
+				<div align="center" style="color:red" id="errors"></div>
+				<div class="col-lg-12">
+					<div class="widget">
+					<div class="clearfix"></div>
+					<!-- Widget content -->
+					<div class="task-approval">
+					<div class="row">
+    					<div class="widget-content" id='taskform'>
+					{% include 'VlreleasesUserBundle:User:approvalForm.html.twig' %}
+                                        </div>						
+					</div>
+					</div>
+					</div>
+					<!-- Widget ends -->
+				</div>
+				</div>
+				<div class="table-responsive" id='taskpendingform'>												
+				</div>
+				<div class="row">
+				<div class="col-lg-12 marbottom"> 
+					<button class="btn btn-green" name="btnApp" id="btnApp" value="Approve">Approve</button>
+					<button class="btn btn-red" name="btnRej" id="btnRej" value="Reject">Reject</button>
+				</div>
+			  </div>
+				</div>
+			</div>
+        </div>	
+			
+<!-- Logout Modal Popup -->
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-customize">    
+	  <div id="logout" >
+        <div class="logout-message">
+            <img alt="" src="{{imagesPath}}profile-pic.jpg" class="img-circle img-logout">
+            <h3>
+                <i class="fa fa-sign-out text-green"></i> Ready to go?
+            </h3>
+            <p>Select "Logout" below if you are ready<br> to end your current session.</p>
+            <ul class="list-inline">
+                <li>
+                    <a class="btn btn-green" href="{{path('vlreleases_user_logout')}}">
+                        <strong>Logout</strong>
+                    </a>
+                </li>
+                <li>
+                    <button class="logout_close btn btn-green" data-dismiss="modal">Cancel</button>
+                </li>
+            </ul>
+        </div>
+    
+    </div>
+  </div>
+</div>
+<!-- Logout Modal Popup -->
+
+<!-- global scripts -->
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script>
+
+$(document).ready(
+	function () {
+	
+
+             $("#usertaskapprovalform_projects").live( "change", function() {
+			    //Done so to reset the value of resources
+                            var val = $("#usertaskapprovalform_projects").val();
+                                 
+                            if (val.length > 0) {
+                                $( "#usertaskapprovalform_resources" ).val('');
+				$('#form_person_edit').ajaxSubmit(function (data) {				  
+					  $('#taskform').html(data);
+				 });
+                            } else {
+                                alert("Select Projects");
+                                $('#taskpendingform').html("");
+                                return false;
+                            }
+				
+			});   
+			
+			$("#usertaskapprovalform_resources").live( "change", function() {
+                                var val = $("#usertaskapprovalform_resources").val();
+                                 
+                            if (val.length > 0) {
+                                    $('#form_person_edit').ajaxSubmit(function (data) {		
+					  $('#taskpendingform').html("");
+					  $('#taskpendingform').html(data);					  
+				 });
+                            } else {
+                                alert("Select Resources");
+                                $('#taskpendingform').html("");
+                                return false;
+                            }				
+			});
+
+			$("#btnApp").live( "click", function() {
+<<<<<<< .mine
+                console.log('Here');
+				var selected = new Array();
+				$("input:checkbox[name=allApprovals[]]:checked").each(function() {              
+                    if($.isNumeric($(this).val())) {
+                        selected.push($(this).val());					
+                    }
+					
+=======
+                var selected = new Array();
+				$("input:checkbox[name=allApprovals[]]:checked").each(function() {              
+                    if($.isNumeric($(this).val())) {
+                        selected.push($(this).val());					
+                    }
+					
+>>>>>>> .r213
+				});
+				var project = $("#usertaskapprovalform_projects").val();
+				var resource = $("#usertaskapprovalform_resources").val();
+				
+				if ((project == "" && project <=0) || (resource == "" && resource <= 0))
+				{
+					setMessages("you did not select a project or resource");
+					return false;
+				}
+				
+				if (selected.length <= 0)
+				{
+					setMessages("Select to approve/reject");
+					return false;
+				}
+							
+				$.post(
+					'{{path('vlreleases_user_updateapprovals')}}',{approvals:selected,status:'approved',projectId:project,resourceId:resource}, function (data) {
+							$('#taskpendingform').html('');
+							$('#taskpendingform').html(data);
+							setMessages("Selected tasks  were approved successfully");
+						}
+                    );
+			});
+			
+            $("#allcheckboxes_id").live( "click", function() {
+                var totalrows = $("#counts_id").val();
+                for (var i=0; i < totalrows; i++ ) {
+                    var setid = '#checkbox_'+i;
+                    if (this.checked == true) {
+                        $(setid).prop('checked', true);
+                    } else {
+                        $(setid).prop('checked', false);
+                    }
+                    
+                }    
+                });
+                
+            
+			$("#btnRej").live( "click", function() {
+				var selected = new Array();
+				$("input:checkbox[name=allApprovals[]]:checked").each(function() {
+					selected.push($(this).val());					
+				});
+				var project = $("#usertaskapprovalform_projects").val();
+				var resource = $("#usertaskapprovalform_resources").val();
+				
+				if ((project == "" && project <=0) || (resource == "" && resource <= 0))
+				{
+					setMessages("you did not select a project or resource");
+					return false;
+				}
+				
+				
+				if (selected.length <= 0)
+				{
+					setMessages("Select to approve/reject");
+					return false;
+				}
+				
+				
+				$.post(					'{{path('vlreleases_user_updateapprovals')}}',{approvals:selected,status:'rejected',projectId:project,resourceId:resource}, function (data) {
+							$('#taskpendingform').html('');
+							$('#taskpendingform').html(data);
+							setMessages("Selected tasks  were rejected successfully");
+						}
+                    );
+			});
+	}
+);
+
+function setMessages(message)
+{
+	$("#errors").html("");
+	$("#errors").html(message);	
+}
+</script>
+</body>
+</html>

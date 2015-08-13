@@ -1,0 +1,80 @@
+<form id='workdetailsform' action='{{path('vlreleases_user_profile_handleWorkProfileData')}}' method='POST'>
+
+    <div class="userTitle"><a href="javascript:void(0)">Work<span class="pull-right"><i class="iconChange fa fa-sort-down"></i></span></a></div>
+    <div class="userHolder">
+            {% if not userWorkProfileForm.vars.valid %}
+            <div class="row error-div">
+
+                  <div class="col-lg-12">
+                          <div class="alert alert-error">
+                            {{ form_errors(userWorkProfileForm.department) }}
+                            {{ form_errors(userWorkProfileForm.designation) }}
+                            {{ form_errors(userWorkProfileForm.band) }}        
+                            {{ form_errors(userWorkProfileForm.workStation) }}    
+                            {{ form_errors(userWorkProfileForm.extensionNumber) }}
+                            {{ form_errors(userWorkProfileForm.dateOfJoining) }}   
+                            {{ form_errors(userWorkProfileForm.systemIp) }}
+                            {{ form_errors(userWorkProfileForm.systemId) }}
+                            {{ form_errors(userWorkProfileForm.assetTag) }}
+                            {{ form_errors(userWorkProfileForm.totalExperience) }}
+                            </div>
+
+                   </div>
+
+            </div>
+            {% endif %}
+            <div class="row">
+            <div class="col-lg-3"> 
+                {{ form_widget(userWorkProfileForm.department, { 'attr': {'class': 'form-control','placeholder': 'Select Department'}}) }}
+            </div>                                                            
+            <div class="col-lg-3">
+
+                {{ form_widget(userWorkProfileForm.designation, { 'attr': {'class': 'form-control','placeholder': 'Select Designation'}}) }}
+            </div>
+            <div class="col-lg-3">
+
+                {{ form_widget(userWorkProfileForm.band, { 'attr': {'class': 'form-control','placeholder': 'Select Designation'}}) }}
+            </div>
+            <div class="col-lg-3">
+
+                {{ form_widget(userWorkProfileForm.workStation, { 'attr': {'class': 'form-control','placeholder': 'Work Station'}}) }}
+            </div>							
+            <div class="col-lg-3">
+
+                {{ form_widget(userWorkProfileForm.extensionNumber, { 'attr': {'class': 'form-control','placeholder': 'Ext.No'}}) }}
+            </div>
+            <div class="col-lg-3">   
+
+                    <div id="dateofjoin" class="input-append">							
+                    <span class="add-on">
+                        {{ form_widget(userWorkProfileForm.dateOfJoining, { 'attr': {'id':'datePicker','data-format':'yyyy-MM-dd','class': 'form-control','placeholder': 'Date of Joining'}}) }}                                                                    
+
+
+                    <i class="fa fa-calendar icon-calendar"></i>
+                    </span>
+                    </div>
+            </div>
+            <div class="col-lg-3">
+
+                {{ form_widget(userWorkProfileForm.systemIp, { 'attr': {'class': 'form-control','placeholder': 'System IP'}}) }}
+            </div>
+            <div class="col-lg-3">
+
+            {{ form_widget(userWorkProfileForm.systemId, { 'attr': {'class': 'form-control','placeholder': 'System Login ID'}}) }}                                                            
+            </div>
+            <div class="col-lg-3">  
+
+            {{ form_widget(userWorkProfileForm.assetTag, { 'attr': {'class': 'form-control','placeholder': 'VL Asset Tag'}}) }}                                                            
+            </div>
+            <div class="col-lg-3">
+
+             {{ form_widget(userWorkProfileForm.totalExperience, { 'attr': {'class': 'form-control','placeholder': 'Total Years of Experience'}}) }}                                                            
+            </div>
+            <div class="col-lg-3">							
+            <input type="button" class="btn btn-green" name="btnworkAdd" id="btnworkAdd" value="Add">
+            <span  id='spinnerWorkProfile' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+            </div>
+            </div>
+    </div>
+    {{ form_rest(userWorkProfileForm) }}
+                </form>

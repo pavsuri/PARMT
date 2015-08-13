@@ -1,0 +1,36 @@
+{% if(userData.rolePermission.getView == 'true') %}
+<div class="profileTable">
+        <div class="table-responsive">
+         <table class="table table-bordered table-striped">
+            <thead class="table-head">
+                 <tr>
+                     <th>S.No</th>
+                     <th>Holiday Name</th>
+                     <th>Holiday Date</th> 
+                     {% if(userData.rolePermission.getEdit == 'true') %}
+                         <th>Delete</th>                     
+                         <th>Edit</th>
+                     {% endif %}
+                 </tr>
+             </thead>
+             <tbody>
+             {#{% if(userData.rolePermission.getView == 'true') %}#}
+                 {% set counter = 1 %}
+                 {% for resNames in holidaysData %}
+                     <tr>
+                         <td>{{ counter }}</td>
+                         <td>{{ resNames.getHolidayName }}</td>
+                         <td>{{ resNames.getHolidayDate }}</td> 
+                         {% if(userData.rolePermission.getEdit == 'true') %}
+                             <td class="dlEdit holidayDelete" holidayId="{{ resNames.id }}">delete</td>
+                             <td class="dlEdit holidayEdit" value="{{ resNames.id }}+{{resNames.getHolidayName}}+{{resNames.getHolidayDate}}">edit</td>                         
+                         {% endif %}
+                     </tr>
+                     {% set counter = counter + 1 %}
+                 {% endfor %} 
+                 {#{% endif %}#}
+            </tbody>
+         </table>
+     </div>
+</div>
+{% endif %}

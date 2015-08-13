@@ -1,0 +1,15 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="liveapps" name="Vlreleases\UserBundle\Entity\LiveApps">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="os" column="os" type="string"/>
+        <field name="appName" column="appname" type="string"/>
+        <field name="version" column="version" type="string"/>
+        <field name="appLink" column="applink" type="string"/>        
+    </entity>
+</doctrine-mapping>

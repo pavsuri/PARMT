@@ -1,0 +1,13 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="platforms" name="Vlreleases\UserBundle\Entity\Platforms">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>        
+        <field name="platformName" column="platformname" type="string"/>
+        <field name="status" column="status" type="boolean"/>
+    </entity>
+</doctrine-mapping>

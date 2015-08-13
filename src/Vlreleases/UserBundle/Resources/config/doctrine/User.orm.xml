@@ -1,0 +1,70 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="users" name="Vlreleases\UserBundle\Entity\User" repository-class="Vlreleases\UserBundle\Entity\UserRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="userName" column="username" type="string" length="100"/>
+        <field name="password" column="password" type="string" length="100"/>
+        <field name="email" column="email" type="string"/>
+        <field name="status" column = "status" type="boolean" />
+        <field name="workExperience" column="total_workexp" type="string" length="100"/>
+        <many-to-many field="projects" inversed-by="users" target-entity="Vlreleases\UserBundle\Entity\Project">
+            <join-table name="user_projects">
+                <join-columns>
+                    <join-column name="user_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="project_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        
+        <!--Added to get the Roles for the users-->
+        <one-to-one field="role" target-entity="Vlreleases\UserBundle\Entity\Role">
+            <join-column name="role_id" referenced-column-name="id" />
+        </one-to-one>
+        
+        <!--Added to get the types for the users-->
+        <one-to-one field="type" target-entity="Vlreleases\UserBundle\Entity\Type">
+            <join-column name="type_id" referenced-column-name="id" />
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-one>
+        
+        <many-to-many field="reportingPersons" target-entity="Vlreleases\UserBundle\Entity\User">
+            <join-table name="user_reporting">
+                <join-columns>
+                    <join-column name="reporting_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="user_id" referenced-column-name="id" unique="true"/>
+                </inverse-join-columns>
+            </join-table>
+
+        </many-to-many>
+        
+        <one-to-many field="tasks" target-entity="Vlreleases\UserBundle\Entity\UserTask" mapped-by="user" />
+        
+        <one-to-one field="personalProfile" target-entity="Vlreleases\UserBundle\Entity\UserPersonalProfile">
+            <join-column name="user_personal_profile_id" referenced-column-name="id" />
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-one>
+        
+        <one-to-one field="workProfile" target-entity="Vlreleases\UserBundle\Entity\UserWorkProfile">
+            <join-column name="user_work_profile_id" referenced-column-name="id" />
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-one>
+        
+        <one-to-many  field="skills" target-entity="Vlreleases\UserBundle\Entity\UserSkills" mapped-by="user" />
+        
+    </entity>
+</doctrine-mapping>

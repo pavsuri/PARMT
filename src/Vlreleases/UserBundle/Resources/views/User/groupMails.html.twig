@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">        
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            <div class="" id="page-wrapper">
+                <div class="page-content page-content-ease-in">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Group Mails List</h1>                            
+                            </div>
+                        </div>                   
+                    </div>
+                    <div id="grpResult">
+                        {% if userData.testmail == 1 %}
+                            Test mail has been sent to its members successfully..
+                            {% endif %}
+                            <script>
+                                setTimeout(function () {
+                                    $("#grpResult").fadeOut(1000);
+                                     $("#grpResult").html('');
+                                $("#grpResult").fadeIn();
+                                }, 3000)
+                            </script>
+                    </div>
+                    {% if(userData.rolePermission.getAdd == 'true') %}
+                        <div class="right btn clickGroupMailBut" id="addGroupMail">
+                            <i class="fa fa-plus"></i>
+                            <span class='clickHoliday'>Add Group Email</span>
+                        </div>    
+                    {% endif %}
+                     <div id='resultMailFlag' class="clearfix"></div>     
+                    <div class="row app-register">
+                        <div class="col-lg-12">
+                            <div class="widget" id="groupMailList">
+                                <!-- Widget Header -->
+
+                                <div class="widget-head">
+                                    <div class="pull-left">Add Group Mail Details</div>					
+                                </div>
+
+                                <!-- Widget Header End-->
+                                <div class="clearfix"></div>				
+                                <!-- Widget content -->
+                                <li id='addholidays' style="list-style: none;">
+                                    {% include 'VlreleasesUserBundle:User:addGroupMailDetails.html.twig' %}
+                                </li>
+                            </div>
+                        </div>
+                                                                                              
+                    </div>
+                    <div id="ajaxGroupMails">
+                             {% include 'VlreleasesUserBundle:User:displaygroupmailsList.html.twig' %}
+                        </div>
+                    <br>
+                    
+
+<!-- global scripts-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<!--<script src="{{jsPath}}chart-demo.js"></script> -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+
+<script>
+        $(document).ready(function (){
+            var listUsers = [];
+             $("#groupMailList").css('display','none');                
+           $(".clickGroupMailBut").click(function(){
+                $("#groupMailList").toggle();
+           });
+           
+           //get user Email
+        $('input.groupusertypeahead').typeahead({
+            ajax: {url: '{{path('vlreleases_user_profile_getReportingLead')}}',
+                triggerLength: 3,
+                preDispatch: function (query) {
+
+                     $('#spinnerUserLoad').show();
+                },
+            preProcess: function (data) {$('#spinnerUserLoad').hide(); return data;},
+            },
+
+        }); 
+
+        //storing the users when click on add button to a temporary arry
+        $("body").on('click','#addUser',function(e) {            
+            e.preventDefault();
+            var curValue = $("#groupuseremailid").val();
+            if($.inArray(curValue,listUsers) != -1)
+            {
+                alert("User already added in group");
+                return false;                
+            }
+            else
+            {
+                listUsers.push($("#groupuseremailid").val());
+                $("#groupuseremailid").val('');            
+                showUsers(listUsers);
+            }
+           
+        });
+        
+        //save the group members email ids
+        $("body").on('click','#registerGroup',function() {           
+            grpEmail = $("#grpmailid").val();
+             $.ajax({
+                    type: "POST",
+                    url: "{{ path('vlreleases_groupMails_registerGroupMail') }}",
+                    cache: false,
+                    data: {gEmail: grpEmail, mailsArray:listUsers },
+                    success: function (result) {
+                        var arr = result.split('+');                        
+                            $("#showUsers").html('');
+                            $("#grpmailid").val('');
+                        if(arr[0] == 0)                        
+                             $("#grpResult").html("<div>Group email already existed</div>"); 
+                         
+                        else                                                    
+                            $("#grpResult").html("<div>Group created successfully</div>");                        
+                       
+                       setTimeout(function () {
+                                     $("#grpResult").fadeOut(1000);
+                                     $("#grpResult").html('');
+                                 $("#grpResult").fadeIn(); 
+                                 }, 3000)
+                                  
+                                listUsers =[];
+                                $("#ajaxGroupMails").html(result); 
+                    }
+                });
+           return false; 
+        });
+        
+        function showUsers(userList){
+        
+        //emptying html
+        $("#showUsers").html('');
+        for(var index in userList){
+                var html = "<P> <i class='fa fa-trash-o btn btn-green deleteGroupMember' value='"+index+"'></i>&nbsp;<span>"+userList[index]+"</span></p>"
+                $("#showUsers").append(html);
+            }
+                               
+        }
+         
+        //delete the group members email ids
+        $("body").on('click','.deleteGroupMember',function(e) {
+            
+             var index = $(this).attr('value');
+             listUsers.splice(index,1);
+             showUsers(listUsers);
+        });
+        
+        //edit emailGroup
+        $("body").on('click','#EditGrp',function(){
+             
+            gId = $(this).attr('grpId');
+            $("#registerGroup").remove();
+            var update = "<input id='editGroup' class='btn btn-green' type='submit' value='Update' name='updatesubmit'>";
+            $('.addGroupView').prepend(update);
+            $.ajax({
+                    type: "POST",
+                    url: "{{path('vlreleases_groupMails_editGroupEmail')}}",
+                    cache: false,
+                    data: {grpId: gId},
+                    success: function (result) {
+                            if(result == '') {                        
+                                $("#grpResult").html("Group is empty");
+                                setTimeout(function () {
+                                    $("#grpResult").fadeOut(1000);
+                                    $("#grpResult").html('');
+                                     $("#grpResult").fadeIn(); 
+                                     }, 3000)
+                            } else {
+                                 $("#groupMailList").show();
+                            var response = JSON.parse(result);
+
+                            $("#showUsers").html('');
+                            $("#grpmailid").val(response[0].groupEmail);
+
+                            for(var key in response)                        
+                            {  
+                                listUsers.push(response[key].email);                             
+                            }
+                            showUsers(listUsers);                                            
+                        }
+                    }
+                       
+                });
+        });
+        
+        //update the edited group
+         $("body").on('click','#editGroup',function(){        
+             grpEmail = $("#grpmailid").val();
+              $.ajax({
+                    type: "POST",
+                    url: "{{ path('vlreleases_groupMails_updateGroupMail') }}",
+                    cache: false,
+                    data: {gEmail: grpEmail, mailsArray:listUsers },
+                    success: function (result) {
+                        $("#showUsers").html('');
+                        $("#grpmailid").val('');
+                         $("#grpResult").html("<div>Group updated successfully</div>");                                                                         
+                       setTimeout(function () {
+                                $("#grpResult").fadeOut(1000);
+                                $("#grpResult").html('');
+                                 $("#grpResult").fadeIn(); 
+                                 }, 3000)
+                                  
+                                listUsers =[];
+                                $("#ajaxGroupMails").html(result);
+                                 $("#editGroup").remove();
+                                var add = "<input id='registerGroup' class='btn btn-green' type='submit' value='Save' name='submit'>";
+                                $('.addGroupView').prepend(add); 
+                                $("#groupMailList").hide();                                
+                            }
+                });
+           return false; 
+         });
+        
+        //delete the groupEmail
+        $("body").on('click','#deleteGrp',function(){
+            gId = $(this).attr('grpId');
+             $.ajax({
+                    type: "POST",
+                    url: "{{path('vlreleases_groupMails_deleteGroup')}}",
+                    cache: false,
+                    data: {grpId: gId},
+                    success: function (result) {                                                     
+                               $("#grpResult").html("<div>GroupEmail deleted successfully</div>");
+                               $("#ajaxGroupMails").html(result);                                                    
+                           setTimeout(function () {
+                                         $("#grpResult").fadeOut(1000);
+                                          $("#grpResult").html('');
+                                     $("#grpResult").fadeIn();
+                                     }, 3000)
+                                
+                        }
+                });
+        });
+        
+    });
+</script>
+</body>
+</html>
+

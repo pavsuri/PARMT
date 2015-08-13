@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/UserProfile/personalProfile.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Controller/UserController.php</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/Layout/deviceLayout.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Controller/ProductsController.php</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/MobileDevice/productsList.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Controller/UserDailyStatusController.php</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Controller/UploadController.php</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/MobileDevice/takeAsset.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/User/liveApps.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Entity/UploadedFiles.php</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/Layout/profileLayout.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Services/UserService.php</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/User/uploadFile.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/MobileDevice/displayProductList.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/User/mailUserReport.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/User/projectsList.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/User/actions.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/MobileDevice/takeAssetSearchList.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/config/doctrine/UploadedFiles.orm.xml</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/views/MobileDevice/takeAssetSearch.html.twig</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Entity/UserTaskRepository.php</file>
+            <file>file:/D:/wamp/www/Vl-releases2/src/Vlreleases/UserBundle/Resources/config/routing.yml</file>
+        </group>
+    </open-files>
+</project-private>

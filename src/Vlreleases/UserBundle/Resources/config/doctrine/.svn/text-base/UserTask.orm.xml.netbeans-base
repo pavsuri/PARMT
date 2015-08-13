@@ -1,0 +1,29 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="user_task" name="Vlreleases\UserBundle\Entity\UserTask" repository-class="Vlreleases\UserBundle\Entity\UserTaskRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="duration" column = "duration_of_task" type="integer"/>
+        <field name="status" column = "status" type="string"  />
+		<field name="date"   column = "date" type="date"/>
+        <field name="description" column = "task_description" type="string" length="150" />
+        <field name="time" column = "updated_time" type="datetime"  />
+        
+        <many-to-one field="user" target-entity="vlreleases\UserBundle\Entity\User" inversed-by="tasks">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <many-to-one field="project" target-entity="Vlreleases\UserBundle\Entity\Project">
+            <join-column name="project_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <many-to-one field="activity" target-entity="Vlreleases\UserBundle\Entity\Activity">
+            <join-column name="activity_id" referenced-column-name="id" />
+        </many-to-one>
+        
+  </entity>
+</doctrine-mapping>

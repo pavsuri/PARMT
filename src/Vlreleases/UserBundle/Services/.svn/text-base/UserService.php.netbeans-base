@@ -1,0 +1,187 @@
+<?php
+namespace Vlreleases\UserBundle\Services;
+
+use Doctrine\ORM\EntityManager;
+
+class UserService 
+{
+    private $session;
+    
+    private $userId;
+    
+    private $repository;
+    
+    private $currentUser;
+    
+    private $userTaskRepository;
+    
+    private $resourceIds = array();
+    
+    private $userProjectIds = array();
+    
+    /**
+     * Constructor
+     */
+	 
+	public function __construct($em, $session)
+    {
+        $this->repository = $em->getRepository('VlreleasesUserBundle:User');
+        $this->session = $session;        
+        $this->userId = $this->session->get('userId');
+        $this->currentUser = $this->getCurrentUser();
+        $this->userTaskRepository = $em->getRepository('VlreleasesUserBundle:UserTask');
+    }
+    
+    public function getCurrentUser()
+    {
+        return $this->repository->findOneById($this->userId);
+    }
+    
+    public function isValidUser($email, $password) 
+    {
+        $currentUser = $this->repository->findOneBy(array('email' => $email,'password' => md5($password)));
+        
+        return $currentUser;
+    }
+
+	public function findOneById($user) 
+    {
+        $currentUser = $this->repository->findOneById($user);
+        return $currentUser;
+    }
+    
+    public function getProjects() 
+    {
+        return $this->getCurrentUser()->getProjects();
+    }
+    
+    public function getResources()
+    {
+        return $this->getCurrentUser()->getReportingPersons();
+    }
+    
+    public function getResourceCountPerProject($projectId)
+    {
+        $resources = $this->getResources();
+        $data = array();
+        
+        if ($projectId > 0) {
+            if (count($resources) > 0) {
+                foreach ($resources as $resource) {
+                    if (count($resource->getProjects()) > 0) {
+                        foreach ($resource->getProjects() as $project) {
+                            if ($project->getId() == $projectId) {
+                                $data[] = $resource->getId();
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            $data = $resources;
+        }
+
+        return count($data);
+    }
+    
+    private function setResourceIds()
+    {
+        if (count($this->resourceIds) == 0) {
+            foreach ($this->getResources() as $resource) {
+                $this->resourceIds[] = $resource->getId();
+            }
+        }
+    }
+    
+    private function setUserProjectIds()
+    {
+        if (count($this->userProjectIds) == 0) {
+            foreach ($this->getProjects() as $project) {
+                $this->userProjectIds[] = $project->getId();
+            }
+        }
+    }
+
+    public function getResourceHours($projectId)
+    {
+        $this->setUserProjectIds();
+        $this->setResourceIds();
+       
+        if ($projectId) {
+            $currentUserPojectIds = $projectId;
+        } else {
+            $currentUserPojectIds = implode($this->userProjectIds, ',');
+        }
+        
+        $resourceIds = implode($this->resourceIds, ',');
+        
+        $hours = $this->userTaskRepository->getResourceHours($resourceIds, $currentUserPojectIds);
+        return $hours['duration'];
+    }
+    
+    public function getResourceHoursPerDate($projectId)
+    {
+        $this->setUserProjectIds();
+        $this->setResourceIds();
+        
+        if ($projectId) {
+            $currentUserPojectIds = $projectId;
+        } else {
+            $currentUserPojectIds = implode($this->userProjectIds, ',');
+        }
+        
+        $resourceIds = implode($this->resourceIds, ',');
+        
+        $results = $this->userTaskRepository->getResourceHoursPerDate($resourceIds, $currentUserPojectIds);
+        $data = array();
+        
+        foreach ($results as $result) {
+           $data[] = array('date' => $result['date']->format('Y-m-d'),'hours' => round($result['duration']));
+        }
+        return json_encode($data);
+    }
+    
+    public function getPendingApprovals($status, $projectId)
+    {
+        $this->setUserProjectIds();
+        $this->setResourceIds();
+        
+        if ($projectId) {
+            $currentUserPojectIds = $projectId;
+        } else {
+            $currentUserPojectIds = implode($this->userProjectIds, ',');
+        }
+        
+        $resourceIds = implode($this->resourceIds, ',');
+        $result = $this->userTaskRepository->getPendingApprovals($resourceIds, $currentUserPojectIds, $status);
+        return $result;
+    }
+	
+	
+    public function getResourcesPerProject($projectId)
+    {
+        $resources = $this->getResources();
+		
+        $data = array();
+        
+        if ($projectId > 0) {
+            if (count($resources) > 0) {
+                foreach ($resources as $resource) {
+                    if (count($resource->getProjects()) > 0) {
+                        foreach ($resource->getProjects() as $project) {
+                            if ($project->getId() == $projectId) {
+                                $data[] = array("id" => $resource->getId(), "name" => $resource->getUserName());
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            $data = $resources;
+        }
+		
+		
+        return $data;
+    }
+}
+?>

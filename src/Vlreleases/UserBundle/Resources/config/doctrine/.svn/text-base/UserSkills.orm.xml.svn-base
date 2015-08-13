@@ -1,0 +1,22 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="user_skills" name="Vlreleases\UserBundle\Entity\UserSkills" inheritance-type="SINGLE_TABLE">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>  
+
+        <discriminator-column name="skill_type" type="integer" />
+        <discriminator-map>
+            <discriminator-mapping value="1" class="Vlreleases\UserBundle\Entity\UserSkill" />
+            <discriminator-mapping value="2" class="Vlreleases\UserBundle\Entity\UserCustomSkill" />
+        </discriminator-map>
+        
+        <many-to-one field="user" target-entity="vlreleases\UserBundle\Entity\User" inversed-by = "skills">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+               
+    </entity>
+</doctrine-mapping>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>NITI</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper"> 
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            
+            <div class="" id="page-wrapper">
+                <div class="page-content page-content-ease-in dsp">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Daily Status Report</h1>                            
+                            </div>
+                            <div id = 'idDateErrorMessage' style="color: red">
+                                {{userData.errorMessage}}  
+                            </div>
+                        </div>                   
+                    </div>
+                    <form action={{path('vlreleases_user_dailystatus')}} method='POST' id='savehours'>	
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div id="datepicker" class="input-append">							
+                                    <span class="add-on">
+                                        {% set selectedDate = "now"|date("Y-m-d") %}
+                                        {% if app.request.get('selectedDate') %}
+                                            {% set selectedDate =  app.request.get('selectedDate')%}
+                                        {% endif %}   
+
+                                        <input data-format="yyyy-MM-dd" type="text" value="{{selectedDate}}" name="selectedDate" id="statusDatePicker" class="form-control " placeholder="Select Date"></input>
+
+                                    </span>
+                                </div>
+                            </div>               
+                        </div>
+                        <div>
+
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="widget">
+                                    <div class="clearfix"></div>				
+                                    <!-- Widget content -->
+
+                                    <div class="widget-content">				
+                                        <div class="addTextBoxDiv">
+                                            <div class="addTask">
+                                                <div class="row">
+                                                    <div class="col-lg-3">                               
+                                                        <select class="form-control" name="project[]" id="selProject">
+                                                            <option value=0>Select Project</option>
+                                                            {% for project in userData.projects %}
+                                                                <option value= {{ project.getId }}>{{ project.getName }}</option>
+                                                            {% endfor %}       
+                                                        </select> 
+                                                    </div>
+                                                    <div class="col-lg-3">                               
+                                                        <select class="form-control" name="activity[]" id="selActivity">
+                                                            <option value=0>Select Activity</option>
+                                                            {% for activity in userData.activities %}
+                                                                <option value={{ activity.getId }}>{{ activity.getName }}</option>
+                                                            {% endfor %}
+                                                        </select> 
+                                                    </div>
+                                                    <div class="col-lg-1"> 
+                                                        <i class="changeIcon fa fa-plus-circle"></i>	
+                                                    </div>
+                                                </div>
+
+                                                <div class="row ">
+                                                    <div class="col-lg-6"> 
+                                                        <input type="text" id="task" name="task[]" class="form-control" placeholder="Task">
+                                                    </div>							
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-3">						
+                                                        <div id="timepicker" class="input-append date">
+                                                            <span class="add-on">									
+                                                                <input data-format="hh:mm" type="text" name="totalHours[]" id="totalHours" class="form-control" placeholder="Total Hours">
+                                                                <i class="fa fa-clock-o"></i>
+                                                            </span>
+                                                        </div>								
+                                                    </div>							
+                                                </div>
+                                                <input type ="hidden" id = "taskId" name = "taskId">
+                                            </div>
+                                            <div class="remove"></div>
+                                            <div class="row">
+                                                <div class="col-lg-12"> 
+                                                    <button class="btn btn-green pull-right" name="btnSave" id="btnSave">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>					
+                                    </div>
+                                    </form>
+                                </div>
+                                <!-- Widget ends -->
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            {% if userData.userDailyStatusData %}
+                                <table id='userStatusTable' class="table table-bordered table-striped">
+                                    <colgroup>					
+                                        <col class="col-xs-5">
+                                        <col class="col-xs-1">
+                                        <col class="col-xs-1">
+                                        <col class="col-xs-1">
+                                    </colgroup>
+                                    <thead id='userStatusTableHeader' class="table-head">
+                                        <tr>
+                                            <th>Task</th>
+                                            <th>Hours</th>
+                                            <th>Status</th>
+                                            <th id='actionHolder'>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in range(0, userData.userDailyStatusData|length - 1) %}
+                                            <tr id="userdata_{{userData.userDailyStatusData[i].id}}">
+                                                <td>
+                                                    {{userData.userDailyStatusData[i].description}} <span class="badge badge-pro">{{userData.userDailyStatusData[i].project}}</span>
+                                                </td>     
+                                                <td>{{userData.userDailyStatusData[i].totalhours}}</td>
+                                                <td>{{userData.userDailyStatusData[i].hourStatus}}</td>
+                                                {% if userData.userDailyStatusData[i].hourStatus == 'Saved' or userData.userDailyStatusData[i].hourStatus == 'Rejected'%}
+                                                    <td>
+                                                        <a class='editTask' href="javascript:void(0)" id="{{userData.userDailyStatusData[i].id}}">Edit</a>
+                                                        |
+                                                        <a class='deleteTask' href="javascript:void(0)" id="{{userData.userDailyStatusData[i].id}}">Delete</a>
+                                                    </td>
+                                                {% else %}
+                                                    <td id='actionDataHolder'>-</td>
+                                                {% endif %}
+
+                                            </tr>   
+                                        {% endfor %} 
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}           
+
+
+
+                </div>
+                <div class="row" id='submithourbutton'>
+                    <div class="col-lg-12 marbottom">
+
+                        <button class="btn btn-green" name="btnSub" id="submitHours">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>	
+
+<!-- global scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<!--<script src="{{jsPath}}chart-demo.js"></script> -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+<script>
+    var hours_data;
+    $(document).ready(
+            
+            function () {
+                $(document).on('click', '.editTask', 
+                        function () {
+                            id = $(this).attr('id');
+                            if (id) {
+                                $.post(
+                                  '{{path('vlreleases_user_dailystatus')}}',{userTaskId:id}, function (data) {
+                                        $('#selProject').val(data.projectId);
+                                        $('#selActivity').val(data.activityId);
+                                        $('#task').val(data.description);
+                                        $('#totalHours').val(data.duration);
+                                        $('.changeIcon').hide();
+                                        $('#taskId').val(id);
+                                  }
+                                );
+                            }
+                        }
+                ); 
+  
+                $(document).on('click', '.deleteTask',
+                        function () {
+                            id = $(this).attr('id');
+                            if (id) {
+                                $.post(
+                                  '{{path('vlreleases_user_dailystatus_delete')}}',{userTaskId:id}, function (data) {
+                                      var deleteRow = 'userdata_'+id;
+                                                                           
+                                      if (data.status) {
+                                          $('#'+deleteRow).remove();
+                                          var rowCount = $('#userStatusTable tr').length;
+                                          if (rowCount == 1) {
+                                              $('#userStatusTableHeader').remove();
+                                              $('#submithourbutton').hide();
+                                          }
+                                              
+                                      }
+
+                                      
+                                  }, 'json'
+                                );
+                            }
+                        }
+                );
+                
+                $('#submitHours').click(
+                    function (event) {
+                        event.preventDefault();
+                        url = "{{path('vlreleases_user_dailystatus_submithours')}}"+"?status=pending&selectedDate="+$('#statusDatePicker').val();
+                        $(location).attr('href',url);
+                    }
+                );
+
+                $(document).on('blur', '#statusDatePicker',
+                   function () {
+                    $('#idDateErrorMessage').html("");   
+                    var selectedDate = $('#statusDatePicker').val();
+                    var selDate = new Date(selectedDate);
+                    var toDay = new Date();
+                    var today = new Date();
+                    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+                        if (selDate > toDay) {
+                            $('#idDateErrorMessage').html("Date connot be in future");
+                            $('#idDateErrorMessage').css("color", "red");
+                            $('.widget-content').hide();
+                            $('#submithourbutton').hide();
+                            $('.table-responsive').hide();
+                        }
+                        else if(selDate < lastWeek)
+                        {
+                            
+                             $('#idDateErrorMessage').html("Status report can be send upto previous week only");
+                            $('#idDateErrorMessage').css("color", "red");
+                            $('.widget-content').hide();
+                            $('#submithourbutton').hide();
+                            $('.table-responsive').hide();
+                        }
+                        else {
+                            $('#idDateErrorMessage').html("");
+                            $.post(
+                                  '{{path('vlreleases_user_dailystatus')}}',{'type':'ajax', 'selectedDate':selectedDate}, 
+                                    function (data) {
+                                        $('.table-responsive').html(data.data);
+                                        $('.table-responsive').show();
+                                        if (data.hideSaveOption) {
+                                            $('.widget-content').hide();
+                                            $('#submithourbutton').hide();
+                                            
+                                        }else{
+                                           $('.widget-content').show();
+                                           if(data.hideSubmitOption){                                            
+                                             $('#submithourbutton').hide();  
+                                           }else{
+                                             $('#submithourbutton').show(); 
+                                           }
+                                       }
+                                   }, 'json'
+                            );
+                        }
+                        
+                   }
+                );
+                
+                $('#btnSave').click(
+                    function (event) {
+                        var isValidText = false;
+                        var isValidDropdown = false;
+                      event.preventDefault();
+                      $('div').find('input:text')
+                      .each(function() {
+                       var value = $(this).val();
+                       id = $(this).attr('id');
+                       if (value == '') {
+                           isValidText = false;
+                           $('#'+id).css('border', '1px solid red')
+                       } else {
+                           isValidText = true;
+                           $('#'+id).css('border', '1px solid #ccc')
+                       }
+                         });    
+                         
+                      $('div').find('select')
+                      .each(function() {
+                       var selectValue = $(this).val();
+                       
+                       dropDownId = $(this).attr('id');
+                       
+                       if (selectValue == 0) {
+                           isValidDropdown = false;
+                           $('#'+dropDownId).css('border', '1px solid red')
+                       } else {
+                           $('#'+dropDownId).css('border', '1px solid #ccc')
+                           isValidDropdown = true;
+                       }
+                         }); 
+                         
+                         if (isValidText && isValidDropdown) {
+                              var formId = 'savehours';
+                              var action = $('form#'+formId).attr('action');
+                              postData = $('form#' + formId).serialize();
+                              var date = $('#statusDatePicker').val();                              
+                              $.post(action, postData, function(data) {
+                                        $("#"+formId)[0].reset();
+                                        $('#taskId').val('');
+                                        $('#statusDatePicker').val(date);
+                                        $('.table-responsive').html(data.data);
+                                        $('.table-responsive').show();
+                                        $(".remove").slideUp();	
+                                        if (data.hideSaveOption) {
+                                            $('.widget-content').hide();
+                                            $('#submithourbutton').hide();
+                                            }else{
+                                           $('.widget-content').show();
+                                           if(data.hideSubmitOption){                                            
+                                             $('#submithourbutton').hide();  
+                                           }else{
+                                             $('#submithourbutton').show(); 
+                                           }
+                                       }
+                              });
+                         }
+                    }
+                ); 
+
+
+                var hideSaveOption = '{{userData.hideSaveOption}}';
+                var hideSubmitOption = '{{userData.hideSubmitOption}}';
+                if(hideSubmitOption){
+                   $('#submithourbutton').hide();
+                }else{
+                   $('#submithourbutton').show();
+                }
+                if (hideSaveOption) {
+                    $('.widget-content').hide();
+                    $('#submithourbutton').hide();
+                    }
+               
+                $(".hoverId").hover(function(){
+                $("#subMenu").css("display","block");
+               }, function(){
+                    $("#subMenu").css("display","none");
+                });
+                            
+                 $(".hoverId1").hover(function(){
+                $("#subMenu1").css("display","block");
+               }, function(){
+                    $("#subMenu1").css("display","none");
+                });
+            }
+    );
+   
+    
+</script>
+</body>
+</html>

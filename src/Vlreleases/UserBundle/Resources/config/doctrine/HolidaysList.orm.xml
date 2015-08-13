@@ -1,0 +1,13 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="holidays" name="Vlreleases\UserBundle\Entity\HolidaysList">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>        
+        <field name="holidayName" column = "holidayname" type="string"/>
+        <field name="holidayDate" column = "holidaydate" type="string"/>
+    </entity>
+</doctrine-mapping>

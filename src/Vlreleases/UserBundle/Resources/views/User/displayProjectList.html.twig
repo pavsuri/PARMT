@@ -1,0 +1,74 @@
+<div id="ajaxproject">
+<form id='displayProjectListform' action='{{path('vlreleases_projects_getProjectData')}}' method='POST'>
+    <div class="profileTable">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+
+                <thead class="table-head">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Project</th>
+                        <th>Client</th>
+                        <th>Phase</th>
+                        <th>Life Cycle Status</th>
+                        <th>Project Billing Status</th>	
+                        <th>Created By</th>
+                        <th>Created On</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        {% if(userData.rolePermission.getEdit == 'true') %}
+                            <th>Edit</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+            {% if(userData.rolePermission.getView == 'true') %}
+                {% set counter = 1 %}
+                {% set status = 'active' %}
+                {% for project in projects %}
+                    <tr>
+                        <td>{{counter}}</td>
+                        <td>{{project['name']}}</td>
+                        <td>{{project['clientName']}}</td>
+                        <td>{{project['phaseName']}}</td>
+                        <td>{{project['lifeCycleStatus']}}</td>
+                        <td>{{project['billingStatus']}}</td>
+                        <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{project['id']}}">{{project['userName']}}</a></td>
+                        <td>{{project['createDate']|date('d-m-Y')}}</td>
+                        <td>{{project['startDate']|date('d-m-Y')}}</td>
+                        <td>{{project['endDate']|date('d-m-Y')}}</td>
+                        {% if project['projectStatus'] == 1 %}
+                            {#{% if  userData.userType == '9' or userData.userType == '4' %}#}
+			    {% if(userData.rolePermission.getEdit == 'true') %}
+                                <td class="sEdit" ><span class='editStatus' path="" id1='{{project['projectStatus']}}' pro='{{project['pid']}}' >Active</span></td>
+                            {% else %}
+                                <td>Active</td>
+                            {% endif %}
+                        {% else %}
+                            {#{% if  userData.userType == '9' or userData.userType == '4' %}#}
+			{% if(userData.rolePermission.getEdit == 'true') %}
+                            <td class="sEdit" ><span class='editStatus' path="" id2='{{project['projectStatus']}}' pro='{{project['pid']}}'>Inactive</span></td>
+                        {% else %}
+                            <td>Inactive</td>
+                        {% endif %}
+                        {% endif %}
+                        {#{% if  userData.userType == '9' or userData.userType == '4' %}#}
+			{% if(userData.rolePermission.getEdit == 'true') %}
+                            <td class="dlEdit" ><span class='editProject' path=""  idToEdit='{{project['pid']}}' >Edit</span></td>
+                        {% else %}
+                            
+                        {% endif %}
+                    </tr>
+                    {% set counter = counter + 1 %}
+                {% endfor %}
+				{% endif %}
+				</tbody>
+            </table>
+        </div>
+    </div>
+
+</form>
+    </div>
+<span style='display:none;' id='listProjectUrl'>{{path('vlreleases_projects_listProjects')}}</span> 
+<span style='display:none;' id='deatilsEdit'>{{ path('vlreleases_projects_getAddProjectFormData') }}</span>

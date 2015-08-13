@@ -1,0 +1,16 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="group_emails" name="Vlreleases\UserBundle\Entity\GroupEmails">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>        
+        <field name="groupEmail" column = "group_email" type="string"/>
+        <field name="createdBy" column = "created_by" type="string"/>
+        <field name="createdDate" column = "created_date" type="string"/>
+        
+        <one-to-many field="groupusers" target-entity="Vlreleases\UserBundle\Entity\GroupmailUsers" mapped-by="group" />	
+    </entity>
+</doctrine-mapping>

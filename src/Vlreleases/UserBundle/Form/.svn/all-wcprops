@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Vl-releases2/!svn/ver/174/src/Vlreleases/UserBundle/Form
+END
+UserDashBoardForm.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/Vl-releases2/!svn/ver/17/src/Vlreleases/UserBundle/Form/UserDashBoardForm.php
+END
+UserTaskApprovalForm.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Vl-releases2/!svn/ver/64/src/Vlreleases/UserBundle/Form/UserTaskApprovalForm.php
+END
+LoginForm.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Vl-releases2/!svn/ver/8/src/Vlreleases/UserBundle/Form/LoginForm.php
+END
+LeadDashBoardForm.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/Vl-releases2/!svn/ver/50/src/Vlreleases/UserBundle/Form/LeadDashBoardForm.php
+END
+ManagerDashBoardForm.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Vl-releases2/!svn/ver/62/src/Vlreleases/UserBundle/Form/ManagerDashBoardForm.php
+END

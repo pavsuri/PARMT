@@ -1,0 +1,34 @@
+<div class="table-responsive">
+<table class="table table-bordered table-striped">
+    <thead class="table-head">
+        <tr>
+            <th>S.No</th>
+            <th>Team</th>
+            <th>Status</th>
+            {% if(userData.rolePermission.getEdit == 'true') %}
+                <th>Edit</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+{% if(userData.rolePermission.getView == 'true') %} 
+        {% set counter = 1 %}
+        {% for resNames in teams %}
+            <tr>
+                <td>{{ counter }}</td>
+                <td>{{ resNames.tname }}</td>
+                <td>{{ resNames.status }}</td>
+                {#<td class="dlEdit" ><span class='editTeam' id='{{resNames.id}}' data-path="{{ path('vlreleases_team_getTeam') }}">Edit</span></td>#}
+                {% if(userData.rolePermission.getEdit == 'true') %}
+                    <td class="dlEdit" ><span class='editTeam' id='{{resNames.id}}' data-path="{{ path('vlreleases_team_getTeam') }}">Edit</span></td>
+                {% else %}
+                    
+                {% endif %}
+
+            </tr>
+            {% set counter = counter + 1 %}
+        {% endfor %}  
+{% endif %}
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,95 @@
+{# Vlreleases/UserBundle/Resources/views/Paginator/paginator_navigator.html.twig #}
+
+{% set currentPath = path(app.request.get('_route'), app.request.get('_route_params')) %}
+{% set currentPage = paginator.getCurrentPage() %}
+{% set totalPages = paginator.getTotalPages() %}
+{% set count = paginator.getCount() %}
+<input type="hidden" value="{{ currentPage }}" id="currentDisplayPage">
+<input type="hidden" id="ajaxUrl" value="{{ currentPath }}">
+<input type="hidden" value="{{ totalPages }}" id="totalDisplayPages" >
+{#<div class="">
+    {{((currentPage - 1) * 30) + 1}}-{{currentPage * 30}} of {{count}}
+</div>#}
+{#<div class="">
+    
+    {% if currentPage == 1 %}
+            <a href="javascript:void(0)"><div class="gq-pagination-prev-icon disable-icon"></div></a>
+    {% else %}
+        <span value1="{{ currentPage - 1 }}" class="paginationLink" url="{{currentPath}}">
+            <div class="gq-pagination-prev-icon"></div>
+        </span>
+    {% endif %}
+    {% if currentPage == totalPages %}
+        <a href="javascript:void(0)"><div class="gq-pagination-next-icon disable-icon"></div></a>
+    {% else %}
+        <span value1="{{ currentPage + 1 }}" class="paginationLink" url="{{currentPath}}">
+           <div class="gq-pagination-next-icon"></div>
+      </span>  
+     {% endif %}
+</div>#}
+{% set prevLink = "gq-pagination-prev-icon" %}
+{% set nextLink = "gq-pagination-next-icon" %}
+    {% if currentPage == 1 %}
+        {% set prevLink = "gq-pagination-prev-icon disable-icon"  %}
+    {% endif %}    
+    {% if currentPage == totalPages %}
+        {% set nextLink = "gq-pagination-next-icon disable-icon"  %}
+    {% endif %}    
+        <div class="{{ prevLink }}" id="prevlink"></div>
+         <div class="{{ nextLink }}" id="nextlink"></div>
+     
+<div class="clearfix"></div>
+<script>
+    var curPage = parseInt($("#currentDisplayPage").val());
+    var disPages = parseInt($("#totalDisplayPages").val());
+    var ajaxurl = $("#ajaxUrl").val();
+ $(document).ready(
+    function (){ 
+        $('#prevlink').click(function(){
+           if(!$(this).hasClass('disable-icon')) 
+           {
+               curPage = curPage - 1;
+               $("#currentDisplayPage").val(curPage);
+               getajaxPagination(curPage);
+           }
+        });
+        $('#nextlink').click(function(){
+           if(!$(this).hasClass('disable-icon')) 
+           {
+               curPage = curPage + 1;
+               $("#currentDisplayPage").val(curPage);
+               getajaxPagination(curPage);
+           }
+        });
+        
+        
+        function getajaxPagination(curPage)
+        {
+            var reqUrl = ajaxurl+'?page='+curPage+'&mode=ajax';
+            $.ajax({
+                type: "GET",
+                url: reqUrl,
+                cache: false,
+                success: function(msg){
+                     $("#ajaxUserDetails").html(msg);
+                     if(curPage == 1)
+                     {
+                         $("#prevlink").addClass('disable-icon');
+                     }
+                     else
+                     {
+                         $("#prevlink").removeClass('disable-icon');
+                     }
+                     if(curPage == disPages)
+                     {
+                         $("#nextlink").addClass('disable-icon');
+                     }
+                     else
+                     {
+                         $("#nextlink").removeClass('disable-icon');
+                     }
+                }                   
+            });
+        }
+    }); 
+</script>

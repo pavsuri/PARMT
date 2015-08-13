@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">        
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            <div class="" id="page-wrapper">
+                <div class="page-content page-content-ease-in">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Holidays List</h1>                            
+                            </div>
+                        </div>                   
+                    </div>
+                {% if(userData.rolePermission.getAdd == 'true') %}
+                    <div class="right btn clickHolidayBut" id="addHoliday">
+                        <i class="fa fa-plus"></i>
+                        <span class='clickHoliday'>Add Holiday </span>
+                    </div>
+                {% endif %}
+                     <div id='resultFlag' class="clearfix"></div>     
+                    <div class="row app-register">
+                        <div class="col-lg-12">
+                            <div class="widget" id="holidaysList">
+                                <!-- Widget Header -->
+
+                                <div class="widget-head">
+                                    <div class="pull-left">Add Live Apps Details</div>					
+                                </div>
+
+                                <!-- Widget Header End-->
+                                <div class="clearfix"></div>				
+                                <!-- Widget content -->
+                                <li id='addholidays' style="list-style: none;">
+                                    {% include 'VlreleasesUserBundle:User:addHolidayDetails.html.twig' %}
+                                </li>
+                            </div>
+                        </div>
+                                                                                              
+                    </div>
+                    <div id="ajaxHolidays">
+                             {% include 'VlreleasesUserBundle:User:displayHolidaysList.html.twig' %}
+                    </div>
+                    <br>
+                    
+                  
+<!-- Logout Modal Popup -->
+<!-- global scripts-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<!--<script src="{{jsPath}}chart-demo.js"></script> -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+
+<script>
+    $(document).ready(function (){
+        $("#holidaysList").css('display','none');
+           $(".clickHolidayBut").click(function(){
+                $("#holidaysList").toggle();
+           });
+        
+        //registers the holiday details through ajax call
+        $("#registerHoliday").click(function(){
+            if($("#holidayId").val())
+                id = $("#holidayId").val();
+           name = $("#holidayDes").val();
+           date = $("#holdaydat").val();
+            $.ajax({
+                    type: "POST",
+                    url: "{{ path('vlreleases_holidaysList_registerHoliday') }}",
+                    cache: false,
+                    data: {hname: name, hdate:date, id: id },
+                    success: function (result) {
+                        $("#holidayDes").val('');
+                        $("#holdaydat").val('');
+                       if(result == 'failed')
+                       {
+                           $("#resultFlag").html("Holiday already existed");
+                            setTimeout(function () {
+                                     $("#resultFlag").fadeOut(1000);
+                                 }, 3000)
+                       }
+                       else{   
+                           $("#ajaxHolidays").html(result); 
+                            $("#resultFlag").html("Holiday added/updated successfully");
+                            setTimeout(function () {
+                                     $("#resultFlag").fadeOut(1000);
+                                 }, 3000)                                                  
+                        }   
+                    }
+                });
+                return false;
+        });
+        
+        //populating form values when click on edit
+          $("body").on( "click", '.holidayEdit' , function() {
+            value = $(this).attr("value");
+            var arr = value.split('+');
+            $("#holidaysList").css('display','block');
+            $("#holidayId").val(arr[0]);
+            $("#holidayDes").val(arr[1]);
+            $("#holdaydat").val(arr[2]);
+           $("#registerHoliday").attr('value', 'Update');
+        });
+        
+        //delete the holiday and details through ajax
+        $("body").on( "click", '.holidayDelete' , function() {
+            id = $(this).attr("holidayId"); 
+            $.ajax({
+                    type: "POST",
+                    url: "{{ path('vlreleases_holidaysList_deleteHoliday') }}",
+                    cache: false,
+                    data: {hid: id},
+                    success: function (result) {
+                           $("#resultFlag").html("Holiday deleted successfully");   
+                           setTimeout(function () {
+                                     $("#resultFlag").fadeOut(1000);
+                                 }, 3000)
+                            $("#ajaxHolidays").html(result);
+                        }   
+                    });
+            });
+
+    });
+</script>
+</body>
+</html>
+

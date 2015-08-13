@@ -1,0 +1,506 @@
+<?php
+
+namespace Vlreleases\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User
+ */
+class User
+{
+    /**
+     * @var string
+     */
+    private $userName;
+
+    /**
+     * @var string
+     */
+    private $password;
+
+    /**
+     * @var integer
+     */
+    private $empId;
+
+    /**
+     * @var string
+     */
+    private $systemId;
+
+    /**
+     * @var string
+     */
+    private $email;
+
+    /**
+     * @var boolean
+     */
+    private $status;
+
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \Vlreleases\UserBundle\Entity\Role
+     */
+    private $role;
+
+    /**
+     * @var \Vlreleases\UserBundle\Entity\Type
+     */
+    private $type;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tasks;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $projects;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reportingPersons;
+
+    
+     private $reportingLeads;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reportingPersons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reportingLeads = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set userName
+     *
+     * @param string $userName
+     * @return User
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+     
+   
+    /**
+     * Get userName
+     *
+     * @return string 
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set empId
+     *
+     * @param integer $empId
+     * @return User
+     */
+    public function setEmpId($empId)
+    {
+        $this->empId = $empId;
+
+        return $this;
+    }
+
+    /**
+     * Get empId
+     *
+     * @return integer 
+     */
+    public function getEmpId()
+    {
+        return $this->empId;
+    }
+
+    /**
+     * Set systemId
+     *
+     * @param string $systemId
+     * @return User
+     */
+    public function setSystemId($systemId)
+    {
+        $this->systemId = $systemId;
+
+        return $this;
+    }
+
+    /**
+     * Get systemId
+     *
+     * @return string 
+     */
+    public function getSystemId()
+    {
+        return $this->systemId;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     * @return User
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set role
+     *
+     * @param \Vlreleases\UserBundle\Entity\Role $role
+     * @return User
+     */
+    public function setRole(\Vlreleases\UserBundle\Entity\Role $role = null)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return \Vlreleases\UserBundle\Entity\Role 
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \Vlreleases\UserBundle\Entity\Type $type
+     * @return User
+     */
+    public function setType(\Vlreleases\UserBundle\Entity\Type $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \Vlreleases\UserBundle\Entity\Type 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Add tasks
+     *
+     * @param \Vlreleases\UserBundle\Entity\UserTask $tasks
+     * @return User
+     */
+    public function addTask(\Vlreleases\UserBundle\Entity\UserTask $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \Vlreleases\UserBundle\Entity\UserTask $tasks
+     */
+    public function removeTask(\Vlreleases\UserBundle\Entity\UserTask $tasks)
+    {
+        $this->tasks->removeElement($tasks);
+    }
+
+    /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \Vlreleases\UserBundle\Entity\Project $projects
+     * @return User
+     */
+    public function addProject(\Vlreleases\UserBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \Vlreleases\UserBundle\Entity\Project $projects
+     */
+    public function removeProject(\Vlreleases\UserBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * Add reportingPersons
+     *
+     * @param \Vlreleases\UserBundle\Entity\User $reportingPersons
+     * @return User
+     */
+    public function addReportingPerson(\Vlreleases\UserBundle\Entity\User $reportingPersons)
+    {
+        $this->reportingPersons[] = $reportingPersons;
+
+        return $this;
+    }
+
+    /**
+     * Remove reportingPersons
+     *
+     * @param \Vlreleases\UserBundle\Entity\User $reportingPersons
+     */
+    public function removeReportingPerson(\Vlreleases\UserBundle\Entity\User $reportingPersons)
+    {
+        $this->reportingPersons->removeElement($reportingPersons);
+    }
+
+    /**
+     * Get reportingPersons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReportingPersons()
+    {
+        return $this->reportingPersons;
+    }
+    
+     /**
+     * Get reportingPersons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReportingLeads()
+    {
+        //$this->reportingLeads[] = array(132);    
+        var_dump($this->reportingLeads);exit;
+    }
+    
+    
+    /**
+     * @var \Vlreleases\UserBundle\Entity\UserPersonalProfile
+     */
+    private $personalProfile;
+
+    /**
+     * @var \Vlreleases\UserBundle\Entity\UserWorkProfile
+     */
+    private $workProfile;
+
+
+    /**
+     * Set personalProfile
+     *
+     * @param \Vlreleases\UserBundle\Entity\UserPersonalProfile $personalProfile
+     * @return User
+     */
+    public function setPersonalProfile(\Vlreleases\UserBundle\Entity\UserPersonalProfile $personalProfile = null)
+    {
+        $this->personalProfile = $personalProfile;
+        return $this;
+    }
+
+    /**
+     * Get personalProfile
+     *
+     * @return \Vlreleases\UserBundle\Entity\UserPersonalProfile 
+     */
+    public function getPersonalProfile()
+    {
+        return $this->personalProfile;
+    }
+
+    /**
+     * Set workProfile
+     *
+     * @param \Vlreleases\UserBundle\Entity\UserWorkProfile $workProfile
+     * @return User
+     */
+    public function setWorkProfile(\Vlreleases\UserBundle\Entity\UserWorkProfile $workProfile = null)
+    {
+        $this->workProfile = $workProfile;
+        return $this;
+    }
+
+    /**
+     * Get workProfile
+     *
+     * @return \Vlreleases\UserBundle\Entity\UserWorkProfile 
+     */
+    public function getWorkProfile()
+    {
+        return $this->workProfile;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $skills;
+
+
+    /**
+     * Add skills
+     *
+     * @param \Vlreleases\UserBundle\Entity\UserSkills $skills
+     * @return User
+     */
+    public function addSkill(\Vlreleases\UserBundle\Entity\UserSkills $skills)
+    {
+        $this->skills[] = $skills;
+
+        return $this;
+    }
+
+    /**
+     * Remove skills
+     *
+     * @param \Vlreleases\UserBundle\Entity\UserSkills $skills
+     */
+    public function removeSkill(\Vlreleases\UserBundle\Entity\UserSkills $skills)
+    {
+        $this->skills->removeElement($skills);
+    }
+
+    /**
+     * Get skills
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSkills()
+    {
+        return $this->skills;
+    }
+
+    /**
+     * Add reportingLeads
+     *
+     * @param \Vlreleases\UserBundle\Entity\User $reportingLeads
+     * @return User
+     */
+    public function addReportingLead(\Vlreleases\UserBundle\Entity\User $reportingLeads)
+    {
+        $this->reportingLeads[] = $reportingLeads;
+
+        return $this;
+    }
+
+    /**
+     * Remove reportingLeads
+     *
+     * @param \Vlreleases\UserBundle\Entity\User $reportingLeads
+     */
+    public function removeReportingLead(\Vlreleases\UserBundle\Entity\User $reportingLeads)
+    {
+        $this->reportingLeads->removeElement($reportingLeads);
+    }
+}

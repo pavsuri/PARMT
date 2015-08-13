@@ -1,0 +1,22 @@
+<form id='searchOptionform' action='{{path('vlreleases_mobiledevice_listDevice')}}' method='POST'>
+
+    <div class="widget-content">					
+        <div class="row">
+            <div class="col-lg-2">							
+                {{ form_widget(searchDeviceForm.os, { 'attr': {'class': 'form-control','placeholder': 'Select Os'}}) }} 
+            </div>
+            <div class="col-lg-2">
+                {{ form_widget(searchDeviceForm.brand, { 'attr': {'class': 'form-control','placeholder': 'Select Brand'}}) }}
+            </div>
+            <div class="col-lg-2">
+                {{ form_widget(searchDeviceForm.name, { 'attr': {'class': 'form-control','placeholder': 'Device Name'}}) }}
+            </div>
+
+            <div class="col-lg-2">
+                <span  id='spinnerSearchDevice' style='display:none;'><img src={{imagesPath}}spinner.gif /></span> 
+                <div class="btn btn-green" name="btnSubmit" id="searchDeviceSubmit">Search</div>
+            </div>
+        </div>	
+    </div>
+    <span style='display:none;' id='deviceNameListURL'>{{path('vlreleases_mobiledevice_listDeviceName')}}</span>
+</form>

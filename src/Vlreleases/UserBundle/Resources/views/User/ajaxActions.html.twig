@@ -1,0 +1,29 @@
+<table cellspacing="0" cellpadding="5" border="0" class="table table-bordered table-striped" id="userprofile-table">
+    <thead class="table-head">
+        <tr>
+            <th>S.No</th>
+            <th>Screen Name</th>
+            <th>Add</th>
+            <th>Edit</th>
+            <th>View</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set counter = 1 %}
+        {% for data in actions %}
+            <tr>
+                <td>{{ counter }}</td>
+                <td>{{ data.screenName }}</td>
+                {% if  userRoles[ data.id ] is defined %}
+                    <td><input type="checkbox" name=myarray[{{ data.id }}][] value="add" {{ (userRoles[ data.id ]['add']) ? 'checked' : 'false' }} /></td>
+                    <td><input type="checkbox" name=myarray[{{ data.id }}][] value="edit" {{ (userRoles[ data.id ]['edit']) ? 'checked' : 'false' }} /></td>
+                    <td><input type="checkbox" name=myarray[{{ data.id }}][] value="view" {{ (userRoles[ data.id ]['view'])? 'checked' : 'false' }} /></td>
+                    {% else %}
+                    <td><input type="checkbox" name=myarray[{{ data.id }}][] value="add" /></td>
+                    <td><input type="checkbox" name=myarray[{{ data.id }}][] value="edit" /></td>
+                    <td><input type="checkbox" name=myarray[{{ data.id }}][] value="view" /></td>
+                    {% endif %}
+                    {% set counter = counter + 1 %}
+                {% endfor %} 
+    </tbody>
+</table>

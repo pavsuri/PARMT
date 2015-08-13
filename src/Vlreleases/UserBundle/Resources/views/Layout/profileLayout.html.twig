@@ -1,0 +1,306 @@
+{% extends '::base.html.twig' %}
+{% block extrajavascripts %}
+
+    <script src="{{jsPath}}fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="{{jsPath}}fileupload/js/jquery.iframe-transport.js"></script>
+    <script src="{{jsPath}}fileupload/js/jquery.fileupload.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+
+    <script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+    <script>
+        var currentlySelected = '';
+        var currentlySelectedSkill = '';
+        //upload profile photo
+        $(document).ready(function () {
+            $(function () {
+                $("body").on("click", '#userpersonaldetails_photoUploader', function () {
+                    $('#userpersonaldetails_photoUploader').fileupload({
+                        dataType: 'json',
+                        url: '{{path('vlreleases_user_upload_photo')}}',
+                        done: function (e, data) {
+
+                            $('#userpersonaldetails_photo').val(data.result.name);
+                            $('#spinnerPersonalProfile').hide();
+                            image = "<img src=/Vl-releases2/web/userPhotos/" 
+                                    + data.result.name + " class=img-circle />";
+                            $('#userImageSpan').html(image);
+
+                            $('#imageDisplay').attr('src', '/Vl-releases2/web/userPhotos/'
+                                    + data.result.name);
+                            $.each(data.result.files, function (index, file) {
+                                $('<p/>').text(file.name).appendTo(document.body);
+                            });
+                        },
+                        add: function (e, data) {
+                            $("#upload").one('click', function (e) {
+
+                                $('#spinnerPersonalProfile').show();
+                                e.preventDefault();
+                                data.submit();
+                            });
+                        },
+                        change: function (e, data) {
+                            $.each(data.files, function (index, file) {
+                                $('#imageDisplay').attr('src',
+                                '/Vl-releases2/web/userPhotos/' + file.name);
+                                $('#selectedfile').html(file.name);
+                                $('#selectedfile').show();
+
+                            });
+                        },
+                    })
+                });
+            });
+            
+            //display selected photo name
+            $("body").on("click", '#selectFile', function () {
+                $('#selectFile').fileupload({
+                    dataType: 'json',
+                    url: '{{path('vlreleases_uploadFile_fileUpload')}}',
+                    change: function (e, data) {
+                        $.each(data.files, function (index, file) {
+                                                $('#selectedfile').html(file.name);
+                                                $('#selectedfile').show();
+
+                                            });
+                                        },
+                                    })
+                                });
+
+                            });
+                            $(document).ready(
+                                    function () {
+                                        function optionSelected(item) {
+                                            $('#projectiddata').append("<span id='span" + item.value + "'><input type = 'text' name='projectIds[]' id='projectIds" + item.value + "' value='" + item.value + "'></span>");
+                                            currentlySelected = item.value;
+                                        }
+
+                                        function skillSelected(item) {
+                                            $('#skillsiddata').append("<span id='span" + item.value + "'><input type = 'text' name='skillIds[]' id='skillIds" + item.value + "' value='" + item.value + "'></span>");
+                                            currentlySelectedSkill = item.value;
+                                        }
+
+
+
+                                        $("body").on("click", '#btnpersonalAdd', function () {
+                                            var result = validateForm('personaldetailsform');
+                                            if (result) {
+                                                $(this).attr('disabled', 'disabled');
+                                                $('#spinnerPersonalProfile').show();
+                                                $('#personaldetailsform').ajaxSubmit(function (data) {
+                                                    $('#personalProfile').html(data);
+                                                    $('#spinnerPersonalProfile').hide();
+                                                    $(this).removeAttr('disabled');
+                                                    createSuccessDiv('personaldetailsform');
+                                                    appendNewLi('personaldetailsform', 'Successfully personal information has been saved.');
+                                                });
+                                            }
+                                        });
+
+                                        //  Add Projects 
+                                        $("body").on("click", '#btnProAdd', function () {
+                                            var expertVal = $('#ProjectText').val();
+                                            if (expertVal == '' || currentlySelected == '')
+                                            {
+                                                var message = 'Please add any project.';
+                                                createErrorDiv('#projectdetailsform > .userHolder');
+                                                $('#projectdetailsform ul').append('<li>' + message + '</li>');
+                                            }
+                                            else {
+                                                $('#spinnerProjectProfile').show();
+                                                $(this).attr('disabled', 'disabled');
+
+                                                $.post('{{path('vlreleases_user_profile_handleProjectProfileData')}}', {projectId: currentlySelected, 'action': 'add'}, function () {
+                                                    $('#projectView').append("<div class='badge badgeProject' id='expertDelete_" + currentlySelected + "'><span class='pull-left text'>" + expertVal + "</span><span class='pull-left'><i id=" + currentlySelected + " class='deleteProject fa fa-times'></i></span></div>");
+                                                    $('#ProjectText').val('');
+                                                    $('#ProjectText').css('border', '1px solid #CCCCCC');
+                                                    $('#spinnerProjectProfile').hide();
+                                                    $('#btnProAdd').removeAttr('disabled');
+                                                    createSuccessDiv('projectdetailsform');
+                                                    appendNewLi('projectdetailsform', 'Successfully project information has been saved.');
+                                                });
+                                            }
+
+                                        })
+                                        
+                                        //delete project
+                                        $("body").on("click", '.deleteProject', function () {
+                                            var id = $(this).attr('id');
+                                            var divId = '#expertDelete_' + id;
+                                            var children = $(divId).children('span:first');
+                                            var result = window.confirm('Are you sure to remove ' + children.text() + '?');
+                                            if (result == true) {
+                                                $("#spinnerDeleteProject").show();
+                                                $(this).attr('disabled', 'disabled');
+                                                $.post('{{path('vlreleases_user_profile_handleProjectProfileData')}}', {projectId: id, 'action': 'delete'}, function () {
+                                                    //$(this).closest('div').remove();
+                                                    $('#expertDelete_' + id).remove();
+                                                    $("#spinnerDeleteProject").hide();
+                                                    $(this).removeAttr('disabled');
+                                                    createSuccessDiv('projectdetailsform');
+                                                    appendNewLi('projectdetailsform', 'Successfully ' + children.text() + ' project has been deleted.');
+                                                });
+                                            }
+                                        });
+
+                                        //add skill
+                                        $("body").on("click", '.addskill', function () {
+                                            skill = $('#Expertise').val();
+                                            experience = $('#YearsofExperience').val();
+                                            var value;
+                                            if (validateInteger(experience))
+                                            {
+                                                value = 1;
+
+                                            }
+                                            var message = '';
+                                            if (skill == "" || experience == "" || value != 1) {
+                                                createErrorDiv('#skilldetailsform > .userHolder');
+                                                if (skill == "") {
+                                                    message = 'Please enter your skill.';
+                                                    $('#skilldetailsform ul').append('<li>' + message + '</li>');
+                                                }
+
+                                                if (experience == "") {
+                                                    message = 'Experience should not be blank.';
+                                                    $('#skilldetailsform ul').append('<li>' + message + '</li>');
+                                                }
+                                                if (experience != "" && value != 1) {
+                                                    message = 'Experience should  be an integer.';
+                                                    $('#skilldetailsform ul').append('<li>' + message + '</li>');
+                                                }
+
+
+                                            } else {
+                                                if (currentlySelectedSkill != '') {
+                                                    action = 'add';
+                                                    customSkill = '';
+                                                } else {
+                                                    action = 'addcustomskill';
+                                                    customSkill = skill;
+                                                }
+                                                $('#spinnerSkillProfile').show();
+                                                //$(this).attr('disabled','disabled');
+
+                                                $.post('{{path('vlreleases_user_profile_handleSkillsData')}}', {'customSkill': customSkill, 'skillId': currentlySelectedSkill, 'action': action, 'experience': experience}, function (data) {
+
+                                                    if (currentlySelectedSkill) {
+                                                        $('#expertiseView').append("<div class='badge badgeExpert' id='skillDelete_" + data.savedSkillId + "'><span class='expertExp'>" + data.experience + "</span><span class='pull-left text'>" + skill + "</span><span class='pull-left expertClose'><i id=" + data.savedSkillId + "  class='deleteSkill fa fa-times'></i></span></div>");
+                                                    } else {
+                                                        $('#expertiseView').append("<div class='badge badgeExpert' id='skillDelete_" + data.savedSkillId + "'><span class='expertExp'>" + data.experience + "</span><span class='pull-left text'>" + skill + "</span><span class='pull-left expertClose'><i id=" + data.savedSkillId + "  class='deleteSkill fa fa-times'></i></span></div>");
+                                                    }
+                                                    $('#Expertise').val('')
+                                                    $('#YearsofExperience').val('');
+                                                    $("#spinnerSkillProfile").hide();
+                                                    $(this).removeAttr('disabled');
+                                                    createSuccessDiv('skilldetailsform');
+                                                    appendNewLi('skilldetailsform', 'Successfully new skill has been added.');
+                                                }
+                                                );
+                                                currentlySelectedSkill = '';
+                                            }
+                                        });
+                                        
+                                        //delete skill
+                                        $("body").on("click", '.deleteSkill', function () {
+
+                                            id = $(this).attr('id');
+                                            $("#spinnerDeleteSkill").show();
+                                            $.post('{{path('vlreleases_user_profile_handleSkillsData')}}', {skillId: id, 'action': 'delete'}, function () {
+                                                //$(this).closest('div').remove();
+                                                $('#skillDelete_' + id).remove();
+                                                $("#spinnerDeleteSkill").hide();
+                                                createSuccessDiv('skilldetailsform');
+                                                appendNewLi('skilldetailsform', 'Successfully your skill has been deleted.');
+                                            });
+                                        });
+                                        $('input.typeahead').typeahead({
+                                            ajax: {'url': '{{path('vlreleases_user_profile_getProjects')}}',
+                                                triggerLength: 3,
+                                                preDispatch: function (query) {
+
+                                                    $('#spinnerProjectLoad').show();
+                                                },
+                                                preProcess: function (data) {
+                                                    $('#spinnerProjectLoad').hide();
+                                                    return data;
+                                                },
+                                            },
+                                            onSelect: optionSelected,
+                                        });
+
+                                        //get skill
+                                        $('input.expertisetypeahead').typeahead({
+                                            ajax: {url: '{{path('vlreleases_user_profile_getSkills')}}',
+                                                triggerLength: 3,
+                                                preDispatch: function (query) {
+
+                                                    $('#spinnerSkillLoad').show();
+                                                },
+                                                preProcess: function (data) {
+                                                    $('#spinnerSkillLoad').hide();
+                                                    return data;
+                                                },
+                                            },
+                                            onSelect: skillSelected,
+                                        });
+
+                                        //add work details
+                                        $("body").on("click", '#btnworkAdd', function () {
+                                            var result = validateForm('workdetailsform');
+
+                                            if (result) {
+                                                $('#spinnerWorkProfile').show();
+                                                $('#workdetailsform').ajaxSubmit(function (data) {
+                                                    $('#spinnerWorkProfile').hide();
+                                                    $('#workProfile').html(data);
+                                                    createSuccessDiv('workdetailsform');
+                                                    appendNewLi('workdetailsform', 'Successfully your work information has been saved.');
+                                                    $('#workdetailsform').find('.iconChange').removeClass('fa-sort-down').addClass('fa-sort-up');
+                                                });
+                                            }
+                                        });
+
+
+		//opens reset password toggle
+                $("body").on("click", '.clickReset', function () {
+                    $('.reset-password label').show();
+                    $(".reset-password").slideToggle("fast");
+                    
+                });
+                
+                //submit reset password form through ajax call
+                $("#resetSubmit").click(function(){
+                    var uId = $("#userId").val();
+                    var pswd = $("#reset_password").val();
+                    var cpswd = $("#resetpassword_confirmation").val();
+                    if(pswd != cpswd){               
+                        $("#pswdError").html("confirm password not matched with password");
+                      return false;
+                    }
+                    $("#spinner").show();
+                    $.ajax({
+                    type: "POST",
+                    url: "{{path('vlreleases_user_resetPassword')}}",
+                    cache: false,
+                    data: {uId: uId, pwd: pswd, cpwd: cpswd},
+                    success: function(result){
+                        $("#resetResult").html(result);
+                        $("#spinner").hide();
+                        setTimeout(function () {
+                        $("#resetResult").fadeOut(1000);
+                    }, 3000)
+                    }
+                        
+                    });
+                    return false;
+                }); 
+
+
+	 
+                                    }
+                            );
+
+    </script>
+{% endblock %}
+

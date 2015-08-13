@@ -1,0 +1,29 @@
+<form id='projectdetailsform' action='{{path('vlreleases_user_profile_handleProjectProfileData')}}' method='POST'>
+    <div class="userTitle"><a href="javascript:void(0)">Project<span class="pull-right"><i class="iconChange fa fa-sort-down"></i></span></a></div>
+    <div class="userHolder">
+            <div class="row">
+            <div class="col-lg-6">
+                    <input type="text"  id="ProjectText" name="ProjectText" class="typeahead form-control" placeholder="Enter Project">
+                    <span id='spinnerProjectLoad' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+            </div>
+            <div class="col-lg-1">								
+                    <input type="button" class="addproject btn btn-green" name="btnProAdd" id="btnProAdd" value="Add">
+                    <span id='spinnerProjectProfile' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+            </div>
+            </div>
+            <div class="row">
+                    <div class="col-lg-12" id="projectView">
+                    {% for project in userProjects %}
+
+                     <div id="expertDelete_{{ project.getId }}" class="badge badgeProject">
+                         <span class="pull-left text">{{ project.getName }}</span>
+                         <span class="pull-left"><i id='{{ project.getId }}' class="deleteProject fa fa-times"></i></span>
+
+                     </div>  
+                         {% endfor %} 
+                            <span  id='spinnerDeleteProject' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+                    </div>
+            </div>
+            <span style='display:none;' id='projectiddata'></span>
+    </div>
+   </form>

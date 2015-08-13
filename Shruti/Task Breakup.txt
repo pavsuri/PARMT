@@ -1,0 +1,40 @@
+				Name: Pavan 			
+Subscriber list:
+
+ Functionalities:
+	1. Add new subscriber
+	2. Filtering
+	3. Export to excel
+	4. Print
+	5. Edit/Delete/History
+	6. Search
+ *Designing subscriber database.
+                              
+				Name:Siva
+Enquiry list:
+
+ Functionalities:
+	1. Mark complete to complete the enquiry
+	2. Delete the enquiry.
+ *Designing enquirylist database.
+
+				Name:Keerthi
+Magzines:
+
+ Functionalities:
+	1. Adding magzine including file uploading.
+Articles:
+
+ Functionalities:
+	1. Adding a new article by selecting a category
+	2. File uploading.
+Activity:
+
+ Functionalities:
+	1. Adding new activity
+	2. Image uploading
+ *Database design for magzines,articles,activities.
+
+
+
+  

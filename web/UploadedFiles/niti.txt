@@ -1,0 +1,6 @@
+http://niti.stg.valuelabs.net/Vl-releases2/web/app_dev.php/user/login
+
+
+http://localhost/Vl-releases2/web/app_dev.php/user/login
+
+_

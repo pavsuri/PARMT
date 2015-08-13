@@ -1,0 +1,62 @@
+
+/*merging mobile_devices into product*/
+INSERT INTO product( productname, ownername, os, serialnumber, version, created_id, createddate, lastmodifieddate, active, available ) (
+ SELECT device_name, device_owner, device_os, device_udid, device_version, device_created_by, device_created_date, device_last_modified_date, device_status,
+STATUS
+FROM mobile_devices
+)
+
+UPDATE product SET category_id = '134' where category_id = ''
+UPDATE product SET active = '0' where active = '2'
+UPDATE product SET available = '0' where available = '1'
+UPDATE product SET available = '1' where available = '2'
+
+insert into product_status(product_id,user_id,starttime,submittedtime)
+(select p.id,ds.assigned_to,ds.start_time,ds.end_time
+from device_status ds
+inner join mobile_devices md on ds.device_id = md.device_id
+inner join product p on md.device_name = p.productname
+)
+
+/*Renaming charger_name in mobile_chargers*/
+UPDATE mobile_chargers SET charger_name = CONCAT( charger_cable_type, '(', charger_type, '-', charger_tag ,')')
+
+ 
+/*merging mobile_chargers into product*/
+INSERT INTO product( productname, ownername, created_id, createddate, active, available ) (
+SELECT mc.charger_name, u.username, mc.charger_created_by, mc.charger_created_date, mc.charger_status,
+mc.STATUS
+FROM mobile_chargers mc
+LEFT JOIN users u on mc.charger_owner = u.id
+)
+
+UPDATE product SET category_id = '136' where category_id = ''
+UPDATE product SET active = '0' where active = '2'
+UPDATE product SET available = '0' where available = '1'
+UPDATE product SET available = '1' where available = '2'
+
+insert into product_status(product_id,user_id,starttime,submittedtime)
+(select p.id,ds.assigned_to,ds.start_time,ds.end_time
+from charger_status ds
+inner join mobile_chargers md on ds.device_id = md.device_id
+inner join product p on md.charger_name = p.productname
+)
+
+change avialable
+with 0s as 1s
+and 1s as 0s
+
+im mobile devices 72-available
+active+available in mobiles -42
+36-inactive
+
+72-md
+51 
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+<?php
+namespace Vlreleases\UserBundle\Form\UserProfile;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class WorkDetailsForm extends AbstractType
+{
+    public function getName() {
+        return 'userworkdetails';
+    }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('department', 'entity', array(
+            'class' => 'VlreleasesUserBundle:Department',
+            'property' => 'name',
+            'empty_value' => 'Select Department'
+        ));
+        
+        $builder->add('designation', 'entity', array(
+            'class' => 'VlreleasesUserBundle:Designation',
+            'property' => 'name',
+            'empty_value' => 'Select Designation'
+        ));
+        
+        $builder->add('band', 'entity', array(
+            'class' => 'VlreleasesUserBundle:Band',
+            'property' => 'name',
+            'empty_value' => 'Select Band'
+        ));
+        
+        $builder->add('workStation', 'text', array(
+        ));
+        
+        $builder->add('extensionNumber', 'text', array(
+        ));        
+        
+        $builder->add('dateOfJoining', 'date', array(
+            'input'  => 'datetime', 
+            'widget' => 'single_text'
+        ));
+        
+        $builder->add('systemIp', 'text', array(
+        ));
+        
+        $builder->add('systemId', 'text', array(
+        ));
+        
+        $builder->add('assetTag', 'text', array(
+        ));
+        
+        $builder->add('totalExperience', 'text', array(
+        ));        
+        
+        
+        
+        
+        
+    }
+}
+
+?>

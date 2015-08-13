@@ -1,0 +1,29 @@
+<div id='addHolidayHTML' style="padding: 10px">
+    <form name="holidayDetails" class="form-horizontal" method='post'>
+        <div class="form-group">
+            <label for="holidayDes" class="col-md-3 control-label">Holiday Description:</label>
+            <div class="col-md-4">
+                <input class="form-control" type=text name='holidayname' id='holidayDes' placeholder="Enter Holiday Name"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-md-3 control-label">Holiday Date</label>
+            <div class="col-md-4" id="datepicker" class="input-append">
+                <span class="add-on">
+                    <input  class="form-control" name='holidaydate' id="holdaydat" data-format="yyyy-MM-dd" placeholder="yyyy-mm-dd"  type="date">                                                                    
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-md-3 control-label"></label>
+            <div class="col-md-4">
+                <input class="btn btn-green" type="submit" name='submit' value="Add Holiday" id="registerHoliday"/>
+                <button class="btn btn-green" onclick="location.href = 'localhost/Vl-releases2/web/app_dev.php/holidaysList/index';">Cancel</button>
+            </div>
+        </div>
+        <input type="hidden" id="holidayId" value="">         
+    </form>     
+    <div class="clearfix"></div>
+</div>                               
+
+        

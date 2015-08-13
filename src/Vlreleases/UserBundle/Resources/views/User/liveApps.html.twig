@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">      
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            <div class="" id="page-wrapper">
+                <div class="page-content page-content-ease-in">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Live Apps</h1>                            
+                            </div>
+                        </div>                   
+                    </div>
+                    {% if(userData.rolePermission.getAdd == 'true') %}
+                    <button  id="addliveappdet"><i class="fa fa-plus"></i>Add App Details</button>
+                    {% endif %}
+                    <div class="row app-register">
+                        <div class="col-lg-12">
+                            <div class="widget" id="addApp">
+                                <!-- Widget Header -->
+
+                                <div class="widget-head">
+                                    <div class="pull-left">Add Live Apps Details</div>					
+                                </div>
+
+                                <!-- Widget Header End-->
+                                <div class="clearfix"></div>				
+                                <!-- Widget content -->
+                                <li id='addLiveApp' style="list-style: none;">
+                                    {% include 'VlreleasesUserBundle:User:addLiveApp.html.twig' %}
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+		{% if(userData.rolePermission.getView == 'true') %}
+
+                     <div class="profileTable">
+                         <div class="table-responsive">
+                            <table cellspacing="0" cellpadding="5" border="0" class="table table-bordered table-striped" id="userprofile-table">
+                            <thead class="table-head">
+                                
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>App Name</th>
+                                    <th>OS</th>
+                                    <th>Uploaded Version</th>                    
+                                    <th>iTunes Link/Play Store Link</th>                                                                       
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                {% set counter = 1 %}
+                                {% for data in userData.liveApps %}
+                                        <td>{{ counter }}</td>
+                                        <td>{{data.getAppName}}</td>
+                                        <td>{{data.getOs}}</td>
+                                        <td>{{data.getVersion}}</td>
+                                        {% if data.getAppLink[:5] == 'https'%}
+                                            <td><a href="{{data.getAppLink}}">{{data.getAppLink}}</a></td>
+                                        {% else %}
+                                            <td>{{data.getAppLink}}</td>
+                                        {% endif %}
+                                    </tr>
+                                    {% set counter = counter + 1 %}
+                                {% endfor %}                               
+                            </tbody>                        
+                        </table>
+                </div>
+                     </div>
+		{% endif %}
+{#                    <!-- Logout Modal Popup -->
+                    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-customize">    
+                            <div id="logout" >
+                                <div class="logout-message">
+                                    <img id="imageDisplay" alt="" src="{{userImagePath}}{{userData.photo}}" class="img-circle img-logout">
+                                    <h3>
+                                        <i class="fa fa-sign-out text-green"></i> Ready to go?
+                                    </h3>
+                                    <p>Select "Logout" below if you are ready<br> to end your current session.</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a class="btn btn-green" href="{{path('vlreleases_user_logout')}}">
+                                                <strong>Logout</strong>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <button class="logout_close btn btn-green" data-dismiss="modal">Cancel</button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+<!-- Logout Modal Popup -->#}
+<!-- global scripts-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<!--<script src="{{jsPath}}chart-demo.js"></script> -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+
+<script>
+        $(document).ready(
+             function (){ 
+                 $("#addApp").hide();
+          //animation for appp added success/failure message
+          var result = {{addFlag}};
+                if(result == 1)
+                {
+                    $("#addappresult").html("App added successfully");
+                      setTimeout(function () {
+                            $("#addappresult").fadeOut(1000);
+                                }, 10000)
+                    
+                    $('#addLiveAppform_OS').val('');
+                    $('#addLiveAppform_version').val('');
+                    $('#addLiveAppform_link').val('');
+                    
+                }
+             $("button").click(function(){
+                    $("#addApp").toggle();
+                });    
+    });
+            </script>
+</body>
+</html>
+

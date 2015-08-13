@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <script src="{{jsPath}}respond.src.js"></script>
+        <![endif]-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper"> 
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+            
+            <div class="device-list" id="page-wrapper">
+                <div class="page-content page-content-ease-in dsp">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Roles-Permissions</h1>
+                            </div>
+                        </div>             
+                    </div>
+                 
+                    
+                    {% if flag == 1 %}
+                        <div id="resultmsg">Your have successfully updated permissions</div>
+                    {% endif %}
+                    
+                    <form name="teamForm" id="teamForm" method="post" action="{{ path('vlreleases_actions_getRoleData') }}">
+                        
+                        <div id="roles">
+                            <strong>Select Role:</strong>
+                            <select id="roleName" name="roleName">
+                                {% for role in roles %}
+                                       <option value="{{ role.id }}" {{ (roleId == role.id ) ? 'selected' : ' ' }}>{{ role.name }}</option>
+                                       
+                                    
+                                {% endfor %}     
+                            </select>
+                            <span  id='spinnerRole' style='display:none;'>
+                                <img src={{imagesPath}}spinner.gif />
+                            </span>
+                    </div> 
+                        <br>
+                <div class="table-responsive" id="roleTable">
+                    <table cellspacing="0" cellpadding="5" border="0" class="table table-bordered table-striped" id="userprofile-table">
+                            <thead class="table-head">
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Screen Name</th>
+                                    <th>Add</th>
+                                    <th>Edit</th>
+                                    <th>View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set counter = 1 %}
+                                {% for data in actions %}
+                                    <tr>
+                                        <td>{{ counter }}</td>
+                                        <td>{{ data.screenName }}</td>
+                                        {% if  userRoles[ data.id ] is defined %}
+                                            <td><input type="checkbox" name=myarray[{{ data.id }}][] value="add" {{ (userRoles[ data.id ]['add']) ? 'checked' : '' }} /></td>
+                                            <td><input type="checkbox" name=myarray[{{ data.id }}][] value="edit" {{ (userRoles[ data.id ]['edit']) ? 'checked' : '' }} /></td>
+                                            <td><input type="checkbox" name=myarray[{{ data.id }}][] value="view" {{ (userRoles[ data.id ]['view'])? 'checked' : '' }} /></td>
+                                        {% else %}
+                                            <td><input type="checkbox" name=myarray[{{ data.id }}][] value="add" /></td>
+                                            <td><input type="checkbox" name=myarray[{{ data.id }}][] value="edit" /></td>
+                                            <td><input type="checkbox" name=myarray[{{ data.id }}][] value="view" /></td>
+                                        {% endif %}
+                                        {% set counter = counter + 1 %}
+                                {% endfor %} 
+                            </tbody>
+                        </table>
+                </div>		
+                            <p align="center">
+                                <input class="btn btn-success" type="submit" name='roleSubmit' value="Save Changes" id="roleSubmit">
+                            </p>		
+                    </form>
+<!-- global scripts-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{jsPath}}jquery_003.js"></script>
+<script src="{{jsPath}}bootstrap.js"></script>
+<script src="{{jsPath}}defaults.js"></script>
+
+
+<!-- morris charts -->
+<script src="{{jsPath}}raphael-2.js"></script>
+<script src="{{jsPath}}morris.js"></script>
+
+<!-- theme scripts -->
+<!--<script src="{{jsPath}}chart-demo.js"></script> -->
+<script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+
+<script>
+$(document).ready(
+    function () {            
+        $("#roleName").change(function(){
+        $("#resultmsg").hide();
+            var role = $(this).val();
+            if( role>0)
+            {
+                $("#roleTable").html('');
+                $("#roleSubmit").hide();
+                $('#spinnerRole').show();
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('vlreleases_actions_ajaxRoleData')}}",
+                    cache: false,
+                    data: {ajaxRole: role},
+                    success: function(result){
+                        $('#spinnerRole').hide();
+                        $("#roleTable").html(result);
+                        $("#roleSubmit").show();
+                    }
+                });
+            }
+
+        }); 
+    });
+</script>
+    </body>
+    </html>

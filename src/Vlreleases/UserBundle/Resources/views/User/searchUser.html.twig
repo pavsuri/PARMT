@@ -1,0 +1,48 @@
+<form id='searchUserform'>
+    <div class="widget-content">					
+        <div class="row">
+            <div class="searchUser">
+                {{ form_widget(searchUserForm.name, { 'attr': {'class': 'form-control','placeholder': 'Employee name'}}) }}
+            </div>
+            <div class="searchUser">
+                {{ form_widget(searchUserForm.emailId, { 'attr': {'class': 'form-control','placeholder': 'Email Id', 'id': 'searchEmail'}}) }}
+            </div>
+            <div class="searchUser">
+                {{ form_widget(searchUserForm.systemId, { 'attr': {'class': 'form-control','placeholder': 'System Id', 'id': 'systemId'}}) }}
+            </div>
+            <div class="searchUser">
+                {{ form_widget(searchUserForm.team, { 'attr': {'class': 'form-control','placeholder': 'Team', 'id': 'team'}}) }}
+            </div>
+            <div class="searchUser">
+                <span  id='spinnerSearchDevice' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>   
+                <input type="button" class="btn btn-green" name="btnSubmit" id="searchUserSubmit" value="Search">
+            </div>
+        </div>	
+    </div>
+</form>
+<script>
+    $(document).ready(
+    function() {        
+        $('#searchUserSubmit').click(function() {
+        uName = $('#searchUserform_name').val();
+        uEmail = $('#searchUserform_emailId').val();
+        uSysId = $('#searchUserform_systemId').val();
+        uTeam = $('#searchUserform_team').val();
+                $.ajax({
+                   type: "POST",
+                   url: "{{ path('vlreleases_user_searchByName') }}",
+                   cache: false,
+                   data: {uname:uName, uemail:uEmail, usysid:uSysId, uteam:uTeam},
+                   success: function(msg){
+                       $("#ajaxUserDetails").html(msg);
+                       $('#searchUserform_name').val('');
+                        $('#searchUserform_emailId').val('');
+                        $('#searchUserform_systemId').val('');
+                        $('#searchUserform_team').val('');
+                   }                    
+               });
+              
+        });
+ });
+
+ </script>

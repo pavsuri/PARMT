@@ -1,0 +1,104 @@
+parameters:
+    # ...
+    acme.controller.quazbar.class: Vlreleases\UserBundle\Controller\QuazBarController
+
+services:
+    acme.quazbar.controller:
+        class: "%acme.controller.quazbar.class%"
+    # inject doctrine to the constructor as an argument
+    arguments: [ @doctrine.orm.entity_manager ] 
+
+
+parameters:
+#    vlreleases_user.example.class: Vlreleases\UserBundle\Example
+
+services:
+#    vlreleases_user.example:
+#        class: %vlreleases_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+      UserService:
+        class:        Vlreleases\UserBundle\Services\UserService
+        arguments: ['@doctrine.orm.entity_manager', '@session'] 
+      UserDailyStatusService:
+        class:        Vlreleases\UserBundle\Services\UserDailyStatusService
+        arguments: ['@session','@doctrine.orm.entity_manager']
+      ActivityService:
+        class:        Vlreleases\UserBundle\Services\ActivityService
+        arguments: ['@doctrine.orm.entity_manager']
+      TypeService:
+        class:        Vlreleases\UserBundle\Services\TypeService
+        arguments: ['@doctrine.orm.entity_manager']		
+
+
+      UserDashBoardService:
+        class:        Vlreleases\UserBundle\Services\UserDashBoardService
+        calls:
+             - [setEntityManager, ['@doctrine.orm.entity_manager']]
+        arguments: ['@session']
+      
+      ProjectFieldSubscriber: 
+        class: Vlreleases\UserBundle\Form\EventListener\AddProjectFieldSubscriber
+        arguments: ['@session', '@UserDashBoardService','@userService']
+        
+      ActivityFieldSubscriber: 
+        class: Vlreleases\UserBundle\Form\EventListener\AddActivityFieldSubscriber
+        arguments: ['@session', '@UserDashBoardService']
+        
+      ResourceFieldSubscriber: 
+        class: Vlreleases\UserBundle\Form\EventListener\AddResourceFieldSubscriber
+        arguments: ['@session', '@UserService']
+        
+      DateFieldSubscriber: 
+        class: Vlreleases\UserBundle\Form\EventListener\AddDateFieldSubscriber
+        arguments: ['@session', '@UserService']
+
+      UserDashBoardFormService:
+        class:        Vlreleases\UserBundle\Form\UserDashBoardForm
+        arguments: ['@ProjectFieldSubscriber', '@ActivityFieldSubscriber' ]
+        tags:
+            - { name: 'form.type', alias: 'userdashboardform' }
+      UserTaskApprovalFormService:
+        class:        Vlreleases\UserBundle\Form\UserTaskApprovalForm
+        arguments: ['@ProjectFieldSubscriber', '@ResourceFieldSubscriber', '@DateFieldSubscriber' ]
+        tags:
+            - { name: 'form.type', alias: 'usertaskapprovalform' }
+      LeadDashBoardFormService:
+        class:        Vlreleases\UserBundle\Form\LeadDashBoardForm
+        arguments: ['@ProjectFieldSubscriber', '@ActivityFieldSubscriber' ]
+        tags:
+            - { name: 'form.type', alias: 'leaddashboardform' }
+            
+      kernel.listener.requestlistener:
+        class: Vlreleases\UserBundle\EventListener\RequestListener
+        arguments: ['@router']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }  
+    
+      ManagerDashBoardFormService:
+        class:        Vlreleases\UserBundle\Form\ManagerDashBoardForm
+        arguments: []
+        tags:
+            - { name: 'form.type', alias: 'managerdashboardform' }
+      managerService:
+        class:        Vlreleases\UserBundle\Services\ManagerService
+        arguments: ['@doctrine.orm.entity_manager', '@session']
+      UserProfileService:
+        class:        Vlreleases\UserBundle\Services\UserProfileService
+        arguments: ['@doctrine.orm.entity_manager', '@session'] 
+      SystemTableService:
+        class:        Vlreleases\UserBundle\Services\SystemTableService
+        arguments: ['@doctrine.orm.entity_manager']         
+      MobileDeviceService:
+        class:        Vlreleases\UserBundle\Services\MobileDeviceService
+        arguments: ['@doctrine.orm.entity_manager', '@session'] 
+      CategoryService:
+        class:        Vlreleases\UserBundle\Services\CategoryService
+        arguments: ['@doctrine.orm.entity_manager', '@session']
+      ProductService:
+        class:        Vlreleases\UserBundle\Services\ProductService
+        arguments: ['@doctrine.orm.entity_manager', '@session']
+      ProjectsService:
+        class:        Vlreleases\UserBundle\Services\ProjectsService
+        arguments: ['@doctrine.orm.entity_manager', '@session']
+        
+     

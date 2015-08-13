@@ -1,0 +1,5 @@
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+vlreleases_user:
+    resource: "@VlreleasesUserBundle/Resources/config/routing.yml"
+    prefix:   /

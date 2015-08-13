@@ -1,0 +1,74 @@
+<div id='addDeviceHTML'>
+<form id='AddDeviceForm' action='{{path('vlreleases_mobiledevice_register')}}' method='POST'>
+              <div class="widget-content">
+					<div class="addTextBoxDiv">
+						<div class="addTask">
+							<div class="row">
+								<div class="col-lg-3">
+								{{ form_widget(addDeviceForm.id, { 'attr': {'class': 'form-control','placeholder': 'Select brand'}}) }}
+									{{ form_errors(addDeviceForm.project) }}
+									{{ form_widget(addDeviceForm.project, { 'attr': {'class': 'form-control','placeholder': 'Project'}}) }}
+								
+								</div>
+								<div class="col-lg-3">
+								
+									{{ form_errors(addDeviceForm.brand) }}
+									{{ form_widget(addDeviceForm.brand, { 'attr': {'class': 'form-control','placeholder': 'Select brand'}}) }}
+									 
+								</div>
+								<div class="col-lg-3">
+								
+									{{ form_errors(addDeviceForm.os) }}
+									{{ form_widget(addDeviceForm.os, { 'attr': {'class': 'form-control','placeholder': 'Select Os'}}) }}
+								
+								</div>
+								<div class="col-lg-3">
+									
+									{{ form_errors(addDeviceForm.name) }}
+									{{ form_widget(addDeviceForm.name, { 'attr': {'class': 'form-control','placeholder': 'Device Name'}}) }}
+								
+								</div>
+								
+								<div class="col-lg-3">
+									
+									{{ form_errors(addDeviceForm.UUID) }}
+									{{ form_widget(addDeviceForm.UUID, { 'attr': {'class': 'form-control','placeholder': 'UUID'}}) }}
+								
+								</div>
+								
+								<div class="col-lg-3">
+									
+									{{ form_errors(addDeviceForm.serialNumber) }}
+									{{ form_widget(addDeviceForm.serialNumber, { 'attr': {'class': 'form-control','placeholder': 'SerialNumber'}}) }}
+								
+								</div>								
+								
+								<div class="col-lg-3">
+									
+									{{ form_errors(addDeviceForm.active) }}
+									{{ form_widget(addDeviceForm.active, { 'attr': {'class': 'form-control','placeholder': 'active'}}) }}
+								
+								</div>
+								
+								<div class="col-lg-3">
+									
+									{{ form_errors(addDeviceForm.version) }}
+									{{ form_widget(addDeviceForm.version, { 'attr': {'class': 'form-control','placeholder': 'version'}}) }}
+
+								</div>
+								{{ form_rest(addDeviceForm) }}
+							</div>			
+						</div>						
+						<div class="row">
+							<div class="col-lg-12"> 
+								<!--<div class="btn btn-green" name="btnSave" id="btnSave">Submit</div>--->
+                                                                    <input type="button" class="btn btn-green" name="btndeviceAdd" id="btndeviceAdd" value="Add">
+
+								<span  id='spinnerAddDevice' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+								<div class="btn btn-green" name="btnCancel" id="btnCancel">Cancel</div>
+							</div>
+						</div>
+					</div>					
+					</div>				
+</form>
+</div>                      

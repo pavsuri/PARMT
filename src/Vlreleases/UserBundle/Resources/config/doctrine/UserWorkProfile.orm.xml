@@ -1,0 +1,41 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="user_work_profile" name="Vlreleases\UserBundle\Entity\UserWorkProfile">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        
+        <one-to-one field="department" target-entity="Vlreleases\UserBundle\Entity\Department">
+            <join-column name="department_id" referenced-column-name="id" />
+        </one-to-one>
+        
+        <one-to-one field="designation" target-entity="Vlreleases\UserBundle\Entity\Designation">
+            <join-column name="designation_id" referenced-column-name="id" />
+        </one-to-one>
+        
+        <one-to-one field="band" target-entity="Vlreleases\UserBundle\Entity\Band">
+            <join-column name="band_id" referenced-column-name="id" />
+        </one-to-one>
+        
+        <field name="extensionNumber" column="extension_number" type="integer"/>
+        <field name="highestEducation" column="highest_education" type="string"/>
+        <field name="passedoutYear" column="passedout_year" type="integer"/>
+        <field name="totalExperience" column="total_experience" type="string"/>
+        <field name="dateOfJoining" column="doj" type="date"/>
+        <field name="workStation" column="work_station" type="string"/>
+        <field name="systemIp" column="system_ip" type="string"/> 
+        <field name="systemId" column="system_id" type="string"/> 
+        <field name="assetTag" column="asset_tag" type="string"/> 
+        <field name="gtalkId" column="gtalk_id" type="string"/> 
+        <field name="skypeId" column="skype_id" type="string"/>
+        <field name="leadName" column="leadname" type="string"/>   
+        
+        <one-to-one field="team" target-entity="Vlreleases\UserBundle\Entity\Team">
+            <join-column name="team_id" referenced-column-name="id" />
+        </one-to-one>
+        
+    </entity>
+</doctrine-mapping>

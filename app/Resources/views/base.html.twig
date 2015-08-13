@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+       
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+        <title>{% block title %}NITI{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+            <link href="{{cssPath}}font-awesome.css" rel="stylesheet">	
+            <link href="{{cssPath}}morris.css" rel="stylesheet">    
+            <link href="{{cssPath}}style.css" rel="stylesheet">
+            <link href="{{cssPath}}plugins.css" rel="stylesheet">
+            <link href="{{cssPath}}demo.css" rel="stylesheet">
+            <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+	<!--[if (lt IE 9) & (!IEMobile)]>	
+	<script src="js/respond.src.js"></script>	
+	<![endif]-->
+        {% endblock %}
+    </head>
+    <body class="pace-done">
+        <div id="wrapper">
+            {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+                     
+        <!-- Logout Modal Popup -->
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-customize">    
+	  <div id="logout" >
+        <div class="logout-message">
+            <img alt="" src="{{userImagePath}}{{userData.photo}}" class="img-circle img-logout">
+            <h3>
+                <i class="fa fa-sign-out text-green"></i> Ready to go?
+            </h3>
+            <p>Select "Logout" below if you are ready<br> to end your current session.</p>
+            <ul class="list-inline">
+                <li>
+                    <a class="btn btn-green" href="{{path('vlreleases_user_logout')}}">
+                        <strong>Logout</strong>
+                    </a>
+                </li>
+                <li>
+                    <button class="logout_close btn btn-green" data-dismiss="modal">Cancel</button>
+                </li>
+            </ul>
+        </div>
+    
+    </div>
+  </div>
+</div>
+<!-- Logout Modal Popup -->
+
+        {% block body %}
+        {% endblock %}
+            
+        {% block javascripts %}
+           
+            <!-- global scripts -->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+            <script src="/VL-releases2/web/js/jquery_003.js"></script>
+            <script src="{{jsPath}}bootstrap.js"></script>
+            <script src="{{jsPath}}defaults.js"></script>
+	    
+
+            <!-- morris charts -->
+            <script src="{{jsPath}}raphael-2.js"></script>
+            <script src="{{jsPath}}morris.js"></script>
+
+            <!-- theme scripts -->
+            <script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>                
+        {% endblock %}
+                        {% block extrajavascripts %}
+            {% endblock %}
+                </div>
+                 <script>
+             //Enabling    
+            if($("#currentpage").val() == 'asset')
+                $("#sideabr-manageAsset .subMenu").css("display","block");
+            else
+                $("#sideabr-manageAsset .subMenu").css("display","none");
+            </script>
+                 <script>
+	$(document).ready(function(){
+           
+	//submenu dropdown 
+             $("body").on('click','.hoverId',function(){
+            classes = $(this).parent().find('.iconChange').attr('class').split(' ');
+            var result = $.inArray('fa-sort-down',classes);
+            if(result > 0){
+                $(this).parent().find('.iconChange').removeClass('fa-sort-down').addClass('fa-sort-up');
+                $(this).parent().find('.subMenu').toggle();
+            }else{                
+                $(this).parent().find('.iconChange').removeClass('fa-sort-up').addClass('fa-sort-down');
+                $(this).parent().find('.subMenu').toggle();
+            }         
+	});
+
+	//search bar autocomplete
+             $('input.searchtypeahead').typeahead({
+               
+            ajax: {url: '{{path('vlreleases_user_lead_getMenus')}}',
+                    triggerLength: 3,
+                    preDispatch: function (query) {
+                       
+                        $('#searchLoad').show();
+                    },
+                    preProcess: function (data) {$('#searchLoad').hide(); return data;},
+                    },
+                   
+            });  
+
+	$(".dropdown-menu").click(function(){
+                    var fmenu=$(".searchtypeahead").val();
+                 //alert(fmenu);
+                 switch(fmenu)
+                 {
+                     case "dashboard":
+                          location.href='{{path('vlreleases_user_lead')}}';
+                          break;
+                     case "daily status report":
+                          location.href='{{path('vlreleases_user_dailystatus')}}';
+                          break;
+                     case "profile":
+                          location.href='{{path('vlreleases_user_profile_home')}}';
+                          break;
+                     case "categories":
+                          location.href='{{path('vlreleases_categories')}}';
+                          break;
+                     case "products":
+                          location.href='{{path('vlreleases_products')}}';
+                          break;
+                     case "take asset":
+                          location.href='{{path('vlreleases_products_takeassetList')}}';
+                          break;
+                    case "users":
+                          location.href='{{path('vlreleases_user_usersProfile')}}';
+                          break;
+                   case "users-reporters":
+                          location.href='{{path('vlreleases_user_reportersProfile')}}';
+                          break;
+                    case "projects":
+                            location.href = '{{path('vlreleases_projects_projectsList')}}';
+                            break;
+                    case "teams":
+                            location.href = '{{path('vlreleases_team')}}';
+                            break;
+                     case "rolespermissions":
+                        location.href = '{{path('vlreleases_actions')}}';
+                        break;
+                    case "liveapps":
+                        location.href = '{{path('vlreleases_liveApps')}}';
+                        break;    
+		      case "uploadfiles":
+			location.href = '{{path('vlreleases_uploadFile')}}';
+			break;
+
+                 }
+                    
+                });
+		//get ownername
+	$("body").on( "click", '.clickRegister1' , function() {
+	deviceId = $(this).attr('id');       
+        ajaxUrl = $('#clickRegisterUrl1').html();
+		$.get(ajaxUrl,  function (data) {
+		$("#addProductsHTML").html(data);
+                $("#btndeviceAddProduct").attr('value', 'Add');
+		$('.ownernametypeahead').typeahead({
+			
+                          ajax: {url: '{{path('vlreleases_user_profile_getReportingLead')}}',
+                           triggerLength: 3,
+                            preDispatch: function (query) {
+
+                             $('#searchownerspinner').show();
+                              },
+                             preProcess: function (data) {
+                             $('#searchownerspinner').hide();
+                             return data;
+                             },
+                          },                      
+                       });
+		$('.device-register label').show();
+		$(".device-register").slideDown();
+
+               
+		}
+	);
+	
+	});
+
+                    
+
+		
+
+	//leadname dropdown
+	    $('input.leadName_typeahead').typeahead({               
+            ajax: {url: '{{path('vlreleases_user_profile_getReportingLead')}}',
+                    triggerLength: 3,
+                    preDispatch: function (query) {                       
+                        $('#searchLead').show();
+                    },
+                    preProcess: function (data) {$('#searchLead').hide(); return data;},
+                    },                   
+            });
+});
+		</script>
+    </body>
+</html>

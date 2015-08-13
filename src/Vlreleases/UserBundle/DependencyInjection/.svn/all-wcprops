@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Vl-releases2/!svn/ver/1/src/Vlreleases/UserBundle/DependencyInjection
+END
+VlreleasesUserExtension.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Vl-releases2/!svn/ver/1/src/Vlreleases/UserBundle/DependencyInjection/VlreleasesUserExtension.php
+END
+Configuration.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/Vl-releases2/!svn/ver/1/src/Vlreleases/UserBundle/DependencyInjection/Configuration.php
+END

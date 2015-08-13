@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>NITI</title>
+    </head>
+    <body>
+
+        Hi,<br><br>
+
+        A new developer had registered to NITI,please check the details and approve his/her profile.<br><br>
+        <table>
+            <tr><td>Name:</td>
+                <td>{{ data.name }}</td>
+            </tr>
+            <tr>
+                <td>Employee Id:</td>
+                <td>{{ data.empId }}</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{ data.email }}</td>
+            </tr>
+            <tr>
+                <td>DOB:</td>
+                <td>{{ data.dob }}</td>
+            </tr>
+            <tr>
+                <td>Mobile Number:</td>
+                <td>{{ data.mobile }}</td>
+            </tr>
+            <tr>
+                <td>Gender:</td>
+                <td>{{ data.gender }}</td>
+            </tr>
+            <tr>
+                <td>DOJ to Jyo-Program:</td>
+                <td>{{ data.doj }}</td>
+            </tr>
+            <tr>
+                <td>UserImage</td>
+                <td><img src="{{data.image_src}}" alt="{{ data.image_src }}" height="70" width="70"/></td>
+            </tr>
+        </table>
+            <br><br>
+        Thanks & Regards,<br>
+        NITI
+        <br><br>
+        
+        <a href="http://niti.stg.valuelabs.com/Vl-releases2/web/user/registerStatus?action=approve&mail={{ data.email }}">Aprove</a>
+         <a href="http://niti.stg.valuelabs.com/Vl-releases2/web/user/registerStatus?action=reject&mail={{ data.email }}">Reject</a>
+  {#      <form method="post" action="http://localhost/Vl-releases2/web/app_dev.php/user/registerStatus"  name="status">
+            <input type=hidden name='name' id='name' value='{{ data.name }}' />
+            <input type=hidden name=empId id='empId'  value='{{ data.empId }}' />
+            <input type="submit" name='accept' value='Accept'>
+            <input type="submit" name='reject' value='Reject'>
+        </form>#}
+    </body>
+</html>

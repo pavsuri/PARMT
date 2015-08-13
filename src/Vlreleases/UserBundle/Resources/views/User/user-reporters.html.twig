@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="{{cssPath}}bootstrap.css" rel="stylesheet"> 
+        <link href="{{fontsPath}}font-awesome.css" rel="stylesheet">	
+        <link href="{{cssPath}}morris.css" rel="stylesheet">    
+        <link href="{{cssPath}}style.css" rel="stylesheet">
+        <link href="{{cssPath}}plugins.css" rel="stylesheet">
+        <link href="{{cssPath}}demo.css" rel="stylesheet">
+        <link href="{{cssPath}}bootstrap-datetimepicker.css" rel="stylesheet">
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <script src="{{jsPath}}respond.src.js"></script>
+        <![endif]-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">      
+             {% include 'VlreleasesUserBundle:User:layout.html.twig' %}
+
+            <div class="" id="page-wrapper">
+                <div class="page-content page-content-ease-in user-reporter">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>User-Reporters</h1>                            
+                            </div>
+                            <div>
+                                <p class="radioBtn"><strong>Filter By:</strong>
+                                    <span> <input type="radio" name="filterReporters" value="Jyo">Reporting To Jyo</span>
+                                    <span> <input type="radio" name="filterReporters" value="Non Jyo">Not Reporting To Jyo</span>
+                                    <span> <input type="radio" name="filterReporters" value="Display All">Display All</span>
+                                </p>
+                               
+                            </div>
+                            <div class="widget device-search">
+                                <!-- Widget Header -->
+                                <div class="widget-head">
+                                    <div class="pull-left">Search</div>					
+                                </div>
+                                <!-- Widget Header End-->
+                                <div class="clearfix"></div>				
+                                <!-- Widget content -->
+                                <!---- include searchOptions.html.twig----->
+                                {% include 'VlreleasesUserBundle:User:searchReporter.html.twig' %}
+                            </div>
+
+                        </div> 
+                    </div>
+                    <div class="userPagination">
+                        {# display navigation for pages - paginator_navigator #}
+                        {% if usersProfile.profiles|length > 0 and usersProfile.paginator.getTotalPages() > 1 %}
+                            {{ include('VlreleasesUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : usersProfile.paginator}) }}
+                        {% endif %}
+                    </div>
+                    <div id="ajaxUserDetails">
+            <div class="profileTable">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+
+                        <thead class="table-head">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Employee Id</th>
+                                <th>Email</th>
+                                <th>Reporting Persons</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% set counter = ((usersProfile.paginator.getCurrentPage()-1) * 30)+1 %}
+
+                            {% for details in usersProfile.profiles %}
+                                {% set uId = details.id %}
+                                <tr>
+                                    <td>{{counter}}</td>
+                                    <td><a href="{{path('vlreleases_user_displayProfile')}}?userId={{details.id}}">{{details.name}}</a></td>
+                                    <td>{{details.employeeId}}</td>
+                                    <td>{{details.email}}</td>
+                                    <td>{{reporters[details.id]}}</td>
+                                </tr>
+
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                        </div>
+                </div>
+            </div>
+
+            <!-- global scripts-->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+            <script src="{{jsPath}}jquery_003.js"></script>
+            <script src="{{jsPath}}bootstrap.js"></script>
+            <script src="{{jsPath}}defaults.js"></script>
+
+
+            <!-- morris charts -->
+            <script src="{{jsPath}}raphael-2.js"></script>
+            <script src="{{jsPath}}morris.js"></script>
+
+            <!-- theme scripts -->
+            <!--<script src="{{jsPath}}chart-demo.js"></script> -->
+            <script src="{{jsPath}}bootstrap-datetimepicker.min.js"></script>
+
+            <script src="http://malsup.github.com/jquery.form.js"></script> 
+            <script src="{{jsPath}}typeahead/js/bootstrap-typeahead.js"></script>
+
+<script>
+        //Enabling   
+           $("#sidebar-user .subMenu").css("display","block");
+
+</script>
+ <script>
+$(document).ready(
+        function () {
+             $('input:radio[name=filterReporters]').click(function() {
+                var radioVal = $('input:radio[name=filterReporters]:checked').val();
+                $.ajax({
+                   type: "POST",
+                   url: "{{ path('vlreleases_user_filterReporterData') }}",
+                   cache: false,
+                   data: {rvalue:radioVal},
+                   success: function(msg){
+                       $("#ajaxUserDetails").html(msg);
+                   }                   
+               });
+          
+              });
+        });
+</script>
+
+    </body>
+</html>
+

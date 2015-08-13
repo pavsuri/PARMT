@@ -1,0 +1,29 @@
+			
+{{ form_start(form, {'attr': {'id': 'form_person_edit', 'method': 'POST', 'action': path('vlreleases_user_taskapproval')}}) }}
+
+<div class="row">
+    <div class="col-lg-3">  
+        {{ form_widget(form.startdate, { 'attr': {'id':'datePicker','data-format':'yyyy-MM-dd','class': 'form-control', 'placeholder': 'Start Date(yyyy-mm-dd)'}}) }}
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-3">						
+        {{ form_widget(form.enddate, { 'attr': {'id':'datePicker','data-format':'yyyy-MM-dd','class': 'form-control','placeholder': 'End Date(yyyy-mm-dd)'}}) }}
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-3">                               
+        {{ form_widget(form.projects, { 'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+<div class="row">
+    {% if form.resources is defined %}
+        <div class="col-lg-3">  
+            {{ form_widget(form.resources, { 'attr': {'class': 'form-control'}}) }}  
+        </div>
+    {% endif %}
+</div>
+
+</form>

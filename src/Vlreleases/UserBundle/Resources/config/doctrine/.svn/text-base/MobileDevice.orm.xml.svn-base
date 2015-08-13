@@ -1,0 +1,47 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    
+    <entity table="mobiledevice" name="Vlreleases\UserBundle\Entity\MobileDevice">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="name" column="name" type="string"/>
+        
+        <many-to-one field="os" target-entity="Vlreleases\UserBundle\Entity\MobileOs">
+            <join-column name="mobileos_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <many-to-one field="brand" target-entity="Vlreleases\UserBundle\Entity\MobileBrand">
+            <join-column name="mobilebrand_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <field name="version" column="version" type="string"/>
+        <field name="UUID" column="uuid" type="string"/>
+        <field name="serialNumber" column="serialnumber" type="string"/>
+        
+        <many-to-one field="project" target-entity="Vlreleases\UserBundle\Entity\Project">
+            <join-column name="project_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <many-to-one field="createdBy" target-entity="Vlreleases\UserBundle\Entity\User">
+            <join-column name="created_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <field name="createdDate" column = "createddate" type="datetime"/>
+        <field name="lastModifiedDate" column = "lastmodifieddate" type="datetime"/>
+        
+        <field name="active" column = "active" type="boolean"/>
+        <field name="available" column = "available" type="boolean"/>
+        
+        <one-to-many  field="requesters" target-entity="Vlreleases\UserBundle\Entity\MobileDeviceQueue" mapped-by="mobileDevice" />
+        <one-to-many  field="assignedUsers" target-entity="Vlreleases\UserBundle\Entity\MobileDeviceStatus" mapped-by="mobileDevice" />
+        <one-to-one field="deviceStatus" target-entity="Vlreleases\UserBundle\Entity\MobileDeviceStatus">
+            <join-column name="mobiledevice_status_id" referenced-column-name="id" />
+            <cascade>
+                <cascade-persist />
+            </cascade>
+        </one-to-one>
+    </entity>
+</doctrine-mapping>

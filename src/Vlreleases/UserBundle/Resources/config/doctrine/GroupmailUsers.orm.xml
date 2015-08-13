@@ -1,0 +1,20 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">    
+    <entity table="group_email_users" name="Vlreleases\UserBundle\Entity\GroupmailUsers">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>        
+<!--        <field name="groupId" column = "group_id" type="integer"/>-->
+<!--        <field name="userId" column = "user_id" type="integer"/>        -->
+        
+        <many-to-one field="group" target-entity="Vlreleases\UserBundle\Entity\GroupEmails" inversed-by="groupusers">
+            <join-column name="group_id" referenced-column-name="id" />
+        </many-to-one>
+        
+        <one-to-one field="userId" target-entity="Vlreleases\UserBundle\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" />
+        </one-to-one>        
+    </entity>
+</doctrine-mapping>

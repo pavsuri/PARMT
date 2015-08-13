@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Niti</title>    
+        <link href="/VL-releases2/web/css/bootstrap.css" rel="stylesheet"> 
+        <link href="/VL-releases2/web/fonts/css/font-awesome.css" rel="stylesheet">	
+        <link href="/VL-releases2/web/css/morris.css" rel="stylesheet">    
+        <link href="/VL-releases2/web/css/style.css" rel="stylesheet">
+        <link href="/VL-releases2/web/css/plugins.css" rel="stylesheet">
+        <link href="/VL-releases2/web/css/demo.css" rel="stylesheet">
+        <link href="/VL-releases2/web/css/bootstrap-datetimepicker.css" rel="stylesheet">
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <script src="js/respond.src.js"></script>
+        <![endif]-->
+    </head>
+    <body class="pace-done">	
+        <div id="wrapper">        
+            <nav role="navigation" class="navbar-top">          
+                <div class="navbar-header">
+                    <button data-target=".sidebar-collapse" data-toggle="collapse" class="navbar-toggle pull-right" type="button">
+                        <i class="fa fa-bars"></i> Menu
+                    </button>
+                    <div class="navbar-brand">
+                        <a href="index.html">                       
+                            <h1>NITI</h1>
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-top" >
+                    <ul class="nav navbar-left">
+                        <li class="tooltip-sidebar-toggle">
+                            <a title="" data-placement="right" data-toggle="tooltip" id="sidebar-toggle" href="#" data-original-title="Sidebar Toggle">
+                                <i class="fa fa-bars"></i>
+                            </a>
+                        </li>                   
+                    </ul>                
+                </div>
+            </nav>
+
+            <nav class="navbar-side" role="navigation">
+                <div class="navbar-collapse sidebar-collapse collapse">               
+                    <ul id="side" class="nav navbar-nav side-nav">
+                        <li class="side-user hidden-xs">
+                            <img class="img-circle" src="/VL-releases2/web/images/profile-pic.jpg" alt="">
+                            <p class="welcome">
+                                <i class="fa fa-key"></i> Logged in as
+                            </p>
+                            <p class="name tooltip-sidebar-logout">
+                                <?php echo $userName; ?>
+                                <span class="last-name"></span> <a id="open_29188745" data-popup-ordinal="1" style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out" data-toggle="modal" data-target="#myModal"></i></a>
+                            </p>
+                            <div class="clearfix"></div>
+                        </li>
+                        <li class="nav-search">
+                            <form role="form">
+                                <input type="search" placeholder="Search..." class="form-control">
+                                <button class="btn">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <a href="/Vl-releases2/web/app_dev.php/dashboard/" class="active">
+                                <i class="fa fa-dashboard"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-files-o"></i> Daily Status Report
+                            </a>
+                        </li>					
+                    </ul>
+                </div>
+            </nav>        
+            <div class="" id="page-wrapper">
+                <div class="page-content page-content-ease-in">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <h1>Dashboard</h1>                            
+                            </div>
+                        </div>                   
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="tile green" style="height: 320px">
+                                <h4>Hours / Month</h4>
+                                <p></p>
+                                <div style="position: relative;" id="morris-chart-dashboard"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="widget">
+                                <!-- Widget head -->
+                                <div class="widget-head">
+                                    <div class="pull-left">Quick Daily Task</div>                  
+                                    <div class="clearfix"></div>
+                                </div>              
+
+                                <!-- Widget content -->
+                                <form action="/Vl-releases2/web/app_dev.php/dashboard/" method="post">
+                                    <div class="widget-content">
+                                        <div class="row">
+                                            <div class="col-lg-3">                               
+
+                                                <select name="project" class="form-control">
+
+                                                    <option value="">Select Project</option>
+                                                    <?php
+                                                    foreach ($projects as $projectId => $project) {
+
+                                                        echo '<option value="' . $project->getId() . '">' . $project->getProjectName() . '</option>';
+                                                    }
+                                                    ?>
+
+                                                </select>  
+                                            </div>
+                                            <div class="col-lg-3">                               
+                                                <select class="form-control" name="activity" id="activity">
+                                                    <option value="">Select Activity</option>
+                                                    <?php
+                                                    foreach ($activities as $activityId => $activity) {
+
+                                                        echo '<option value="' . $activity->getId() . '">' . $activity->getActivityName() . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>  
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6"> 
+                                                <input type="text" id="task" name="task" class="form-control" placeholder="Task">
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3">						
+                                                <div id="datetimepicker3" class="input-append">
+                                                    <span class="add-on">									
+                                                        <input data-format="hh:mm" type="text" id="totalHours" name="totalHours" class="form-control" placeholder="Total Hours">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </span>
+                                                </div>								
+                                            </div>
+                                            <div class="col-lg-3"> 
+                                                <button class="btn btn-green"  type = "submit" name="btnSub" id="btnSub">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <!-- Widget ends -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>	
+
+        <!-- Logout Modal Popup -->
+        <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-customize">    
+                <div id="logout" >
+                    <div class="logout-message">
+                        <img alt="" src="/VL-releases2/web/images/profile-pic.jpg" class="img-circle img-logout">
+                        <h3>
+                            <i class="fa fa-sign-out text-green"></i> Ready to go?
+                        </h3>
+                        <p>Select "Logout" below if you are ready<br> to end your current session.</p>
+                        <ul class="list-inline">
+                            <li>
+                                <a class="btn btn-green" href="index.html">
+                                    <strong>Logout</strong>
+                                </a>
+                            </li>
+                            <li>
+                                <button class="logout_close btn btn-green" data-dismiss="modal">Cancel</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Logout Modal Popup -->
+
+        <script>
+            var hours_data = <?php echo $userHoursByDay; ?>;
+            var userNameYkey = 'hours';
+            var userNameLabel = 'hours';
+        </script>
+
+        <!-- global scripts -->
+        <script src="/VL-releases2/web/js/jquery_003.js"></script>
+        <script src="/VL-releases2/web/js/bootstrap.js"></script>
+        <script src="/VL-releases2/web/js/defaults.js"></script>
+
+        <!-- morris charts -->
+        <script src="/VL-releases2/web/js/raphael-2.js"></script>
+        <script src="/VL-releases2/web/js/morris.js"></script>
+
+        <!-- theme scripts -->
+        <script src="/VL-releases2/web/js/chart-demo.js"></script>
+        <script src="/VL-releases2/web/js/bootstrap-datetimepicker.min.js"></script>
+    </body>
+</html>

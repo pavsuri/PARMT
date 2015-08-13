@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Vl-releases2/!svn/ver/202/src/Vlreleases/UserBundle/Services
+END
+ManagerService.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/Vl-releases2/!svn/ver/62/src/Vlreleases/UserBundle/Services/ManagerService.php
+END
+ActivityService.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Vl-releases2/!svn/ver/19/src/Vlreleases/UserBundle/Services/ActivityService.php
+END
+SystemTableService.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/Vl-releases2/!svn/ver/128/src/Vlreleases/UserBundle/Services/SystemTableService.php
+END
+UserService.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/Vl-releases2/!svn/ver/68/src/Vlreleases/UserBundle/Services/UserService.php
+END
+UserProfileService.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/Vl-releases2/!svn/ver/138/src/Vlreleases/UserBundle/Services/UserProfileService.php
+END
+UserDailyStatusService.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/Vl-releases2/!svn/ver/154/src/Vlreleases/UserBundle/Services/UserDailyStatusService.php
+END
+ProjectService.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/Vl-releases2/!svn/ver/19/src/Vlreleases/UserBundle/Services/ProjectService.php
+END
+UserDashBoardService.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/Vl-releases2/!svn/ver/196/src/Vlreleases/UserBundle/Services/UserDashBoardService.php
+END
+MobileDeviceService.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/Vl-releases2/!svn/ver/202/src/Vlreleases/UserBundle/Services/MobileDeviceService.php
+END

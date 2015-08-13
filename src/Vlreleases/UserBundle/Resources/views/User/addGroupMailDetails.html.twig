@@ -1,0 +1,32 @@
+<div id='addHolidayHTML' style="padding: 10px">
+    <form name="groupEmailDetails" class="form-horizontal" method='post'>
+        <div class="form-group">
+            <label class="col-sm-4 col-md-3 control-label">Group EmailId:</label>
+            <div class="col-sm-4 col-md-3">
+                <input class="form-control" type=text name='groupEmail' id='grpmailid' placeholder="Enter Group Email"/>
+            </div>
+        </div>
+         <div class="form-group">
+             <label class="col-sm-4 col-md-3 control-label">Select User:</label>
+            <div class="col-sm-4 col-md-3">
+                <input type="text" id="groupuseremailid" name="userofgroup" class="groupusertypeahead form-control" placeholder="User Email"/>
+                 <button class="btn btn-green" id="addUser">Add</button>
+                <span  id='spinnerUserLoad' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>               
+            </div>							
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 col-md-3 control-label"></label>
+            <div class="col-md-6" id="showUsers">
+            
+            </div>							
+       </div>
+            
+        <div class="inpts pull-right addGroupView">
+            <input class="btn btn-green" type="submit" name='submit' value="Save" id="registerGroup"/>
+            <button class="btn btn-green" onclick="location.href = 'localhost/Vl-releases2/web/app_dev.php/GroupMails/index';">Cancel</button>
+        </div>
+    </form>     
+    <div class="clearfix"></div>
+</div>                               
+
+        

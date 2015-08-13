@@ -1,0 +1,58 @@
+<form id='searchListform' action='{{path('vlreleases_mobiledevice_register')}}' method='POST'>
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-head">
+            <tr>
+                <th>S.No</th>
+                <th>Brand/Name</th>
+                <th>OS</th>
+                <th>Version</th>
+                <th>UUID/Serial Number</th>
+                <th>Project</th>
+                <th>CreatedDate</th>			
+                <th>ModifiedDate</th>
+                <th>Status</th>
+                <th>Edit</th>
+                <th>Delete</th>					
+            </tr>
+        </thead>
+        <tbody>
+            {% set counter = 1 %}
+            {% for device in deviceListData %}
+                <tr>
+                    <td>{{counter}}</td>
+                    <td>{{device.getBrand.getName}} / {{device.getName}}</td>
+                    <td>{{device.getOs.getName}}</td>
+                    <td>{{device.getVersion}}</td>
+                    <td>{{device.getUuid}} / {{device.getSerialNumber()}}</td>
+                    <td>{{device.getProject.getName}}</td>
+                    <td>{{device.getCreateddate |date('d-m-Y')}}</td>		  
+                    <td>{{device.getLastModifiedDate|date('d-m-Y')}}</td>
+                    <td>
+                        {% if device.getActive%}
+                            Active
+                        {% else %}
+                            Inactive
+                        {%endif%}
+                    </td>
+                    {% if device.getAvailable%}
+                        <td class="dlEdit"><span class='editDevice' id='{{device.getId}}'>Edit</span></td>
+                        <td class="dlDelete"><span class='deleteDevice' id='{{device.getId}}'>Delete</span></td>
+                    {% else %}
+                        <td>In use</td>
+                        <td>In use</td>
+                    {%endif%}
+                </tr>
+                {% set counter = counter + 1 %}
+            {% endfor %} 
+            {% if counter == 1%}
+                <tr>
+                    <td colspan="11" align = "center">No search results found</td>
+                </tr>
+            {%endif%}
+        </tbody>
+    </table>	
+    <span style='display:none;' id='submitUrl'>{{path('vlreleases_mobiledevice_register')}}</span>
+    <span style='display:none;' id='submitDeleteUrl'>{{path('vlreleases_mobiledevice')}}</span>
+    <span style='display:none;' id='listDeviceUrl'>{{path('vlreleases_mobiledevice_listDevice')}}</span> 
+</form>

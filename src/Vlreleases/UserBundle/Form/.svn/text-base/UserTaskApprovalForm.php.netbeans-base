@@ -1,0 +1,33 @@
+<?php
+
+namespace Vlreleases\UserBundle\Form;
+
+use Vlreleases\UserBundle\Form\EventListener\AddProjectFieldSubscriber;
+use Vlreleases\UserBundle\Form\EventListener\AddResourceFieldSubscriber;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class UserTaskApprovalForm extends AbstractType
+{
+    private $projectFieldSubscriber;
+    private $resourceFieldSubscriber;
+    
+    public function __construct($projectFieldSubscriber, $resourceFieldSubscriber) 
+    {
+        $this->projectFieldSubscriber = $projectFieldSubscriber;
+        $this->resourceFieldSubscriber = $resourceFieldSubscriber;
+    }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+
+       $builder->addEventSubscriber($this->projectFieldSubscriber);
+       $builder->addEventSubscriber($this->resourceFieldSubscriber);
+       
+    }
+
+    public function getName()
+    {
+        return 'usertaskapprovalform';
+    }
+}
+?>

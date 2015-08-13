@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Vl-releases2/!svn/ver/212/src/Vlreleases/UserBundle/Resources/views/MobileDevice
+END
+queueListPopup.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/Vl-releases2/!svn/ver/181/src/Vlreleases/UserBundle/Resources/views/MobileDevice/queueListPopup.html.twig
+END
+registerDevice.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/Vl-releases2/!svn/ver/176/src/Vlreleases/UserBundle/Resources/views/MobileDevice/registerDevice.html.twig
+END
+takeDeviceSearchList.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/Vl-releases2/!svn/ver/211/src/Vlreleases/UserBundle/Resources/views/MobileDevice/takeDeviceSearchList.html.twig
+END
+takeDeviceSearchOptions.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/Vl-releases2/!svn/ver/181/src/Vlreleases/UserBundle/Resources/views/MobileDevice/takeDeviceSearchOptions.html.twig
+END
+deviceList.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/Vl-releases2/!svn/ver/211/src/Vlreleases/UserBundle/Resources/views/MobileDevice/deviceList.html.twig
+END
+mailDeviceAvailability.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/Vl-releases2/!svn/ver/184/src/Vlreleases/UserBundle/Resources/views/MobileDevice/mailDeviceAvailability.html.twig
+END
+takeDeviceList.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/Vl-releases2/!svn/ver/212/src/Vlreleases/UserBundle/Resources/views/MobileDevice/takeDeviceList.html.twig
+END
+searchList.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/Vl-releases2/!svn/ver/176/src/Vlreleases/UserBundle/Resources/views/MobileDevice/searchList.html.twig
+END
+searchOptions.html.twig
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/Vl-releases2/!svn/ver/174/src/Vlreleases/UserBundle/Resources/views/MobileDevice/searchOptions.html.twig
+END

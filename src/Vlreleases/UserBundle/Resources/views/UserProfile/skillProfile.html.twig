@@ -1,0 +1,37 @@
+<form id='skilldetailsform' action='{{path('vlreleases_user_profile_handleSkillsData')}}' method='POST'>
+    <div class="userTitle"><a href="javascript:void(0)">Expertise<span class="pull-right"><i class="iconChange fa fa-sort-down"></i></span></a></div>
+    <div class="userHolder">
+        <div class="row">
+            <div class="col-lg-6">
+                <input type="text" id="Expertise" name="Expertise" class="expertisetypeahead form-control" placeholder="Expertise">
+                <span  id='spinnerSkillLoad' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+            </div>							
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <input type="text" id="YearsofExperience" name="YearsofExperience" class="form-control" placeholder="Years of Experience">
+            </div>
+            
+            <div class="col-lg-1">
+                <input type="button" class="addskill btn btn-green" name="btnAdd" id="btnAddSkill" value="Add">
+                <span  id='spinnerSkillProfile' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col-lg-12" id="expertiseView">
+                {% for skill in userSkills %}
+                    <div id="skillDelete_{{ skill.getId }}" class="badge badgeExpert">
+                        <span class="expertExp">{{ skill.getExperience }}</span>
+                        <span class="pull-left text">{{skill.getSkill.getName}}</span>
+                        <span class="pull-left expertClose"><i id='{{ skill.getId }}' class="deleteSkill fa fa-times"></i></span>
+                    </div>   
+                {% endfor %}
+                <span  id='spinnerDeleteSkill' style='display:none;'><img src={{imagesPath}}spinner.gif /></span>                                  
+            </div>
+        </div>
+    </div>
+    <span style='display:none;' id='skillsiddata'></span>
+</form>
+<div id="errorMsg" style="display:none;"></div>
+
